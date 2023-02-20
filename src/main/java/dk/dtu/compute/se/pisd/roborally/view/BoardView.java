@@ -42,16 +42,16 @@ import org.jetbrains.annotations.NotNull;
  */
 public class BoardView extends VBox implements ViewObserver {
 
-    private Board board;
+    private final Board board;
 
-    private GridPane mainBoardPane;
-    private SpaceView[][] spaces;
+    private final GridPane mainBoardPane;
+    private final SpaceView[][] spaces;
 
-    private PlayersView playersView;
+    private final PlayersView playersView;
 
-    private Label statusLabel;
+    private final Label statusLabel;
 
-    private SpaceEventHandler spaceEventHandler;
+    private final SpaceEventHandler spaceEventHandler;
 
     public BoardView(@NotNull GameController gameController) {
         board = gameController.board;
@@ -103,8 +103,7 @@ public class BoardView extends VBox implements ViewObserver {
         @Override
         public void handle(MouseEvent event) {
             Object source = event.getSource();
-            if (source instanceof SpaceView) {
-                SpaceView spaceView = (SpaceView) source;
+            if (source instanceof SpaceView spaceView) {
                 Space space = spaceView.space;
                 Board board = space.board;
 

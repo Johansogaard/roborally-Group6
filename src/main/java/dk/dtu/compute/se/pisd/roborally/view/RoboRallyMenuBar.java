@@ -34,19 +34,19 @@ import javafx.scene.control.MenuItem;
  */
 public class RoboRallyMenuBar extends MenuBar {
 
-    private AppController appController;
+    private final AppController appController;
 
-    private Menu controlMenu;
+    private final Menu controlMenu;
 
-    private MenuItem saveGame;
+    private final MenuItem saveGame;
 
-    private MenuItem newGame;
+    private final MenuItem newGame;
 
-    private MenuItem loadGame;
+    private final MenuItem loadGame;
 
-    private MenuItem stopGame;
+    private final MenuItem stopGame;
 
-    private MenuItem exitApp;
+    private final MenuItem exitApp;
 
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;
