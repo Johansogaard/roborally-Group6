@@ -40,27 +40,27 @@ import org.jetbrains.annotations.NotNull;
  */
 public class PlayerView extends Tab implements ViewObserver {
 
-    private final Player player;
+    private Player player;
 
-    private final VBox top;
+    private VBox top;
 
-    private final Label programLabel;
-    private final GridPane programPane;
-    private final Label cardsLabel;
-    private final GridPane cardsPane;
+    private Label programLabel;
+    private GridPane programPane;
+    private Label cardsLabel;
+    private GridPane cardsPane;
 
-    private final CardFieldView[] programCardViews;
-    private final CardFieldView[] cardViews;
+    private CardFieldView[] programCardViews;
+    private CardFieldView[] cardViews;
 
-    private final VBox buttonPanel;
+    private VBox buttonPanel;
 
-    private final Button finishButton;
-    private final Button executeButton;
-    private final Button stepButton;
+    private Button finishButton;
+    private Button executeButton;
+    private Button stepButton;
 
-    private final VBox playerInteractionPanel;
+    private VBox playerInteractionPanel;
 
-    private final GameController gameController;
+    private GameController gameController;
 
     public PlayerView(@NotNull GameController gameController, @NotNull Player player) {
         super(player.getName());
@@ -90,15 +90,14 @@ public class PlayerView extends Tab implements ViewObserver {
         //      players, but on the PlayersView (view for all players). This should be
         //      refactored.
 
-        // XXX the respective GameController operations are not yet implemented
         finishButton = new Button("Finish Programming");
-        finishButton.setOnAction( e -> gameController.notImplememted());
+        finishButton.setOnAction( e -> gameController.notImplemented());
 
         executeButton = new Button("Execute Program");
-        executeButton.setOnAction( e-> gameController.notImplememted());
+        executeButton.setOnAction( e-> gameController.notImplemented());
 
         stepButton = new Button("Execute Current Register");
-        stepButton.setOnAction( e-> gameController.notImplememted());
+        stepButton.setOnAction( e-> gameController.notImplemented());
 
         buttonPanel = new VBox(finishButton, executeButton, stepButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
@@ -205,12 +204,12 @@ public class PlayerView extends Tab implements ViewObserver {
                     //      the player's choices of the interactive command card. The
                     //      following is just a mockup showing two options
                     Button optionButton = new Button("Option1");
-                    optionButton.setOnAction( e -> gameController.notImplememted());
+                    optionButton.setOnAction( e -> gameController.notImplemented());
                     optionButton.setDisable(false);
                     playerInteractionPanel.getChildren().add(optionButton);
 
                     optionButton = new Button("Option 2");
-                    optionButton.setOnAction( e -> gameController.notImplememted());
+                    optionButton.setOnAction( e -> gameController.notImplemented());
                     optionButton.setDisable(false);
                     playerInteractionPanel.getChildren().add(optionButton);
                 }

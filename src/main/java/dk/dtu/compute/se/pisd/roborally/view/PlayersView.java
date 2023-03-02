@@ -35,9 +35,9 @@ import javafx.scene.control.TabPane;
  */
 public class PlayersView extends TabPane implements ViewObserver {
 
-    private final Board board;
+    private Board board;
 
-    private final PlayerView[] playerViews;
+    private PlayerView[] playerViews;
 
     public PlayersView(GameController gameController) {
         board = gameController.board;
