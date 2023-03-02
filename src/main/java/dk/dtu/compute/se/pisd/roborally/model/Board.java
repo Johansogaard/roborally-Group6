@@ -33,6 +33,7 @@ import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
+ *
  */
 public class Board extends Subject {
 
@@ -41,15 +42,19 @@ public class Board extends Subject {
     public final int height;
 
     public final String boardName;
-    private final Space[][] spaces;
-    private final List<Player> players = new ArrayList<>();
+
     private Integer gameId;
+
+    private final Space[][] spaces;
+
+    private final List<Player> players = new ArrayList<>();
+
     private Player current;
 
     private Phase phase = INITIALISATION;
 
     private int step = 0;
-    private int counter = 0;
+
     private boolean stepMode;
 
     public Board(int width, int height, @NotNull String boardName) {
@@ -58,23 +63,16 @@ public class Board extends Subject {
         this.height = height;
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+            for(int y = 0; y < height; y++) {
                 Space space = new Space(this, x, y);
                 spaces[x][y] = space;
             }
         }
         this.stepMode = false;
     }
+
     public Board(int width, int height) {
         this(width, height, "defaultboard");
-    }
-
-    public int getCounter() {
-        return counter;
-    }
-
-    public void setCounter(int counter) {
-        this.counter = counter;
     }
 
     public Integer getGameId() {
@@ -177,7 +175,7 @@ public class Board extends Subject {
      * (no walls or obstacles in either of the involved spaces); otherwise,
      * null will be returned.
      *
-     * @param space   the space for which the neighbour should be computed
+     * @param space the space for which the neighbour should be computed
      * @param heading the heading of the neighbour
      * @return the space in the given direction; null if there is no (reachable) neighbour
      */
@@ -203,21 +201,15 @@ public class Board extends Subject {
     }
 
     public String getStatusMessage() {
-        // This is actually a view aspect, but for making the first task easy for
+        // this is actually a view aspect, but for making assignment V1 easy for
         // the students, this method gives a string representation of the current
         // status of the game
 
-        // TODO Assignment V1: this string could eventually be refined
-        //      The status line should show more information based on
-        //      situation; for now, introduce a counter to the Board,
-        //      which is counted up every time a player makes a move; the
-        //      status line should show the current player and the number
-        //      of the current move!
-        return "Player = " + getCurrentPlayer().getName() + " Moves in game = " + counter ;
+        // XXX: V2 changed the status so that it shows the phase, the player and the step
+        return "Phase: " + getPhase().name() +
+                ", Player = " + getCurrentPlayer().getName() +
+                ", Step: " + getStep();
     }
 
-    // TODO Assignment V1: add a counter along with a getter and a setter, so the
-    //      state the board (game) contains the number of moves, which then can
-    //      be used to extend the status message including the number of
 
 }

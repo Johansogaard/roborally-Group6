@@ -61,11 +61,11 @@ public class CardFieldView extends GridPane implements ViewObserver {
     final public static Background BG_ACTIVE = new Background(new BackgroundFill(Color.YELLOW, null, null));
     final public static Background BG_DONE = new Background(new BackgroundFill(Color.GREENYELLOW,  null, null));
 
-    private final CommandCardField field;
+    private CommandCardField field;
 
-    private final Label label;
+    private Label label;
 
-    private final GameController gameController;
+    private GameController gameController;
 
     public CardFieldView(@NotNull GameController gameController, @NotNull CommandCardField field) {
         this.gameController = gameController;
@@ -157,7 +157,8 @@ public class CardFieldView extends GridPane implements ViewObserver {
         @Override
         public void handle(MouseEvent event) {
             Object t = event.getTarget();
-            if (t instanceof CardFieldView source) {
+            if (t instanceof CardFieldView) {
+                CardFieldView source = (CardFieldView) t;
                 CommandCardField cardField = source.field;
                 if (cardField != null &&
                         cardField.getCard() != null &&
@@ -185,7 +186,8 @@ public class CardFieldView extends GridPane implements ViewObserver {
         @Override
         public void handle(DragEvent event) {
             Object t = event.getTarget();
-            if (t instanceof CardFieldView target) {
+            if (t instanceof CardFieldView) {
+                CardFieldView target = (CardFieldView) t;
                 CommandCardField cardField = target.field;
                 if (cardField != null &&
                         (cardField.getCard() == null || event.getGestureSource() == target) &&
@@ -206,7 +208,8 @@ public class CardFieldView extends GridPane implements ViewObserver {
         @Override
         public void handle(DragEvent event) {
             Object t = event.getTarget();
-            if (t instanceof CardFieldView target) {
+            if (t instanceof CardFieldView) {
+                CardFieldView target = (CardFieldView) t;
                 CommandCardField cardField = target.field;
                 if (cardField != null &&
                         cardField.getCard() == null &&
@@ -228,7 +231,8 @@ public class CardFieldView extends GridPane implements ViewObserver {
         @Override
         public void handle(DragEvent event) {
             Object t = event.getTarget();
-            if (t instanceof CardFieldView target) {
+            if (t instanceof CardFieldView) {
+                CardFieldView target = (CardFieldView) t;
                 CommandCardField cardField = target.field;
                 if (cardField != null &&
                         cardField.getCard() == null &&
@@ -250,7 +254,8 @@ public class CardFieldView extends GridPane implements ViewObserver {
         @Override
         public void handle(DragEvent event) {
             Object t = event.getTarget();
-            if (t instanceof CardFieldView target) {
+            if (t instanceof CardFieldView) {
+                CardFieldView target = (CardFieldView) t;
                 CommandCardField cardField = target.field;
 
                 Dragboard db = event.getDragboard();
@@ -288,7 +293,8 @@ public class CardFieldView extends GridPane implements ViewObserver {
         @Override
         public void handle(DragEvent event) {
             Object t = event.getTarget();
-            if (t instanceof CardFieldView source) {
+            if (t instanceof CardFieldView) {
+                CardFieldView source = (CardFieldView) t;
                 source.setBackground(BG_DEFAULT);
             }
             event.consume();
