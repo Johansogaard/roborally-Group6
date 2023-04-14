@@ -94,13 +94,13 @@ public class PlayerView extends Tab implements ViewObserver {
         //      refactored.
 
         finishButton = new Button("Finish Programming");
-        finishButton.setOnAction( e -> gameController.finishProgrammingPhase());
+        finishButton.setOnAction(e -> gameController.finishProgrammingPhase());
 
         executeButton = new Button("Execute Program");
-        executeButton.setOnAction( e-> gameController.executePrograms());
+        executeButton.setOnAction(e -> gameController.executePrograms());
 
         stepButton = new Button("Execute Current Register");
-        stepButton.setOnAction( e-> gameController.executeStep());
+        stepButton.setOnAction(e -> gameController.executeStep());
 
         buttonPanel = new VBox(finishButton, executeButton, stepButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
@@ -141,7 +141,7 @@ public class PlayerView extends Tab implements ViewObserver {
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
                 CardFieldView cardFieldView = programCardViews[i];
                 if (cardFieldView != null) {
-                    if (player.board.getPhase() == Phase.PROGRAMMING ) {
+                    if (player.board.getPhase() == Phase.PROGRAMMING) {
                         cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
                     } else {
                         if (i < player.board.getStep()) {
@@ -207,26 +207,23 @@ public class PlayerView extends Tab implements ViewObserver {
                     //      the player's choices of the interactive command card. The
                     //      following is just a mockup showing two options
                     CommandCard card = player.getProgramField(player.board.getStep()).getCard();
-                   List<Command> com = card.command.getOptions();
-                   for (int i =0 ;i<com.size();i++)
-                   {
-                       Button optionButton = new Button(com.get(i).toString());
-                       optionButton.setOnAction( e -> gameController.notImplemented());
-                       optionButton.setDisable(false);
-                       playerInteractionPanel.getChildren().add(optionButton);
-                   }
-                   /* Button optionButton = new Button(com.get(0).toString());
-                    optionButton.setOnAction( e -> gameController.notImplemented());
-                    optionButton.setDisable(false);
-                    playerInteractionPanel.getChildren().add(optionButton);
+                    List<Command> com = card.command.getOptions();
+                    for (int i = 0; i < com.size(); i++) {
+                        Button optionButton = new Button(com.get(i).toString());
+                        int optionIndex = i;
+                        optionButton.setOnAction(e -> {
+                            // Get the option that was pressed
+                            Command selectedOption = com.get(optionIndex);
 
-                    optionButton = new Button(com.get());
-                    optionButton.setOnAction( e -> gameController.notImplemented());
-                    optionButton.setDisable(false);
-                    playerInteractionPanel.getChildren().add(optionButton);*/
+                            // Execute the command
+                            gameController.executeCommandOptionAndContinue(selectedOption, player);
+                        });
+                        optionButton.setDisable(false);
+                        playerInteractionPanel.getChildren().add(optionButton);
+                    }
                 }
             }
         }
-    }
 
+    }
 }

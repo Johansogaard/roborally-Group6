@@ -147,33 +147,34 @@ public class GameController {
     // XXX: V2
     private void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
+
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
-                if (card.command.isInteractive())
-                {
-                    board.setPhase(Phase.PLAYER_INTERACTION);
-                    card.command.getOptions();
-                }
                 if (card != null) {
                     Command command = card.command;
-                    executeCommand(currentPlayer, command);
-                }
-                int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-                if (nextPlayerNumber < board.getPlayersNumber()) {
-                    board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-                } else {
-                    step++;
-                    if (step < Player.NO_REGISTERS) {
-                        makeProgramFieldsVisible(step);
-                        board.setStep(step);
-                        board.setCurrentPlayer(board.getPlayer(0));
+                    if (card.command.isInteractive()) {
+                        board.setPhase(Phase.PLAYER_INTERACTION);
                     } else {
-                        startProgrammingPhase();
+                        executeCommand(currentPlayer, command);
+
+                        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+                        if (nextPlayerNumber < board.getPlayersNumber()) {
+                            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+                        } else {
+                            step++;
+                            if (step < Player.NO_REGISTERS) {
+                                makeProgramFieldsVisible(step);
+                                board.setStep(step);
+                                board.setCurrentPlayer(board.getPlayer(0));
+                            } else {
+                                startProgrammingPhase();
+                            }
+                        }
                     }
                 }
-            } else {
+            }else {
                 // this should not happen
                 assert false;
             }
@@ -203,6 +204,7 @@ public class GameController {
                 case FAST_FORWARD:
                     this.fastForward(player);
                     break;
+
                 default:
                     // DO NOTHING (for now)
             }
@@ -263,6 +265,28 @@ public class GameController {
     public void notImplemented() {
         // XXX just for now to indicate that the actual method is not yet implemented
         assert false;
+    }
+    public void executeCommandOptionAndContinue(Command command,Player player){
+        int step =board.getStep();
+        board.setPhase(Phase.ACTIVATION);
+        executeCommand(player,command);
+        int nextPlayerNumber = board.getPlayerNumber(player) + 1;
+        if (nextPlayerNumber < board.getPlayersNumber()) {
+            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+            if (board.isStepMode() == false) {
+                executePrograms();
+            }
+        } else {
+               step++;
+                if (step < Player.NO_REGISTERS) {
+                    makeProgramFieldsVisible(step);
+                    board.setStep(step);
+                    board.setCurrentPlayer(board.getPlayer(0));
+                } else {
+                    startProgrammingPhase();
+                }
+
+        }
     }
 
 }
