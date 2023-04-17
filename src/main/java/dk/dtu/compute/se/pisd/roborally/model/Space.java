@@ -37,14 +37,26 @@ public class Space extends Subject {
     public final int y;
 
     private Player player;
+    private boolean isPit;
 
     public Space(Board board, int x, int y) {
         this.board = board;
         this.x = x;
         this.y = y;
+        this.isPit = isPit;
         player = null;
     }
 
+    // Getter and setter for the isPit field
+    public boolean isPit() {
+        return isPit;
+    }
+
+    public void setPit(boolean isPit) {
+        this.isPit = isPit;
+        notifyChange();
+    }
+    
     public Player getPlayer() {
         return player;
     }

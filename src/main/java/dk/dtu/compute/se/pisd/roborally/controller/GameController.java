@@ -22,7 +22,14 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
+
+import static javafx.scene.paint.Color.*;
 
 /**
  * ...
@@ -36,6 +43,8 @@ public class GameController {
 
     public GameController(@NotNull Board board) {
         this.board = board;
+        setupBoardWithPits();
+
     }
 
     /**
@@ -288,5 +297,15 @@ public class GameController {
 
         }
     }
+    public void setupBoardWithPits() {
+        // Create pits at specific positions on the game board
+        board.getSpace(3, 4).setPit(true);
+        board.getSpace(7, 2).setPit(true);
+        board.getSpace(5, 6).setPit(true);
+
+
+        // ...
+    }
+
 
 }

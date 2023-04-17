@@ -25,10 +25,13 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
@@ -59,17 +62,26 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setMinHeight(SPACE_HEIGHT);
         this.setMaxHeight(SPACE_HEIGHT);
 
-        if ((space.x + space.y) % 2 == 0) {
+
+        if (space.isPit()) {
+            this.setStyle("-fx-background-color: white;");
+            this.setStyle("-fx-background-color: #654321; -fx-shape: \"M 30 20 m -20 0 a 20 10 0 1 0 40 0 a 20 10 0 1 0 -40 0 z\";");
+
+
+
+
+        } else if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
         } else {
             this.setStyle("-fx-background-color: black;");
         }
 
-        // updatePlayer();
-
-        // This space view should listen to changes of the space
         space.attach(this);
         update(space);
+
+        // updatePlayer();
+
+
     }
 
     private void updatePlayer() {
