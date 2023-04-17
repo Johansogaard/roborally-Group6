@@ -34,6 +34,10 @@ public class GameController {
 
     final public Board board;
 
+    /**
+     * GameController is a controller for
+     * @param board is the gameboard in use
+     */
     public GameController(@NotNull Board board) {
         this.board = board;
     }
@@ -211,6 +215,11 @@ public class GameController {
         }
     }
 
+    /**
+     * This is a method to move the player Forward
+     * It cheks if there is a person infront and calls the move pushPlayer to push the player infront
+     * @param player is the current player that is going to move foward
+     */
     // TODO: V2
     public void moveForward(@NotNull Player player) {
         Space space = player.getSpace();
@@ -221,9 +230,34 @@ public class GameController {
                 // XXX note that this removes an other player from the space, when there
                 //     is another player on the target. Eventually, this needs to be
                 //     implemented in a way so that other players are pushed away!
+                if (target.getPlayer()!=null)
+                {
+                    pushPlayer(player,heading);
+                }
                 target.setPlayer(player);
+
             }
+
         }
+    }
+
+    /**
+     * pushPlayer pushes the player infront and pushes x numbers of player who is infront of him
+     *
+     * @param player this is the player that is pushing
+     * @param heading this is the direction of the push
+     */
+    public void pushPlayer(@NotNull Player player,Heading heading)
+    {
+        Space space = player.getSpace();
+        Space target = board.getNeighbour(space, heading);
+        Player playerToPush = target.getPlayer();
+        Space nextTarget = board.getNeighbour(target,heading);
+        if(nextTarget.getPlayer()!=null)
+        {
+            pushPlayer(playerToPush,heading);
+        }
+        nextTarget.setPlayer(playerToPush);
     }
 
     // TODO: V2
