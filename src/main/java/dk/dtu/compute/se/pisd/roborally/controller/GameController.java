@@ -229,15 +229,23 @@ public class GameController {
         if (player != null && player.board == board && space != null) {
             Heading heading = player.getHeading();
             Space target = board.getNeighbour(space, heading);
-            if (target != null) {
+            if (target != null ) {
+                boolean isWall =false;
+
                 // XXX note that this removes an other player from the space, when there
                 //     is another player on the target. Eventually, this needs to be
                 //     implemented in a way so that other players are pushed away!
-                if (target.getPlayer()!=null)
+                if (space.getWalls().contains(heading))
                 {
-                    pushPlayer(player,heading);
+                    isWall=true;
                 }
-                target.setPlayer(player);
+                if (target.getPlayer()!=null&& isWall!=true)
+                {
+                   isWall = pushPlayer(player,heading);
+                }
+                if (isWall!=true) {
+                    target.setPlayer(player);
+                }
 
             }
 
@@ -250,17 +258,29 @@ public class GameController {
      * @param player this is the player that is pushing
      * @param heading this is the direction of the push
      */
-    public void pushPlayer(@NotNull Player player,Heading heading)
+    public boolean pushPlayer(@NotNull Player player,Heading heading)
     {
         Space space = player.getSpace();
         Space target = board.getNeighbour(space, heading);
         Player playerToPush = target.getPlayer();
         Space nextTarget = board.getNeighbour(target,heading);
-        if(nextTarget.getPlayer()!=null)
+        boolean isWall =false;
+
+        // XXX note that this removes an other player from the space, when there
+        //     is another player on the target. Eventually, this needs to be
+        //     implemented in a way so that other players are pushed away!
+        if (target.getWalls().contains(heading))
         {
-            pushPlayer(playerToPush,heading);
+            isWall=true;
         }
-        nextTarget.setPlayer(playerToPush);
+        if(nextTarget.getPlayer()!=null&&isWall !=true)
+        {
+           isWall= pushPlayer(playerToPush,heading);
+        }
+        if (isWall!=true) {
+            nextTarget.setPlayer(playerToPush);
+        }
+        return isWall;
     }
 
     // TODO: V2
