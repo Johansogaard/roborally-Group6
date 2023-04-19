@@ -114,9 +114,9 @@ public class Board extends Subject {
     public void addBoard_Elements()
     {
         getSpace(0,0).addWall(Heading.EAST);
-        getSpace(0,5).addWall(Heading.EAST);
-        getSpace(5,0).addWall(Heading.EAST);
-        getSpace(5,5).addWall(Heading.EAST);
+        getSpace(0,5).addWall(Heading.WEST);
+        getSpace(5,0).addWall(Heading.NORTH);
+        getSpace(5,5).addWall(Heading.SOUTH);
         notifyChange();
     }
 

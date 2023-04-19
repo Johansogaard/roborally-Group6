@@ -74,7 +74,7 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
     private void updatePlayer() {
-        this.getChildren().clear();
+
 
         Player player = space.getPlayer();
         if (player != null) {
@@ -105,35 +105,35 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
     private void updateWalls(){
 
-        this.getChildren().clear();
+
         Space space = this.space;
         if (space != null && !space.getWalls().isEmpty()) {
             for (Heading wall : space.getWalls()) {
 
                 Polygon fig = new Polygon(0.0,0.0,
-                        70.0,0.0,
-                        70.0,5.0,
-                        0.0,5.0);
+                        60.0,0.0,
+                        60.0,10.0,
+                        0.0,10.0);
 
-               /* switch (wall) {
+                switch (wall) {
                     case EAST:
-                        fig.setTranslateX(32.5);
+                        fig.setTranslateX((this.SPACE_HEIGHT/2)-1);
                         fig.setRotate((90*wall.ordinal()) % 360);
                         break;
 
                     case SOUTH:
-                        fig.setTranslateY(32.5);
+                        fig.setTranslateY((this.SPACE_HEIGHT/2)-1);
                         break;
 
                     case WEST:
-                        fig.setTranslateX(-32.5);
+                        fig.setTranslateX(-(this.SPACE_HEIGHT/2)+1);
                         fig.setRotate((90*wall.ordinal()) % 360);
                         break;
 
                     case NORTH:
-                        fig.setTranslateY(-32.5);
+                        fig.setTranslateY(-(this.SPACE_HEIGHT/2)-1);
                         break;
-                }*/
+                }
 
                 fig.setFill(Color.ORANGERED);
                 this.getChildren().add(fig);
