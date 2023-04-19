@@ -25,6 +25,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.Wall;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -63,51 +64,91 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setMaxHeight(SPACE_HEIGHT);
 
 
-        if (space.isPit()) {
-            this.setStyle("-fx-background-color: white;");
-            this.setStyle("-fx-background-color: #654321; -fx-shape: \"M 30 20 m -20 0 a 20 10 0 1 0 40 0 a 20 10 0 1 0 -40 0 z\";");
+        // add wall based on heading
+        if (space.getWall() != null) {
+            this.getChildren().clear();
 
+            Wall wall = space.getWall();
 
-
-
-        } else if ((space.x + space.y) % 2 == 0) {
-            this.setStyle("-fx-background-color: white;");
-        } else {
-            this.setStyle("-fx-background-color: black;");
+            if (wall.getHeading() == Heading.NORTH) {
+                Polygon northWall = new Polygon(
+                        0, 0,
+                        SPACE_WIDTH, 0,
+                        SPACE_WIDTH, SPACE_HEIGHT / 4,
+                        SPACE_WIDTH / 2, SPACE_HEIGHT / 2,
+                        0, SPACE_HEIGHT / 4);
+                northWall.setFill(Color.RED);
+                this.getChildren().add(northWall);
+            } else if (wall.getHeading() == Heading.SOUTH) {
+                Polygon southWall = new Polygon(
+                        0, SPACE_HEIGHT,
+                        SPACE_WIDTH, SPACE_HEIGHT,
+                        SPACE_WIDTH, SPACE_HEIGHT * 3 / 4,
+                        SPACE_WIDTH / 2, SPACE_HEIGHT / 2,
+                        0, SPACE_HEIGHT * 3 / 4);
+                southWall.setFill(Color.RED);
+                this.getChildren().add(southWall);
+            } else if (wall.getHeading() == Heading.WEST) {
+                Polygon westWall = new Polygon(
+                        0, 0,
+                        SPACE_WIDTH / 4, SPACE_HEIGHT / 2,
+                        0, SPACE_HEIGHT,
+                        SPACE_WIDTH / 4, SPACE_HEIGHT,
+                        SPACE_WIDTH / 2, SPACE_HEIGHT / 2);
+                westWall.setFill(Color.RED);
+                this.getChildren().add(westWall);
+            } else if (wall.getHeading() == Heading.EAST) {
+                Polygon eastWall = new Polygon(
+                        SPACE_WIDTH, 0,
+                        SPACE_WIDTH * 3 / 4, SPACE_HEIGHT / 2,
+                        SPACE_WIDTH, SPACE_HEIGHT,
+                        SPACE_WIDTH * 3 / 4, SPACE_HEIGHT,
+                        SPACE_WIDTH / 2, SPACE_HEIGHT / 2);
+                eastWall.setFill(Color.RED);
+                this.getChildren().add(eastWall);
+            }
         }
 
-        space.attach(this);
-        update(space);
-
-        // updatePlayer();
-
-
-    }
-
-    private void updatePlayer() {
-        this.getChildren().clear();
-
-        Player player = space.getPlayer();
-        if (player != null) {
-            Polygon arrow = new Polygon(0.0, 0.0,
-                    10.0, 20.0,
-                    20.0, 0.0 );
-            try {
-                arrow.setFill(Color.valueOf(player.getColor()));
-            } catch (Exception e) {
-                arrow.setFill(Color.MEDIUMPURPLE);
+            else if (space.isPit()) {
+                this.setStyle("-fx-background-color: #654321; -fx-shape: \"M 30 20 m -20 0 a 20 10 0 1 0 40 0 a 20 10 0 1 0 -40 0 z\";");
+            } else if ((space.x + space.y) % 2 == 0) {
+                this.setStyle("-fx-background-color: white;");
+            } else {
+                this.setStyle("-fx-background-color: black;");
             }
 
-            arrow.setRotate((90*player.getHeading().ordinal())%360);
-            this.getChildren().add(arrow);
-        }
-    }
+            space.attach(this);
+            update(space);
 
-    @Override
-    public void updateView(Subject subject) {
-        if (subject == this.space) {
-            updatePlayer();
-        }
-    }
+            //updatePlayer();
 
-}
+
+        }
+
+        private void updatePlayer () {
+            this.getChildren().clear();
+
+            Player player = space.getPlayer();
+            if (player != null) {
+                Polygon arrow = new Polygon(0.0, 0.0,
+                        10.0, 20.0,
+                        20.0, 0.0);
+                try {
+                    arrow.setFill(Color.valueOf(player.getColor()));
+                } catch (Exception e) {
+                    arrow.setFill(Color.MEDIUMPURPLE);
+                }
+
+                arrow.setRotate((90 * player.getHeading().ordinal()) % 360);
+                this.getChildren().add(arrow);
+            }
+        }
+
+        @Override
+        public void updateView (Subject subject){
+            if (subject == this.space) {
+                updatePlayer();
+            }
+        }
+
+    }

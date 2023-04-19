@@ -38,19 +38,49 @@ public class Space extends Subject {
 
     private Player player;
     private boolean isPit;
+    private Obstacle obstacle;
+
 
     public Space(Board board, int x, int y) {
         this.board = board;
         this.x = x;
         this.y = y;
+        this.obstacle=null;
         this.isPit = isPit;
         player = null;
     }
 
-    // Getter and setter for the isPit field
-    public boolean isPit() {
-        return isPit;
+    public boolean hasObstacle() {
+        return obstacle != null;
     }
+
+    public Obstacle getObstacle() {
+        return obstacle;
+    }
+
+
+    public void setObstacle(Obstacle obstacle) {
+        this.obstacle = obstacle;
+        notifyChange();
+    }
+
+    // Method to check if the space is a pit
+    public boolean isPit() {
+        return obstacle instanceof Pit;
+    }
+
+    // Method to check if the space is a wall
+    public boolean isWall() {
+        return obstacle instanceof Wall;
+    }
+    public void interactWithRobot() {
+        if (obstacle != null && player != null) {
+            obstacle.interactWithRobot(player);
+        }
+    }
+
+
+
 
     public void setPit(boolean isPit) {
         this.isPit = isPit;
@@ -82,6 +112,13 @@ public class Space extends Subject {
         // also need to update when some player attributes change, the player can
         // notify the space of these changes by calling this method.
         notifyChange();
+    }
+    public Wall getWall() {
+        if (obstacle instanceof Wall) {
+            return (Wall) obstacle;
+        } else {
+            return null;
+        }
     }
 
 }
