@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class Board extends Subject {
 
     private final List<Player> players = new ArrayList<>();
 
+
     private Player current;
 
     private Phase phase = INITIALISATION;
@@ -61,6 +63,7 @@ public class Board extends Subject {
         this.boardName = boardName;
         this.width = width;
         this.height = height;
+
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
@@ -108,6 +111,15 @@ public class Board extends Subject {
             notifyChange();
         }
     }
+    public void addBoard_Elements()
+    {
+        getSpace(0,0).addWall(Heading.EAST);
+        getSpace(0,5).addWall(Heading.EAST);
+        getSpace(5,0).addWall(Heading.EAST);
+        getSpace(5,5).addWall(Heading.EAST);
+        notifyChange();
+    }
+
 
     public Player getPlayer(int i) {
         if (i >= 0 && i < players.size()) {
