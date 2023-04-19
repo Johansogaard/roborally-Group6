@@ -219,8 +219,11 @@ public class GameController {
     }
 
     /**
+     * @author Johan Søgaard Jørgensen(JJ)
      * This is a method to move the player Forward
+     * It cheks if there is a wall in the heading direction
      * It cheks if there is a person infront and calls the move pushPlayer to push the player infront
+     * It wait to move until the pushplayer method has returned if there is a wall infront of the players that the robot is going to push
      * @param player is the current player that is going to move foward
      */
     // TODO: V2
@@ -235,6 +238,8 @@ public class GameController {
                 // XXX note that this removes an other player from the space, when there
                 //     is another player on the target. Eventually, this needs to be
                 //     implemented in a way so that other players are pushed away!
+
+                //JJ added a loop that cheks if there is a wall infront of the robot in the traveling direction
                 if (space.getWalls().contains(heading))
                 {
                     isWall=true;
@@ -254,6 +259,7 @@ public class GameController {
 
     /**
      * pushPlayer pushes the player infront and pushes x numbers of player who is infront of him
+     * but always waits to see if the player infront has a wall that way we dont push and stand still if there is a wall infront of x robot
      *
      * @param player this is the player that is pushing
      * @param heading this is the direction of the push
@@ -269,6 +275,8 @@ public class GameController {
         // XXX note that this removes an other player from the space, when there
         //     is another player on the target. Eventually, this needs to be
         //     implemented in a way so that other players are pushed away!
+
+        //added a rekursive loop that will always check the player infront before pushing
         if (target.getWalls().contains(heading))
         {
             isWall=true;
