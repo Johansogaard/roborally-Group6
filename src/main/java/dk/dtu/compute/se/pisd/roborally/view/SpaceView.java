@@ -90,16 +90,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             arrow.setRotate((90*player.getHeading().ordinal())%360);
             this.getChildren().add(arrow);
         }
-        /*
-        Space space = this.space;
-
-                Polygon fig = new Polygon(0.0, 0.0,
-                        70.0, 0.0,
-                        70.0, 5.0,
-                        0.0, 5.0);
-                fig.setFill(Color.ORANGERED);
-                this.getChildren().add(fig);
-            */
+     
 
 
     }
