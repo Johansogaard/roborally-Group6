@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.Board_Element;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
@@ -89,12 +90,84 @@ public class SpaceView extends StackPane implements ViewObserver {
             arrow.setRotate((90*player.getHeading().ordinal())%360);
             this.getChildren().add(arrow);
         }
+        /*
+        Space space = this.space;
+
+                Polygon fig = new Polygon(0.0, 0.0,
+                        70.0, 0.0,
+                        70.0, 5.0,
+                        0.0, 5.0);
+                fig.setFill(Color.ORANGERED);
+                this.getChildren().add(fig);
+            */
+
+
+    }
+    private void updateWalls(){
+
+        this.getChildren().clear();
+        Space space = this.space;
+        if (space != null && !space.getWalls().isEmpty()) {
+            for (Heading wall : space.getWalls()) {
+
+                Polygon fig = new Polygon(0.0,0.0,
+                        70.0,0.0,
+                        70.0,5.0,
+                        0.0,5.0);
+
+               /* switch (wall) {
+                    case EAST:
+                        fig.setTranslateX(32.5);
+                        fig.setRotate((90*wall.ordinal()) % 360);
+                        break;
+
+                    case SOUTH:
+                        fig.setTranslateY(32.5);
+                        break;
+
+                    case WEST:
+                        fig.setTranslateX(-32.5);
+                        fig.setRotate((90*wall.ordinal()) % 360);
+                        break;
+
+                    case NORTH:
+                        fig.setTranslateY(-32.5);
+                        break;
+                }*/
+
+                fig.setFill(Color.ORANGERED);
+                this.getChildren().add(fig);
+
+            }
+
+
+        }
+    }
+
+    private  void setLaser()
+    {
+        this.getChildren().clear();
+        Board_Element board_element = space.getBoard_Element();
+        if (board_element != null)
+        {
+            Polygon arrow = new Polygon(0.0, 0.0,
+                    10.0, 20.0,
+                    20.0, 0.0 );
+            try {
+                arrow.setFill(Color.RED);
+            } catch (Exception e) {
+                arrow.setFill(Color.MEDIUMPURPLE);
+            }
+        }
     }
 
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
+            this.getChildren().clear();
+
             updatePlayer();
+            updateWalls();
         }
     }
 
