@@ -13,10 +13,14 @@ public class Pit implements FieldAction {
 
         Board board = space.board;
         Player player = space.getPlayer();
+        player.reboot();
 
         if (player == null) {
             return false;
         }
+
+
+
 
         for (int i = 0; i < board.width; i++) {
            /* for (int j = 0; j < board.height; j++) {
