@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 
 import com.mysql.cj.x.protobuf.MysqlxCrud;
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 public class GameController {
 
     final public Board board;
-
+    public boolean won = false;
     /**
      * GameController is a controller for
      * @param board is the gameboard in use
@@ -352,6 +353,11 @@ public class GameController {
                 }
 
         }
+    }    public void initiateWin(Player player) {
+        Alert winMsg = new Alert(Alert.AlertType.INFORMATION, "Spiller \"" + player.getName() + "\" har vundet spillet.");
+        this.won = true;
+        winMsg.showAndWait();
     }
+
 
 }

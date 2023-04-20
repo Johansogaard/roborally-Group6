@@ -22,17 +22,15 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.model.Board_Element;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
+
+import java.net.URISyntaxException;
 
 /**
  * ...
@@ -90,8 +88,23 @@ public class SpaceView extends StackPane implements ViewObserver {
             arrow.setRotate((90*player.getHeading().ordinal())%360);
             this.getChildren().add(arrow);
         }
-     
 
+
+
+    }
+    private void updateBelt(){
+        ConveyorBelt belt = space.getConveyorBelt();
+        if (belt != null) {
+
+            Polygon fig = new Polygon(0.0, 0.0,
+                    60.0, 0.0,
+                    30.0, 60.0);
+
+            fig.setFill(Color.LIGHTGRAY);
+
+            fig.setRotate((90*belt.getHeading().ordinal())%360);
+            this.getChildren().add(fig);
+        }
 
     }
     private void updateWalls(){
@@ -134,29 +147,56 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         }
     }
-
-    private  void setLaser()
+    private void updateActions()
     {
-        this.getChildren().clear();
-        Board_Element board_element = space.getBoard_Element();
-        if (board_element != null)
-        {
-            Polygon arrow = new Polygon(0.0, 0.0,
-                    10.0, 20.0,
-                    20.0, 0.0 );
-            try {
-                arrow.setFill(Color.RED);
-            } catch (Exception e) {
-                arrow.setFill(Color.MEDIUMPURPLE);
+        for (FieldAction action : space.actions) {
+            if (action instanceof Checkpoint) {
+                addImage("images/checkpoint" + ((Checkpoint) action).no + ".png", -90);
             }
+
+            if (action instanceof Pit) {
+                addImage("images/pit.png");
+            }
+
+            if (action instanceof Gear) {
+                addImage("images/gear" + (((Gear) action).direction) + ".png");
+            }
+
         }
     }
+    private ImageView addImage(String name) {
+        Image img = null;
+        try {
+            img = new Image(SpaceView.class.getClassLoader().getResource(name).toURI().toString());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        ImageView imgView = new ImageView(img);
+        imgView.setImage(img);
+        imgView.setFitHeight(SPACE_HEIGHT);
+        imgView.setFitWidth(SPACE_WIDTH);
+        imgView.setVisible(true);
+
+        this.getChildren().add(imgView);
+
+        return imgView;
+    }
+
+    private ImageView addImage(String name, double rotation) {
+        ImageView imageView = addImage(name);
+        imageView.setRotate(rotation);
+
+        return imageView;
+    }
+
+
 
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
             this.getChildren().clear();
-
+            updateBelt();
+            updateActions();
             updatePlayer();
             updateWalls();
         }

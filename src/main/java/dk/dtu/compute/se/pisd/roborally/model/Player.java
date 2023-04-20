@@ -33,7 +33,7 @@ import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
  *
  */
 public class Player extends Subject {
-
+    private int lastCheckpoint;
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
 
@@ -133,4 +133,18 @@ public class Player extends Subject {
         return cards[i];
     }
 
+    /**
+     * Sets the last chekpoint when called
+     * @param lastCheckpoint
+     */
+    public void setLastCheckpoint(int lastCheckpoint) {
+        // we only update this if the new checkpoint number is higher than the one the player already has
+        if (lastCheckpoint == (this.lastCheckpoint + 1)) {
+            this.lastCheckpoint = lastCheckpoint;
+            notifyChange();
+        }
+    }
+    public int getLastCheckpoint() {
+        return lastCheckpoint;
+    }
 }

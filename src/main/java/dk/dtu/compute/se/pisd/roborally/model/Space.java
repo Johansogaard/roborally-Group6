@@ -35,12 +35,12 @@ import java.util.List;
 public class Space extends Subject {
 
     public final Board board;
-
+    public List<FieldAction> actions = new ArrayList<>();
     public final int x;
     public final int y;
 
     private Player player;
-    private Board_Element board_element;
+
 
     public List<Heading> getWalls() {
         return walls;
@@ -53,7 +53,6 @@ public class Space extends Subject {
         this.x = x;
         this.y = y;
         player = null;
-        board_element = null;
     }
     public void addWall(Heading heading) {
         if ( ! walls.contains(heading)) {
@@ -62,13 +61,27 @@ public class Space extends Subject {
         }
         }
 
+
+    public List<FieldAction> getActions() {
+        return actions;
+    }
     public Player getPlayer() {
         return player;
     }
-    public Board_Element getBoard_Element(){
-        return board_element;
-    }
 
+    public ConveyorBelt getConveyorBelt() {
+
+        ConveyorBelt belt = null;
+
+        for (FieldAction action : this.actions) {
+            if (action instanceof ConveyorBelt && belt == null) {
+                belt = (ConveyorBelt) action;
+            }
+        }
+
+        return belt;
+
+    }
     public void setPlayer(Player player) {
         Player oldPlayer = this.player;
         if (player != oldPlayer &&
@@ -84,14 +97,14 @@ public class Space extends Subject {
             notifyChange();
         }
     }
-    public void setBoard_element(Board_Element board_element)
-    {
-        Board_Element oldBoard_Element = this.board_element;
-        if ( board_element!= oldBoard_Element)
-        {
-            this.board_element = board_element;
-            board_element.setSpace(this);
+    public void addAction(FieldAction action) {
+        this.actions.add(action);
+
+        if (action instanceof Checkpoint) {
+            this.board.setCheckpoint((Checkpoint) action);
         }
+
+        notifyChange();
     }
 
     void playerChanged() {
