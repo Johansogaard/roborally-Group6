@@ -1,8 +1,8 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
-public class Pit extends Obstacle{
+public class Pit extends Obstacle {
 
-    public Pit(){
+    public Pit() {
         super(false);
     }
 
@@ -10,7 +10,8 @@ public class Pit extends Obstacle{
     @Override
     public void interactWithRobot(Player player) {
         //make robot reboot
-        // if(player.isOnsSpace(this){
-        // player.destroy();
+        if (player.getSpace().isPit()) {
+            player.reboot();
+        }
     }
 }

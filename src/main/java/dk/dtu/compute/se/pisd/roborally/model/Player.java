@@ -133,4 +133,18 @@ public class Player extends Subject {
         return cards[i];
     }
 
+    public void reboot() {
+        // Reset the program cards to null
+        for (int i = 0; i < program.length; i++) {
+            program[i].setCard(null);
+        }
+
+        // Reset the player's space and heading
+        setSpace(null);
+        setHeading(SOUTH);
+
+        // Notify observers of the change
+        notifyChange();
+    }
+
 }

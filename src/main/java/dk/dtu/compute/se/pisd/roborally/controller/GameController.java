@@ -300,7 +300,8 @@ public class GameController {
     public void setupBoardWithPits() {
         // Create pits at specific positions on the game board
         board.getSpace(3, 3).setObstacle(new Pit());
-        board.getSpace(4, 3).setObstacle(new Wall(Heading.NORTH));
+        board.getSpace(1, 2).setObstacle(new Pit());
+        board.getSpace(2, 1).setObstacle(new Pit());
 
 
 
