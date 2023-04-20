@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import javafx.scene.control.skin.TextInputControlSkin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
  */
 public class Board extends Subject {
 
+
     public final int width;
 
     public final int height;
@@ -50,7 +52,7 @@ public class Board extends Subject {
 
     private final List<Player> players = new ArrayList<>();
 
-
+    private List<Checkpoint> checkpoints = new ArrayList<Checkpoint>();
     private Player current;
 
     private Phase phase = INITIALISATION;
@@ -91,6 +93,13 @@ public class Board extends Subject {
             }
         }
     }
+    public void setCheckpoint(Checkpoint checkpoint) {
+        this.checkpoints.add(checkpoint);
+    }
+    public List<Checkpoint> getCheckpoints() {
+        return this.checkpoints;
+    }
+
 
     public Space getSpace(int x, int y) {
         if (x >= 0 && x < width &&
@@ -111,12 +120,16 @@ public class Board extends Subject {
             notifyChange();
         }
     }
-    public void addBoard_Elements()
+    public void addFieldActions()
     {
         getSpace(0,0).addWall(Heading.EAST);
         getSpace(0,5).addWall(Heading.WEST);
         getSpace(5,0).addWall(Heading.NORTH);
         getSpace(5,5).addWall(Heading.SOUTH);
+        getSpace(3,3).addAction(new Checkpoint(1));
+        getSpace(3,4).addAction(new ConveyorBelt());
+        getSpace(3,5).addAction(new Pit());
+        getSpace(4,5).addAction(new Gear(TextInputControlSkin.Direction.LEFT));
         notifyChange();
     }
 
