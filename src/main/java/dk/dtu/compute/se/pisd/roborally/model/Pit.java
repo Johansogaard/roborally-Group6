@@ -4,11 +4,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 
 
 /**
- * Representation of a pit on the game board.
- * Once activated it will loop through all the spaces on the game board
- * to find the space where it should place the player.
  *
- * @author Gustav Utke Kauman, s195396@student.dtu.dk
  */
 public class Pit implements FieldAction {
 

@@ -127,6 +127,9 @@ public class Board extends Subject {
         getSpace(5,0).addWall(Heading.NORTH);
         getSpace(5,5).addWall(Heading.SOUTH);
         getSpace(3,3).addAction(new Checkpoint(1));
+        getSpace(7,7).addAction(new Checkpoint(2));
+        getSpace(0,7).addAction(new Checkpoint(3));
+        getSpace(7,0).addAction(new Checkpoint(4));
         getSpace(3,4).addAction(new ConveyorBelt());
         getSpace(3,5).addAction(new Pit());
         getSpace(4,5).addAction(new Gear(TextInputControlSkin.Direction.LEFT));

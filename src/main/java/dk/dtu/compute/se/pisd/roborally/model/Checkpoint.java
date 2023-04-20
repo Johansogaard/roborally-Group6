@@ -7,8 +7,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
  * This class is used to hold information about the Checkpoints
  * placed on the game board.
  *
- * @author Gustav Kirkholt, s164765@student.dtu.dk
- * @author Gustav Utke Kauman, s195396@student.dtu.dk
+
  */
 public class Checkpoint implements FieldAction {
 

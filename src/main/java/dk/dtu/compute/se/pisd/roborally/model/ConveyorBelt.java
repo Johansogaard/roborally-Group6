@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  *
- * @author Gustav Utke Kauman, s195396@student.dtu.dk
  */
 public class ConveyorBelt implements FieldAction {
 

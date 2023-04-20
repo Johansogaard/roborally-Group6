@@ -7,8 +7,7 @@ import javafx.scene.control.skin.TextInputControlSkin;
 
 /**
  *
- * @author Benjamin Andresen
- * @author Gustav Utke Kauman, s195396@student.dtu.dk
+
  */
 public class Gear implements FieldAction {
 
