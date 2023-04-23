@@ -79,6 +79,9 @@ public class Board extends Subject {
     public Board(int width, int height) {
         this(width, height, "defaultboard");
     }
+    public List<Player> getPlayers() {
+        return players;
+    }
 
     public Integer getGameId() {
         return gameId;

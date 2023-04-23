@@ -154,24 +154,49 @@ public class GameController {
 
     // XXX: V2
     private void executeNextStep() {
+        //gets the curr player
         Player currentPlayer = board.getCurrentPlayer();
 
+        //cheks if the phase is activation and the curr player is not null
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
+            //the curr register
             int step = board.getStep();
+            //checks if the step in correct and not a unusable value
             if (step >= 0 && step < Player.NO_REGISTERS) {
+                //gets the curr card
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
+
+                //checks if card is somthing
                 if (card != null) {
+                    //gets the command
                     Command command = card.command;
+
+                    //if the command is Interactive then the phase must be changed
                     if (card.command.isInteractive()) {
                         board.setPhase(Phase.PLAYER_INTERACTION);
                     } else {
+                        //else it will executecommand
                         executeCommand(currentPlayer, command);
 
+                        //setting the next player
                         int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
                         if (nextPlayerNumber < board.getPlayersNumber()) {
                             board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                         } else {
+                            //adds a step because we now have been through all the players
                             step++;
+
+                            //we run doaction on all fields because now all players have done the current register
+                            for(Player player : this.board.getPlayers()){
+                                for (FieldAction action : player.getSpace().getActions()) {
+                                    if (won) {
+                                        break;
+                                    }
+                                    action.doAction(this, player.getSpace());
+                                }
+                            }
+
+                            //checks if we have more steps than registers if thats the case we will start the programming phase
                             if (step < Player.NO_REGISTERS) {
                                 makeProgramFieldsVisible(step);
                                 board.setStep(step);
