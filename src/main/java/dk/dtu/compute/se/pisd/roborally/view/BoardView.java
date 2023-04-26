@@ -78,14 +78,7 @@ public class BoardView extends VBox implements ViewObserver {
         board.attach(this);
         update(board);
     }
-    public void addBoard_Elements()
-    {
-        board.getSpace(0,0).addWall(Heading.EAST);
-        board.getSpace(0,5).addWall(Heading.EAST);
-        board.getSpace(5,0).addWall(Heading.EAST);
-        board.getSpace(5,5).addWall(Heading.EAST);
-       update(board);
-    }
+
 
     @Override
     public void updateView(Subject subject) {

@@ -195,6 +195,10 @@ public class SpaceView extends StackPane implements ViewObserver {
     public void updateView(Subject subject) {
         if (subject == this.space) {
             this.getChildren().clear();
+        if (space.board.getAntenna() !=null && (space.board.getAntenna().x == space.x&&space.board.getAntenna().y == space.y))
+        {
+            this.setStyle("-fx-background-color: pink;");
+        }
             updateBelt();
             updateActions();
             updatePlayer();

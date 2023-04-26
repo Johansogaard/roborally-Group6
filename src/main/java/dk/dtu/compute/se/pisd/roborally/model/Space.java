@@ -49,7 +49,7 @@ public class Space extends Subject {
     public List<Heading> getWalls() {
         return walls;
     }
-
+    private Antenna antenna;
     private List<Heading> walls = new ArrayList<>();
 
     public Space(Board board, int x, int y) {
@@ -64,7 +64,6 @@ public class Space extends Subject {
             notifyChange();
         }
         }
-
 
     public List<FieldAction> getActions() {
         return actions;

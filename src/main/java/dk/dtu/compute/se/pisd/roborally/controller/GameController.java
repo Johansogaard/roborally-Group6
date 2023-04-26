@@ -26,7 +26,8 @@ import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * ...
@@ -74,8 +75,8 @@ public class GameController {
 
     // XXX: V2
     public void startProgrammingPhase() {
+
         board.setPhase(Phase.PROGRAMMING);
-        board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
 
         for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -110,7 +111,63 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
     }
+    public void setPlayerOrder()
+    {
+        Antenna antenna = board.getAntenna();
+        HashMap<Player, Integer> map = new HashMap<>();
 
+        for (int x = 0; x < this.board.width; x++) {
+            for (int y = 0; y < this.board.height; y++) {
+                Player player = this.board.getSpace(x, y).getPlayer();
+                if (player != null) {
+
+                    int length = Math.abs(antenna.x - x) + Math.abs(antenna.y - y);
+
+                    map.put(player, length);
+
+                }
+            }
+        }
+            // convert the map into a list of map entries
+            List<Map.Entry<Player, Integer>> list = new LinkedList<>(map.entrySet());
+            Collections.sort(list, new Comparator<Map.Entry<Player, Integer>>() {
+                @Override
+                public int compare(Map.Entry<Player, Integer> o1, Map.Entry<Player, Integer> o2) {
+                    if (o1.getValue() == o2.getValue()) {
+                        // The robots have the same distance to the antenna
+                        if (o2.getKey().getSpace().y > antenna.y && o1.getKey().getSpace().y > antenna.y) {
+                            // Both robots are above the antenna
+                            return o1.getKey().getSpace().x - o2.getKey().getSpace().x;
+                        }
+
+                        if (o2.getKey().getSpace().y < antenna.y && o1.getKey().getSpace().y < antenna.y) {
+                            // Both robots are below the antenna
+                            return o2.getKey().getSpace().x - o1.getKey().getSpace().x;
+                        }
+
+                        if (o2.getKey().getSpace().y > antenna.y || o1.getKey().getSpace().y > antenna.y) {
+                            // One of the robots are above the antenna
+                            return o1.getKey().getSpace().x - o2.getKey().getSpace().x;
+                        }
+
+
+                    } else {
+                        return o1.getValue() - o2.getValue();
+                    }
+
+                    return 0;
+                }
+            });
+
+            for (int i = 0; i < list.size(); i++) {
+                list.get(i).getKey().no = i;
+            }
+
+            board.setCurrentPlayer(list.get(0).getKey());
+
+
+
+    }
     // XXX: V2
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
@@ -155,6 +212,7 @@ public class GameController {
     // XXX: V2
     private void executeNextStep() {
         //gets the curr player
+
         Player currentPlayer = board.getCurrentPlayer();
 
         //cheks if the phase is activation and the curr player is not null
@@ -178,10 +236,9 @@ public class GameController {
                         //else it will executecommand
                         executeCommand(currentPlayer, command);
 
-                        //setting the next player
-                        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-                        if (nextPlayerNumber < board.getPlayersNumber()) {
-                            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+                        //setting the next player;
+                        if (currentPlayer.no+1 < board.getPlayersNumber()) {
+                            board.setCurrentPlayer(board.getPlayer(currentPlayer.no+1));
                         } else {
                             //adds a step because we now have been through all the players
                             step++;
@@ -202,6 +259,7 @@ public class GameController {
                                 board.setStep(step);
                                 board.setCurrentPlayer(board.getPlayer(0));
                             } else {
+                                setPlayerOrder();
                                 startProgrammingPhase();
                             }
                         }
