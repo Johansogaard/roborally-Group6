@@ -1,0 +1,141 @@
+{
+  "width": 8,
+  "height": 8,
+  "antennaX": 0,
+  "antennaY": 0,
+  "players": [],
+  "spaces": [
+    {
+      "playerNo": 0,
+      "x": 0,
+      "y": 0,
+      "walls": [
+        "EAST"
+      ],
+      "actions": []
+    },
+    {
+      "playerNo": 0,
+      "x": 0,
+      "y": 5,
+      "walls": [
+        "WEST"
+      ],
+      "actions": []
+    },
+    {
+      "playerNo": 0,
+      "x": 0,
+      "y": 7,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "INSTANCE": {
+            "no": 3
+          }
+        }
+      ]
+    },
+    {
+      "playerNo": 0,
+      "x": 3,
+      "y": 3,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "INSTANCE": {
+            "no": 1
+          }
+        }
+      ]
+    },
+    {
+      "playerNo": 0,
+      "x": 3,
+      "y": 4,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ]
+    },
+    {
+      "playerNo": 0,
+      "x": 3,
+      "y": 5,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Pit",
+          "INSTANCE": {}
+        }
+      ]
+    },
+    {
+      "playerNo": 0,
+      "x": 4,
+      "y": 5,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Gear",
+          "INSTANCE": {
+            "direction": "LEFT"
+          }
+        }
+      ]
+    },
+    {
+      "playerNo": 0,
+      "x": 5,
+      "y": 0,
+      "walls": [
+        "NORTH"
+      ],
+      "actions": []
+    },
+    {
+      "playerNo": 0,
+      "x": 5,
+      "y": 5,
+      "walls": [
+        "SOUTH"
+      ],
+      "actions": []
+    },
+    {
+      "playerNo": 0,
+      "x": 7,
+      "y": 0,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "INSTANCE": {
+            "no": 4
+          }
+        }
+      ]
+    },
+    {
+      "playerNo": 0,
+      "x": 7,
+      "y": 7,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "INSTANCE": {
+            "no": 2
+          }
+        }
+      ]
+    }
+  ]
+}
