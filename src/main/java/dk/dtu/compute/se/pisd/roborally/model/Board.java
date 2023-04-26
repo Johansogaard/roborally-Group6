@@ -38,7 +38,15 @@ import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
  *
  */
 public class Board extends Subject {
+    public Antenna getAntenna() {
+        return antenna;
+    }
 
+    public void setAntenna(Antenna antenna) {
+        this.antenna = antenna;
+    }
+
+    private Antenna antenna;
 
     public final int width;
 
@@ -51,6 +59,16 @@ public class Board extends Subject {
     private final Space[][] spaces;
 
     private final List<Player> players = new ArrayList<>();
+
+    public List<Integer> getPlayerOrder() {
+        return playerOrder;
+    }
+
+    public void setPlayerOrder(List<Integer> playerOrder) {
+        this.playerOrder = playerOrder;
+    }
+
+    private List<Integer> playerOrder = new ArrayList<>();
 
     private List<Checkpoint> checkpoints = new ArrayList<Checkpoint>();
     private Player current;
@@ -138,18 +156,22 @@ public class Board extends Subject {
         getSpace(3,4).addAction(new ConveyorBelt());
         getSpace(3,5).addAction(new Pit());
         getSpace(4,5).addAction(new Gear(TextInputControlSkin.Direction.LEFT));
+        antenna = new Antenna(this,5,6);
         notifyChange();
     }
 
 
     public Player getPlayer(int i) {
         if (i >= 0 && i < players.size()) {
-            return players.get(i);
-        } else {
-            return null;
+            for (Player player: players) {
+                if (player.no == i)
+                    return player;
+            }
         }
-    }
 
+        return null;
+
+    }
     public Player getCurrentPlayer() {
         return current;
     }

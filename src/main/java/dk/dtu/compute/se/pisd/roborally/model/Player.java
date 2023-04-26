@@ -38,7 +38,7 @@ public class Player extends Subject {
     final public static int NO_CARDS = 8;
 
     final public Board board;
-
+    public int no;
     private String name;
     private String color;
 
