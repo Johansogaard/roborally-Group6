@@ -237,10 +237,26 @@ public class GameController {
                 case FAST_FORWARD:
                     this.fastForward(player);
                     break;
-
+                case Move_3:
+                    this.Move3(player);
+                    break;
+                case uTurn:
+                    this.uTurn(player);
+                    break;
                 default:
                     // DO NOTHING (for now)
             }
+        }
+    }
+
+    private void uTurn(Player player) {
+        turnLeft(player);
+        turnLeft(player);
+    }
+
+    private void Move3(Player player) {
+        for (int i = 0 ; i<3;i++) {
+            moveForward(player);
         }
     }
 

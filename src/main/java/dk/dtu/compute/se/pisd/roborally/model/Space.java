@@ -33,7 +33,11 @@ import java.util.List;
  *
  */
 public class Space extends Subject {
+    public int getStartPlayerNo() {
+        return startPlayerNo;
+    }
 
+    private int startPlayerNo;
     public final Board board;
     public List<FieldAction> actions = new ArrayList<>();
     public final int x;
@@ -81,6 +85,10 @@ public class Space extends Subject {
 
         return belt;
 
+    }
+    public void setStartPlayerNo(int startPlayerNo) {
+        this.startPlayerNo = startPlayerNo;
+        notifyChange();
     }
     public void setPlayer(Player player) {
         Player oldPlayer = this.player;

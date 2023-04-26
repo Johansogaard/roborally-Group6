@@ -32,6 +32,7 @@ import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 
 import java.io.*;
+import java.net.URL;
 
 /**
  * ...
@@ -50,7 +51,8 @@ public class LoadBoard {
         }
 
         ClassLoader classLoader = LoadBoard.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(BOARDSFOLDER + "/" + boardname + "." + JSON_EXT);
+        String filename = BOARDSFOLDER + "/" + boardname + "." + JSON_EXT;
+        InputStream inputStream = classLoader.getResourceAsStream(filename);
         if (inputStream == null) {
             // TODO these constants should be defined somewhere
             return new Board(8,8);
@@ -75,6 +77,10 @@ public class LoadBoard {
 			    if (space != null) {
                     space.getActions().addAll(spaceTemplate.actions);
                     space.getWalls().addAll(spaceTemplate.walls);
+                    if (spaceTemplate.playerNo != 0)
+                    {
+                        space.setPlayer(result.getPlayer(spaceTemplate.playerNo));
+                    }
                 }
             }
 			reader.close();
@@ -96,10 +102,12 @@ public class LoadBoard {
     }
 
     public static void saveBoard(Board board, String name) {
-        BoardTemplate template = new BoardTemplate();
+        BoardTemplate template = new BoardTemplate().fromBoard(board);
+
         template.width = board.width;
         template.height = board.height;
 
+/*
         for (int i=0; i<board.width; i++) {
             for (int j=0; j<board.height; j++) {
                 Space space = board.getSpace(i,j);
@@ -107,19 +115,22 @@ public class LoadBoard {
                     SpaceTemplate spaceTemplate = new SpaceTemplate();
                     spaceTemplate.x = space.x;
                     spaceTemplate.y = space.y;
+                    spaceTemplate.playerNo = board.getPlayerNumber(space.getPlayer());
                     spaceTemplate.actions.addAll(space.getActions());
                     spaceTemplate.walls.addAll(space.getWalls());
                     template.spaces.add(spaceTemplate);
                 }
             }
-        }
+        }*/
 
         ClassLoader classLoader = LoadBoard.class.getClassLoader();
         // TODO: this is not very defensive, and will result in a NullPointerException
         //       when the folder "resources" does not exist! But, it does not need
         //       the file "simpleCards.json" to exist!
-        String filename =
-                classLoader.getResource(BOARDSFOLDER).getPath() + "/" + name + "." + JSON_EXT;
+        //fix this so the path works on all computers
+        String filename = "src/main/resources/boards" + "/" + name + "." + JSON_EXT;
+       /* String filename =
+                classLoader.getResource(BOARDSFOLDER).getPath() + "/" + name + "." + JSON_EXT;*/
 
         // In simple cases, we can create a Gson object with new:
         //
