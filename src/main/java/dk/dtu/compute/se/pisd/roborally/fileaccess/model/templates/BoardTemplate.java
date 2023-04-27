@@ -19,7 +19,7 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
+package dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,7 +28,6 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,18 +44,21 @@ public class BoardTemplate {
     public int width;
     public int height;
 
-    public int antennaX, antennaY;
+    //public int antennaX, antennaY;
 
-    public List<Player> getPlayers() {
+    public List<PlayerTemplate> getPlayers() {
         return players;
     }
 
-    private final List<Player> players = new ArrayList<>();
-    public List<SpaceTemplate> spaces = new ArrayList<SpaceTemplate>();
+    public List<PlayerTemplate> players = new ArrayList<>();
+    public List<SpaceTemplate> spaces = new ArrayList<>();
 
     public BoardTemplate fromBoard(Board board) {
         this.width = board.width;
         this.height = board.height;
+        for (Player player:board.getPlayers()) {
+            this.players.add(new PlayerTemplate().fromPlayer(player));
+        }
 
        /* if (board.getAntenna() != null) {
             this.antennaX = board.getAntenna().x;
@@ -65,9 +67,15 @@ public class BoardTemplate {
 
         for (int i = 0; i < board.width; i++) {
             for (int j = 0; j < board.height; j++) {
-                if (!board.getSpace(i,j).getWalls().isEmpty() || !board.getSpace(i,j).getActions().isEmpty() || board.getSpace(i,j).getStartPlayerNo() != 0) {
-                    // only convert the spaces that actually have some relevant data
-                    spaces.add((new SpaceTemplate()).fromSpace(board.getSpace(i,j)));
+              {
+                  // only convert the spaces that actually have some relevant data
+                  SpaceTemplate space = new SpaceTemplate().fromSpace(board.getSpace(i,j));
+                  if (space.actions.size()>0||space.walls.size()>0||space.player!=null)
+                  {
+                     spaces.add(space);
+                  }
+
+
                 }
             }
         }
@@ -78,22 +86,38 @@ public class BoardTemplate {
     public Board toBoard() {
 
         Board board = new Board(this.width, this.height);
-        //Antenna antenna = new Antenna(board, this.antennaX, this.antennaY);
-      //  board.setAntenna(antenna);
 
-        for (SpaceTemplate spaceTemplate : spaces) {
-            Space space = spaceTemplate.toSpace(board);
-            board.getSpaces()[space.x][space.y] = space;
+        for (PlayerTemplate playerTemplate :players) {
+           board.addPlayer(playerTemplate.toPlayer(board));
+        }
+        for (int i = 0; i < spaces.size(); i++) {
+
+              SpaceTemplate sp =  spaces.get(i);
+              if (sp.player!=null)
+              {
+                  board.getSpace(sp.x,sp.y).setPlayer(sp.player.toPlayer(board));
+              }
+              if (sp.walls.size()>0)
+              {
+                  for (int f=0;f<sp.walls.size();f++) {
+                      board.getSpace(sp.x, sp.y).addWall(sp.walls.get(f));
+                  }
+              }
+              if (sp.actions.size()>0)
+              {
+                  for (int f =0;f<sp.actions.size();f++)
+                  {
+                      board.getSpace(sp.x,sp.y).addAction(sp.actions.get(f));
+
+                  }
+              }
+
+                    // only convert the spaces that actually have some relevant data
+                    return board;
+
         }
 
-        for (int i = 0; i < board.width; i++) {
-            for (int j = 0; j < board.height; j++) {
-                if (board.getSpace(i,j) == null) {
-                    // fill out the "empty" spaces
-                    board.getSpaces()[i][j] = new Space(board,i,j);
-                }
-            }
-        }
+
 
         return board;
 
@@ -101,13 +125,11 @@ public class BoardTemplate {
 
     @Override
     public String toString() {
-
         GsonBuilder builder = new GsonBuilder().registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>()).
                 setPrettyPrinting();
         Gson gson = builder.create();
 
 
         return gson.toJson(this, this.getClass());
-
     }
 }

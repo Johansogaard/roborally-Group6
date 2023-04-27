@@ -19,12 +19,9 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
-package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
+package dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates;
 
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +34,8 @@ import java.util.List;
  */
 public class SpaceTemplate {
 
-    public int playerNo =0;
+
+    public PlayerTemplate player;
     public int x;
     public int y;
     public List<Heading> walls = new ArrayList<>();
@@ -46,10 +44,13 @@ public class SpaceTemplate {
     public SpaceTemplate fromSpace(Space space) {
         this.x = space.x;
         this.y = space.y;
-        this.playerNo = space.getStartPlayerNo();
-
+        if(space.getPlayer() != null) {
+            this.player = new PlayerTemplate().fromPlayer(space.getPlayer());
+        }
         this.walls = space.getWalls();
         this.actions = space.getActions();
+
+
 
         return this;
     }
@@ -57,7 +58,7 @@ public class SpaceTemplate {
     public Space toSpace(Board board) {
 
         Space space = new Space(board, this.x, this.y);
-        space.setStartPlayerNo(this.playerNo);
+       // space.setPlayer(this.player);
 
         for (FieldAction action : actions) {
             space.addAction(action);

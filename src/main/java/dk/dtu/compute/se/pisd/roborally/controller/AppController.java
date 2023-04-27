@@ -21,18 +21,13 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
-import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import javafx.application.Platform;
@@ -42,8 +37,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -107,14 +100,15 @@ public class AppController implements Observer {
 
     public void saveGame() {
         // XXX needs to be implemented eventually
-        LoadBoard.saveBoard(gameController.board,"NewBoardSave");
+       LoadBoard.saveBoard(gameController.board,"NewBoardSave");
+
+
     }
 
     public void loadGame() {
-        Board loadedBoard = LoadBoard.loadBoard("NewBoardSave");
-        gameController = new GameController(loadedBoard);
-        Phase currPhase = loadedBoard.getPhase();
+       Board loadedBoard = LoadBoard.loadBoard("NewBoardSave");
 
+        gameController = new GameController(loadedBoard);
         roboRally.createBoardView(gameController);
     }
 
