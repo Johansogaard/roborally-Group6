@@ -24,10 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,18 +49,22 @@ public class BoardTemplate {
 
     public List<PlayerTemplate> players = new ArrayList<>();
     public List<SpaceTemplate> spaces = new ArrayList<>();
+    public List<Integer> playerOrder = new ArrayList<>();
+    private PlayerTemplate current;
+    private AntennaTemplate antenna;
+
 
     public BoardTemplate fromBoard(Board board) {
         this.width = board.width;
         this.height = board.height;
+        this.playerOrder = board.getPlayerOrder();
+        this.current = new PlayerTemplate().fromPlayer(board.getCurrentPlayer());
+        this.antenna = new AntennaTemplate().fromAntenna(board.getAntenna());
         for (Player player:board.getPlayers()) {
             this.players.add(new PlayerTemplate().fromPlayer(player));
         }
 
-       /* if (board.getAntenna() != null) {
-            this.antennaX = board.getAntenna().x;
-            this.antennaY = board.getAntenna().y;
-        }*/
+
 
         for (int i = 0; i < board.width; i++) {
             for (int j = 0; j < board.height; j++) {
@@ -87,9 +88,14 @@ public class BoardTemplate {
 
         Board board = new Board(this.width, this.height);
 
+        board.setAntenna(this.antenna.toAntenna(board));
         for (PlayerTemplate playerTemplate :players) {
            board.addPlayer(playerTemplate.toPlayer(board));
         }
+
+        board.setPlayerOrder(playerOrder);
+        board.setCurrentPlayer(board.getPlayer(current.no));
+        board.setCurrentPlayer(current.toPlayer(board));
         for (int i = 0; i < spaces.size(); i++) {
 
               SpaceTemplate sp =  spaces.get(i);
@@ -112,8 +118,7 @@ public class BoardTemplate {
                   }
               }
 
-                    // only convert the spaces that actually have some relevant data
-                    return board;
+
 
         }
 
