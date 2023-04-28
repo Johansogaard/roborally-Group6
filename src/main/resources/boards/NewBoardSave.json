@@ -27,7 +27,21 @@
       "cards": [
         {
           "card": {
-            "command": "Move_3",
+            "command": "LEFT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "LEFT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "OPTION_LEFT_RIGHT",
             "observers": []
           },
           "visible": true
@@ -41,28 +55,21 @@
         },
         {
           "card": {
-            "command": "uTurn",
+            "command": "LEFT",
             "observers": []
           },
           "visible": true
         },
         {
           "card": {
-            "command": "Move_3",
+            "command": "OPTION_LEFT_RIGHT",
             "observers": []
           },
           "visible": true
         },
         {
           "card": {
-            "command": "uTurn",
-            "observers": []
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "RIGHT",
+            "command": "OPTION_LEFT_RIGHT",
             "observers": []
           },
           "visible": true
@@ -70,13 +77,6 @@
         {
           "card": {
             "command": "FAST_FORWARD",
-            "observers": []
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "Move_3",
             "observers": []
           },
           "visible": true
@@ -108,34 +108,6 @@
       "cards": [
         {
           "card": {
-            "command": "FAST_FORWARD",
-            "observers": []
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "FORWARD",
-            "observers": []
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "FORWARD",
-            "observers": []
-          },
-          "visible": true
-        },
-        {
-          "card": {
-            "command": "FAST_FORWARD",
-            "observers": []
-          },
-          "visible": true
-        },
-        {
-          "card": {
             "command": "uTurn",
             "observers": []
           },
@@ -143,7 +115,28 @@
         },
         {
           "card": {
+            "command": "OPTION_LEFT_RIGHT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "LEFT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
             "command": "FORWARD",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "FAST_FORWARD",
             "observers": []
           },
           "visible": true
@@ -157,7 +150,14 @@
         },
         {
           "card": {
-            "command": "Move_3",
+            "command": "OPTION_LEFT_RIGHT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "LEFT",
             "observers": []
           },
           "visible": true
@@ -192,7 +192,21 @@
         "cards": [
           {
             "card": {
-              "command": "Move_3",
+              "command": "LEFT",
+              "observers": []
+            },
+            "visible": true
+          },
+          {
+            "card": {
+              "command": "LEFT",
+              "observers": []
+            },
+            "visible": true
+          },
+          {
+            "card": {
+              "command": "OPTION_LEFT_RIGHT",
               "observers": []
             },
             "visible": true
@@ -206,6 +220,88 @@
           },
           {
             "card": {
+              "command": "LEFT",
+              "observers": []
+            },
+            "visible": true
+          },
+          {
+            "card": {
+              "command": "OPTION_LEFT_RIGHT",
+              "observers": []
+            },
+            "visible": true
+          },
+          {
+            "card": {
+              "command": "OPTION_LEFT_RIGHT",
+              "observers": []
+            },
+            "visible": true
+          },
+          {
+            "card": {
+              "command": "FAST_FORWARD",
+              "observers": []
+            },
+            "visible": true
+          }
+        ]
+      },
+      "x": 0,
+      "y": 0,
+      "walls": [
+        "EAST"
+      ],
+      "actions": []
+    },
+    {
+      "x": 0,
+      "y": 5,
+      "walls": [
+        "WEST"
+      ],
+      "actions": []
+    },
+    {
+      "x": 0,
+      "y": 7,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "INSTANCE": {
+            "no": 3
+          }
+        }
+      ]
+    },
+    {
+      "player": {
+        "no": 0,
+        "name": "Player 2",
+        "color": "green",
+        "heading": "SOUTH",
+        "program": [
+          {
+            "visible": true
+          },
+          {
+            "visible": true
+          },
+          {
+            "visible": true
+          },
+          {
+            "visible": true
+          },
+          {
+            "visible": true
+          }
+        ],
+        "cards": [
+          {
+            "card": {
               "command": "uTurn",
               "observers": []
             },
@@ -213,21 +309,21 @@
           },
           {
             "card": {
-              "command": "Move_3",
+              "command": "OPTION_LEFT_RIGHT",
               "observers": []
             },
             "visible": true
           },
           {
             "card": {
-              "command": "uTurn",
+              "command": "LEFT",
               "observers": []
             },
             "visible": true
           },
           {
             "card": {
-              "command": "RIGHT",
+              "command": "FORWARD",
               "observers": []
             },
             "visible": true
@@ -241,19 +337,209 @@
           },
           {
             "card": {
-              "command": "Move_3",
+              "command": "RIGHT",
+              "observers": []
+            },
+            "visible": true
+          },
+          {
+            "card": {
+              "command": "OPTION_LEFT_RIGHT",
+              "observers": []
+            },
+            "visible": true
+          },
+          {
+            "card": {
+              "command": "LEFT",
               "observers": []
             },
             "visible": true
           }
         ]
       },
-      "x": 0,
+      "x": 3,
+      "y": 0,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "x": 3,
+      "y": 3,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "INSTANCE": {
+            "no": 1
+          }
+        }
+      ]
+    },
+    {
+      "x": 3,
+      "y": 4,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ]
+    },
+    {
+      "x": 3,
+      "y": 5,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Pit",
+          "INSTANCE": {}
+        }
+      ]
+    },
+    {
+      "x": 4,
+      "y": 5,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Gear",
+          "INSTANCE": {
+            "direction": "LEFT"
+          }
+        }
+      ]
+    },
+    {
+      "x": 5,
       "y": 0,
       "walls": [
-        "EAST"
+        "NORTH"
       ],
       "actions": []
+    },
+    {
+      "x": 5,
+      "y": 5,
+      "walls": [
+        "SOUTH"
+      ],
+      "actions": []
+    },
+    {
+      "x": 7,
+      "y": 0,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "INSTANCE": {
+            "no": 4
+          }
+        }
+      ]
+    },
+    {
+      "x": 7,
+      "y": 7,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "INSTANCE": {
+            "no": 2
+          }
+        }
+      ]
     }
-  ]
+  ],
+  "playerOrder": [],
+  "current": {
+    "no": 0,
+    "name": "Player 2",
+    "color": "green",
+    "heading": "SOUTH",
+    "program": [
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      }
+    ],
+    "cards": [
+      {
+        "card": {
+          "command": "uTurn",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "OPTION_LEFT_RIGHT",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "LEFT",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "FORWARD",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "FAST_FORWARD",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "RIGHT",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "OPTION_LEFT_RIGHT",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "LEFT",
+          "observers": []
+        },
+        "visible": true
+      }
+    ]
+  },
+  "antenna": {
+    "x": 5,
+    "y": 6
+  }
 }

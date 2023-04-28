@@ -58,7 +58,7 @@ public class SpaceTemplate {
     public Space toSpace(Board board) {
 
         Space space = new Space(board, this.x, this.y);
-       // space.setPlayer(this.player);
+        space.setPlayer(player.toPlayer(board));
 
         for (FieldAction action : actions) {
             space.addAction(action);
