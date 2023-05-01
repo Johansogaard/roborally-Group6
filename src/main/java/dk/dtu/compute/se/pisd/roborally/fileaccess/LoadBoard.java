@@ -50,7 +50,7 @@ public class LoadBoard {
         }
 
         ClassLoader classLoader = LoadBoard.class.getClassLoader();
-        String filename = BOARDSFOLDER + "/" + boardname + "." + JSON_EXT;
+        String filename = BOARDSFOLDER + "/" + boardname;
         InputStream inputStream = classLoader.getResourceAsStream(filename);
         if (inputStream == null) {
             // TODO these constants should be defined somewhere

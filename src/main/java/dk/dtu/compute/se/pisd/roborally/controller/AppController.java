@@ -31,12 +31,19 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceDialog;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -99,19 +106,73 @@ public class AppController implements Observer {
     }
 
     public void saveGame() {
-        // XXX needs to be implemented eventually
-       LoadBoard.saveBoard(gameController.board,"NewBoardSave");
+        TextInputDialog td = new TextInputDialog("NewBoardSave");
+        td.setHeaderText("Enter a name for the saved game");
+        Optional<String> result = td.showAndWait();
+
+        if (result.isPresent()) {
+            String fileName = result.get();
+            LoadBoard.saveBoard(gameController.board, fileName);
+        }
+
 
 
     }
 
     public void loadGame() {
-       Board loadedBoard = LoadBoard.loadBoard("NewBoardSave");
+        File folder = new File("src/main/resources/boards");
+        File[] listOfFiles = folder.listFiles();
+        ArrayList<String> lF = new ArrayList<>();
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
+                lF.add(file.getName());
+            }
+        }
+        ComboBox<String> comboBox = new ComboBox<>();
+        comboBox.getItems().addAll(lF);
 
-        gameController = new GameController(loadedBoard);
+        // Create a popup window
+        Stage popupWindow = new Stage();
+        popupWindow.initModality(Modality.APPLICATION_MODAL);
+        popupWindow.setTitle("Select a file");
+        popupWindow.setMinWidth(250);
+
+        // Create a layout for the popup window
+        VBox layout = new VBox(10);
+        layout.setAlignment(Pos.CENTER);
+        layout.getChildren().addAll(new Label("Select a file:"), comboBox);
+
+        // Create a button to close the popup window and return the selected file
+        Button selectButton = new Button("Select");
+        selectButton.setOnAction(e -> {
+            popupWindow.close();
+            String selectedFile = comboBox.getSelectionModel().getSelectedItem();
+            // Do something with the selected file
+            if (selectedFile==null)
+            {
+                loadGame();
+            }
+            else {
+                Board loadedBoard = LoadBoard.loadBoard(selectedFile);
+
+                gameController = new GameController(loadedBoard);
 
 
-        roboRally.createBoardView(gameController);
+                roboRally.createBoardView(gameController);
+            }
+        });
+
+        // Add the button to the layout
+        layout.getChildren().add(selectButton);
+
+        // Create a scene for the popup window
+        Scene scene = new Scene(layout);
+
+        // Set the scene and show the popup window
+        popupWindow.setScene(scene);
+        popupWindow.showAndWait();
+
+
     }
 
     /**
@@ -126,8 +187,8 @@ public class AppController implements Observer {
     public boolean stopGame() {
         if (gameController != null) {
 
-            // here we save the game (without asking the user).
-            saveGame();
+            // here we save the game (without asking the user). i am not sure we want this JJ
+            //saveGame();
 
             gameController = null;
             roboRally.createBoardView(null);
