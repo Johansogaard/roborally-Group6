@@ -113,21 +113,23 @@ public class GameController {
     }
     public void setPlayerOrder()
     {
+
         Antenna antenna = board.getAntenna();
-        HashMap<Player, Integer> map = new HashMap<>();
+        if (antenna != null) {
+            HashMap<Player, Integer> map = new HashMap<>();
 
-        for (int x = 0; x < this.board.width; x++) {
-            for (int y = 0; y < this.board.height; y++) {
-                Player player = this.board.getSpace(x, y).getPlayer();
-                if (player != null) {
+            for (int x = 0; x < this.board.width; x++) {
+                for (int y = 0; y < this.board.height; y++) {
+                    Player player = this.board.getSpace(x, y).getPlayer();
+                    if (player != null) {
 
-                    int length = Math.abs(antenna.x - x) + Math.abs(antenna.y - y);
+                        int length = Math.abs(antenna.x - x) + Math.abs(antenna.y - y);
 
-                    map.put(player, length);
+                        map.put(player, length);
 
+                    }
                 }
             }
-        }
             // convert the map into a list of map entries
             List<Map.Entry<Player, Integer>> list = new LinkedList<>(map.entrySet());
             Collections.sort(list, new Comparator<Map.Entry<Player, Integer>>() {
@@ -166,7 +168,11 @@ public class GameController {
             board.setCurrentPlayer(list.get(0).getKey());
 
 
-
+        }
+        else {
+            //if there is no antenna it will take player one as first player
+            board.setCurrentPlayer(board.getPlayer(0));
+        }
     }
     // XXX: V2
     private void makeProgramFieldsVisible(int register) {
