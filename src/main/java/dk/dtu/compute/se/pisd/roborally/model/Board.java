@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.model;
 
+import com.sun.javafx.scene.traversal.Direction;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import javafx.scene.control.skin.TextInputControlSkin;
@@ -155,7 +156,7 @@ public class Board extends Subject {
         getSpace(7,0).addAction(new Checkpoint(4));
         getSpace(3,4).addAction(new ConveyorBelt());
         getSpace(3,5).addAction(new Pit());
-        getSpace(4,5).addAction(new Gear(TextInputControlSkin.Direction.LEFT));
+        getSpace(4,5).addAction(new Gear(Direction.LEFT));
         antenna = new Antenna(this,5,6);
         notifyChange();
     }
