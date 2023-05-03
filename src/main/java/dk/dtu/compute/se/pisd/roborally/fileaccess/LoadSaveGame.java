@@ -25,11 +25,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates.BoardTemplate;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
 
 import java.io.*;
 
@@ -38,19 +37,28 @@ import java.io.*;
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
-public class LoadBoard {
+public class LoadSaveGame {
 
     private static final String BOARDSFOLDER = "boards";
+    private static final String GAMESFOLDER = "savedGames";
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
-    public static Board loadBoard(String boardname) {
+    public static Board loadBoard(String path, String boardname) {
       if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
+        String filename;
+        if (path == "src/main/resources/boards")
+        {
+            filename = BOARDSFOLDER + "/" + boardname;
+        }
+        else
+        {
+            filename = GAMESFOLDER + "/" + boardname;
+        }
+        ClassLoader classLoader = LoadSaveGame.class.getClassLoader();
 
-        ClassLoader classLoader = LoadBoard.class.getClassLoader();
-        String filename = BOARDSFOLDER + "/" + boardname;
         InputStream inputStream = classLoader.getResourceAsStream(filename);
         if (inputStream == null) {
             // TODO these constants should be defined somewhere
@@ -92,11 +100,11 @@ public class LoadBoard {
         return null;
     }
 
-    public static void saveBoard(Board board, String name) {
+    public static void saveBoard(Board board,String path, String name) {
         BoardTemplate template = new BoardTemplate().fromBoard(board);
 
-        String filename = "src/main/resources/boards" + "/" + name + "." + JSON_EXT;
-
+        //String filename = "src/main/resources/boards" + "/" + name + "." + JSON_EXT;
+        String filename = path+ "/" + name + "." + JSON_EXT;
         GsonBuilder simpleBuilder = new GsonBuilder().
                 registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>()).
                 setPrettyPrinting();

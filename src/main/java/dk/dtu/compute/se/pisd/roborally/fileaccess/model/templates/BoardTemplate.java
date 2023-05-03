@@ -57,11 +57,13 @@ public class BoardTemplate {
     public BoardTemplate fromBoard(Board board) {
         this.width = board.width;
         this.height = board.height;
-        this.playerOrder = board.getPlayerOrder();
-        this.current = new PlayerTemplate().fromPlayer(board.getCurrentPlayer());
-        this.antenna = new AntennaTemplate().fromAntenna(board.getAntenna());
-        for (Player player:board.getPlayers()) {
-            this.players.add(new PlayerTemplate().fromPlayer(player));
+        if (board.getPlayers().size()>0) {
+            this.playerOrder = board.getPlayerOrder();
+            this.current = new PlayerTemplate().fromPlayer(board.getCurrentPlayer());
+            this.antenna = new AntennaTemplate().fromAntenna(board.getAntenna());
+            for (Player player : board.getPlayers()) {
+                this.players.add(new PlayerTemplate().fromPlayer(player));
+            }
         }
 
 
@@ -87,37 +89,37 @@ public class BoardTemplate {
     public Board toBoard() {
 
         Board board = new Board(this.width, this.height);
+        if (this.antenna != null) {
+            board.setAntenna(this.antenna.toAntenna(board));
+        }
+        if (players.size()>0) {
+            for (PlayerTemplate playerTemplate : players) {
+                board.addPlayer(playerTemplate.toPlayer(board));
+            }
 
-        board.setAntenna(this.antenna.toAntenna(board));
-        for (PlayerTemplate playerTemplate :players) {
-           board.addPlayer(playerTemplate.toPlayer(board));
+            board.setPlayerOrder(playerOrder);
+            board.setCurrentPlayer(board.getPlayer(current.no));
+            board.setCurrentPlayer(current.toPlayer(board));
         }
 
-        board.setPlayerOrder(playerOrder);
-        board.setCurrentPlayer(board.getPlayer(current.no));
-        board.setCurrentPlayer(current.toPlayer(board));
+
         for (int i = 0; i < spaces.size(); i++) {
 
-              SpaceTemplate sp =  spaces.get(i);
-              if (sp.player!=null)
-              {
-                  board.getSpace(sp.x,sp.y).setPlayer(sp.player.toPlayer(board));
-              }
-              if (sp.walls.size()>0)
-              {
-                  for (int f=0;f<sp.walls.size();f++) {
-                      board.getSpace(sp.x, sp.y).addWall(sp.walls.get(f));
-                  }
-              }
-              if (sp.actions.size()>0)
-              {
-                  for (int f =0;f<sp.actions.size();f++)
-                  {
-                      board.getSpace(sp.x,sp.y).addAction(sp.actions.get(f));
+            SpaceTemplate sp = spaces.get(i);
+            if (sp.player != null) {
+                board.getSpace(sp.x, sp.y).setPlayer(sp.player.toPlayer(board));
+            }
+            if (sp.walls.size() > 0) {
+                for (int f = 0; f < sp.walls.size(); f++) {
+                    board.getSpace(sp.x, sp.y).addWall(sp.walls.get(f));
+                }
+            }
+            if (sp.actions.size() > 0) {
+                for (int f = 0; f < sp.actions.size(); f++) {
+                    board.getSpace(sp.x, sp.y).addAction(sp.actions.get(f));
 
-                  }
-              }
-
+                }
+            }
 
 
         }

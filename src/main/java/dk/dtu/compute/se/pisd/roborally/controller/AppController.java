@@ -26,7 +26,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
-import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadSaveGame;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -35,9 +35,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
@@ -58,9 +56,10 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-
+    private String fileToOpen;
     final private RoboRally roboRally;
-
+    final private String boardsPath = "src/main/resources/boards";
+    final private String gamesPath = "src/main/resources/savedGames";
     private GameController gameController;
 
     public AppController(@NotNull RoboRally roboRally) {
@@ -84,8 +83,8 @@ public class AppController implements Observer {
 
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
-            Board board = new Board(8,8);
-            board.addFieldActions();
+            Board board = loadBoard();
+
             gameController = new GameController(board);
 
             int no = result.get();
@@ -124,21 +123,21 @@ public class AppController implements Observer {
 
     }
     public void saveGame() {
-        TextInputDialog td = new TextInputDialog("NewBoardSave");
+        TextInputDialog td = new TextInputDialog("NewGameSave");
         td.setHeaderText("Enter a name for the saved game");
         Optional<String> result = td.showAndWait();
 
         if (result.isPresent()) {
             String fileName = result.get();
-            LoadBoard.saveBoard(gameController.board, fileName);
+            LoadSaveGame.saveBoard(gameController.board,gamesPath ,fileName);
         }
-
-
 
     }
 
-    public void loadGame() {
-        File folder = new File("src/main/resources/boards");
+    public void showFilesToChoseFrom(String pathName)
+    {
+
+        File folder = new File(pathName);
         File[] listOfFiles = folder.listFiles();
         ArrayList<String> lF = new ArrayList<>();
         for (File file : listOfFiles) {
@@ -168,15 +167,10 @@ public class AppController implements Observer {
             // Do something with the selected file
             if (selectedFile==null)
             {
-                loadGame();
+
             }
             else {
-                Board loadedBoard = LoadBoard.loadBoard(selectedFile);
-
-                gameController = new GameController(loadedBoard);
-
-
-                roboRally.createBoardView(gameController);
+                fileToOpen = selectedFile;
             }
         });
 
@@ -189,6 +183,25 @@ public class AppController implements Observer {
         // Set the scene and show the popup window
         popupWindow.setScene(scene);
         popupWindow.showAndWait();
+
+
+
+    }
+    public Board loadBoard()
+    {
+
+        showFilesToChoseFrom(boardsPath);
+        return LoadSaveGame.loadBoard(boardsPath,fileToOpen);
+    }
+    public void loadGame() {
+
+            showFilesToChoseFrom(boardsPath);
+                Board loadedBoard = LoadSaveGame.loadBoard(gamesPath,fileToOpen);
+
+                gameController = new GameController(loadedBoard);
+
+
+                roboRally.createBoardView(gameController);
 
 
     }
