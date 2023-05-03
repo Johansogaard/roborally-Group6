@@ -57,12 +57,13 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setPrefHeight(SPACE_HEIGHT);
         this.setMinHeight(SPACE_HEIGHT);
         this.setMaxHeight(SPACE_HEIGHT);
-
+/*
         if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
         } else {
             this.setStyle("-fx-background-color: black;");
-        }
+        }*/
+
 
         // updatePlayer();
 
@@ -95,7 +96,24 @@ public class SpaceView extends StackPane implements ViewObserver {
     private void updateBelt(){
         ConveyorBelt belt = space.getConveyorBelt();
         if (belt != null) {
+            switch (belt.getHeading()) {
+                case EAST:
+                    addImage("images/greencon.png").setRotate(90);
 
+                    break;
+
+                case SOUTH:
+                    addImage("images/greencon.png").setRotate(180);
+                    break;
+
+                case WEST:
+                    addImage("images/greencon.png").setRotate(-90);
+                    break;
+
+                case NORTH:
+                    addImage("images/greencon.png");
+            }
+            /*
             Polygon fig = new Polygon(0.0, 0.0,
                     60.0, 0.0,
                     30.0, 60.0);
@@ -104,6 +122,8 @@ public class SpaceView extends StackPane implements ViewObserver {
 
             fig.setRotate((90*belt.getHeading().ordinal())%360);
             this.getChildren().add(fig);
+
+             */
         }
 
     }
@@ -175,6 +195,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         imgView.setImage(img);
         imgView.setFitHeight(SPACE_HEIGHT);
         imgView.setFitWidth(SPACE_WIDTH);
+
         imgView.setVisible(true);
 
         this.getChildren().add(imgView);
@@ -195,9 +216,10 @@ public class SpaceView extends StackPane implements ViewObserver {
     public void updateView(Subject subject) {
         if (subject == this.space) {
             this.getChildren().clear();
+            addImage("images/floor.png");
         if (space.board.getAntenna() !=null && (space.board.getAntenna().x == space.x&&space.board.getAntenna().y == space.y))
         {
-            this.setStyle("-fx-background-color: pink;");
+           addImage("images/antenna.png");
         }
             updateBelt();
             updateActions();

@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.model;
 
+import com.sun.javafx.scene.traversal.Direction;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import java.util.ArrayList;
@@ -64,7 +65,20 @@ public class Space extends Subject {
             notifyChange();
         }
         }
+    public void addGear(Direction direction) {
+        boolean check = false;
 
+        for (FieldAction action : actions) {
+            if (action instanceof Gear) {
+                check = true;
+            }
+        }
+
+        if (!check) {
+            this.actions.add(new Gear(direction));
+            notifyChange();
+        }
+    }
     public List<FieldAction> getActions() {
         return actions;
     }

@@ -105,6 +105,24 @@ public class AppController implements Observer {
         }
     }
 
+    public void designBoard(
+    ){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setContentText("Vælg bredden af spillepladen");
+        dialog.showAndWait();
+
+        int width = Integer.parseInt(dialog.getResult());
+
+        dialog.setContentText("Vælg højden af spillepladen");
+        dialog.showAndWait();
+
+        int height = Integer.parseInt(dialog.getResult());
+
+        BoardDesignController controller = new BoardDesignController(width, height);
+
+        roboRally.createDesignView(controller);
+
+    }
     public void saveGame() {
         TextInputDialog td = new TextInputDialog("NewBoardSave");
         td.setHeaderText("Enter a name for the saved game");
