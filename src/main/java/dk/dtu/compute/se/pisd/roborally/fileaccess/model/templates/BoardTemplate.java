@@ -49,7 +49,7 @@ public class BoardTemplate {
 
     public List<PlayerTemplate> players = new ArrayList<>();
     public List<SpaceTemplate> spaces = new ArrayList<>();
-    public List<Integer> playerOrder = new ArrayList<>();
+    public List<Player> playerOrder = new ArrayList<>();
     private PlayerTemplate current;
     private AntennaTemplate antenna;
 
@@ -60,10 +60,14 @@ public class BoardTemplate {
         if (board.getPlayers().size()>0) {
             this.playerOrder = board.getPlayerOrder();
             this.current = new PlayerTemplate().fromPlayer(board.getCurrentPlayer());
-            this.antenna = new AntennaTemplate().fromAntenna(board.getAntenna());
+
             for (Player player : board.getPlayers()) {
                 this.players.add(new PlayerTemplate().fromPlayer(player));
             }
+        }
+        if (board.getAntenna()!=null)
+        {
+            this.antenna = new AntennaTemplate().fromAntenna(board.getAntenna());
         }
 
 
