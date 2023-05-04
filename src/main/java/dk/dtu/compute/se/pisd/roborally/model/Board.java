@@ -27,8 +27,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import javafx.scene.control.skin.TextInputControlSkin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
 
@@ -62,15 +61,15 @@ public class Board extends Subject {
 
     private final List<Player> players = new ArrayList<>();
 
-    public List<Integer> getPlayerOrder() {
+    public List<Player> getPlayerOrder() {
         return playerOrder;
     }
 
-    public void setPlayerOrder(List<Integer> playerOrder) {
+    public void setPlayerOrder(List<Player> playerOrder) {
         this.playerOrder = playerOrder;
     }
 
-    private List<Integer> playerOrder = new ArrayList<>();
+    private List<Player> playerOrder = new ArrayList<>();
 
     private List<Checkpoint> checkpoints = new ArrayList<Checkpoint>();
     private Player current;
@@ -145,22 +144,7 @@ public class Board extends Subject {
             notifyChange();
         }
     }
-    public void addFieldActions()
-    {
-        getSpace(0,0).addWall(Heading.EAST);
-        getSpace(0,5).addWall(Heading.WEST);
-        getSpace(5,0).addWall(Heading.NORTH);
-        getSpace(5,5).addWall(Heading.SOUTH);
-        getSpace(3,3).addAction(new Checkpoint(1));
-        getSpace(7,7).addAction(new Checkpoint(2));
-        getSpace(0,7).addAction(new Checkpoint(3));
-        getSpace(7,0).addAction(new Checkpoint(4));
-        getSpace(3,4).addAction(new ConveyorBelt());
-        getSpace(3,5).addAction(new Pit());
-        getSpace(4,5).addAction(new Gear(Direction.LEFT));
-        antenna = new Antenna(this,5,6);
-        notifyChange();
-    }
+
 
 
     public Player getPlayer(int i) {
@@ -217,7 +201,16 @@ public class Board extends Subject {
             notifyChange();
         }
     }
-
+    public int getOrderNumber(@NotNull Player player)
+    {
+        if (player.board ==this){
+            return playerOrder.indexOf(player);
+        }
+        else
+        {
+            return -1;
+        }
+    }
     public int getPlayerNumber(@NotNull Player player) {
         if (player.board == this) {
             return players.indexOf(player);
@@ -266,6 +259,69 @@ public class Board extends Subject {
         return "Phase: " + getPhase().name() +
                 ", Player = " + getCurrentPlayer().getName() +
                 ", Step: " + getStep();
+    }
+    public void setPlayerOrder()
+    {
+
+
+        if (antenna != null) {
+            HashMap<Player, Integer> map = new HashMap<>();
+
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y <height; y++) {
+                    Player player = getSpace(x, y).getPlayer();
+                    if (player != null) {
+
+                        int length = Math.abs(antenna.x - x) + Math.abs(antenna.y - y);
+
+                        map.put(player, length);
+
+                    }
+                }
+            }
+            // convert the map into a list of map entries
+            List<Map.Entry<Player, Integer>> list = new LinkedList<>(map.entrySet());
+            Collections.sort(list, new Comparator<Map.Entry<Player, Integer>>() {
+                @Override
+                public int compare(Map.Entry<Player, Integer> o1, Map.Entry<Player, Integer> o2) {
+                    if (o1.getValue() == o2.getValue()) {
+                        // The robots have the same distance to the antenna
+                        if (o2.getKey().getSpace().y > antenna.y && o1.getKey().getSpace().y > antenna.y) {
+                            // Both robots are above the antenna
+                            return o1.getKey().getSpace().x - o2.getKey().getSpace().x;
+                        }
+
+                        if (o2.getKey().getSpace().y < antenna.y && o1.getKey().getSpace().y < antenna.y) {
+                            // Both robots are below the antenna
+                            return o2.getKey().getSpace().x - o1.getKey().getSpace().x;
+                        }
+
+                        if (o2.getKey().getSpace().y > antenna.y || o1.getKey().getSpace().y > antenna.y) {
+                            // One of the robots are above the antenna
+                            return o1.getKey().getSpace().x - o2.getKey().getSpace().x;
+                        }
+
+
+                    } else {
+                        return o1.getValue() - o2.getValue();
+                    }
+
+                    return 0;
+                }
+            });
+
+            for (int i = 0; i < list.size(); i++) {
+                playerOrder.add(list.get(i).getKey());
+            }
+            setCurrentPlayer(playerOrder.get(0));
+
+
+
+        }
+        else {
+            //if there is no antenna it will take player one as first player
+            setCurrentPlayer(getPlayer(0));
+        }
     }
 
 
