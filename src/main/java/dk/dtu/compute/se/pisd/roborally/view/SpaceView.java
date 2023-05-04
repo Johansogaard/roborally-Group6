@@ -221,6 +221,10 @@ public class SpaceView extends StackPane implements ViewObserver {
         {
            addImage("images/antenna.png");
         }
+        if(space.getStartPlayerNo() !=0)
+        {
+            addImage("images/startpoint.png");
+        }
             updateBelt();
             updateActions();
             updatePlayer();
