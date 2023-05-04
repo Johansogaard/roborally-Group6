@@ -39,6 +39,7 @@ public class Player extends Subject {
 
     final public Board board;
     public int no;
+    private Space spawnPoint;
     private String name;
     private String color;
 
@@ -112,7 +113,28 @@ public class Player extends Subject {
     public Space getSpace() {
         return space;
     }
+    public void setSpawn()
+    {
+        if (spawnPoint == null)
+        {
+            for (int i=0;i<board.height;i++)
+            {
+                for (int f=0;f<board.width;f++)
+                {
+                    if (board.getSpace(i,f).getStartPlayerNo()==this.no+1)
+                    {
+                        spawnPoint = board.getSpace(i,f);
+                        setSpace(spawnPoint);
+                        break;
+                    }
+                }
+            }
+        }
+        else{
+            setSpace(spawnPoint);
+        }
 
+    }
     public void setSpace(Space space) {
         Space oldSpace = this.space;
         if (space != oldSpace &&

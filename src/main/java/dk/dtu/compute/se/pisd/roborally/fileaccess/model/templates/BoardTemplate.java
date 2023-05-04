@@ -73,7 +73,7 @@ public class BoardTemplate {
               {
                   // only convert the spaces that actually have some relevant data
                   SpaceTemplate space = new SpaceTemplate().fromSpace(board.getSpace(i,j));
-                  if (space.actions.size()>0||space.walls.size()>0||space.player!=null)
+                  if (space.actions.size()>0||space.walls.size()>0||space.player!=null|| space.startPlayerNo >0)
                   {
                      spaces.add(space);
                   }
@@ -119,6 +119,10 @@ public class BoardTemplate {
                     board.getSpace(sp.x, sp.y).addAction(sp.actions.get(f));
 
                 }
+            }
+            if (sp.startPlayerNo>0)
+            {
+                board.getSpace(sp.x,sp.y).setStartPlayerNo(sp.startPlayerNo);
             }
 
 

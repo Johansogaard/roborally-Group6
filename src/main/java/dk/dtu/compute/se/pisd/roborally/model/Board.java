@@ -45,6 +45,7 @@ public class Board extends Subject {
 
     public void setAntenna(Antenna antenna) {
         this.antenna = antenna;
+
     }
 
     private Antenna antenna;

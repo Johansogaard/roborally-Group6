@@ -58,6 +58,7 @@ public class BoardDesignView extends VBox {
 
         Button saveButton = new Button("Save the board!");
         saveButton.setOnAction(e -> {
+
             SaveBoardDesignController.saveBoardDesign(this.board);
         });
 
@@ -72,7 +73,7 @@ public class BoardDesignView extends VBox {
     private void addOptions() {
         this.fieldOptions.add("Antenna");
         this.fieldOptions.add("Conveyor Belt");
-        this.fieldOptions.add("Spiller startfelt");
+        this.fieldOptions.add("Player start field");
         this.fieldOptions.add("Walls");
         this.fieldOptions.add("Checkpoint");
         this.fieldOptions.add("Gear");
@@ -97,7 +98,7 @@ public class BoardDesignView extends VBox {
                 Space space = spaceView.space;
 
                 ChoiceDialog dialog = new ChoiceDialog();
-                dialog.setContentText("Hvad vil du tilføje?");
+                dialog.setContentText("Add a board element");
                 dialog.getItems().addAll(fieldOptions);
 
 
@@ -110,15 +111,14 @@ public class BoardDesignView extends VBox {
                 switch ((String) dialog.getSelectedItem()) {
 
                     case "Antenna":
-                        Antenna antenna = new Antenna(this.board, space.x, space.y);
-                        this.board.setAntenna(antenna);
+                       addAntenna(space);
                         break;
 
                     case "Conveyor Belt":
                         addConveyorBelt(space);
                         break;
 
-                    case "Spiller startfelt":
+                    case "Player start field":
                         addPlayerStart(space);
                         break;
 
@@ -139,7 +139,14 @@ public class BoardDesignView extends VBox {
 
             event.consume();
         }
+        private void addAntenna(Space space)
+        {
 
+            if (this.board.getAntenna() == null) {
+                space.addAntenna();
+            }
+
+        }
         private void addConveyorBelt(Space space) {
 
             for (FieldAction action : space.getActions()) {
@@ -150,7 +157,7 @@ public class BoardDesignView extends VBox {
             }
 
             ChoiceDialog dialog = new ChoiceDialog();
-            dialog.setContentText("Hvilken vej skal båndet flytte spilleren?");
+            dialog.setContentText("Which way should the belt move the player?");
             dialog.getItems().add(Heading.NORTH);
             dialog.getItems().add(Heading.EAST);
             dialog.getItems().add(Heading.SOUTH);
@@ -171,7 +178,7 @@ public class BoardDesignView extends VBox {
         private void addPlayerStart(Space space) {
 
             TextInputDialog dialog = new TextInputDialog();
-            dialog.setContentText("Vælg hvilket spillernr., der skal starte her (1 til 6)");
+            dialog.setContentText("Chose which player should spawn here (1 to 6)");
             dialog.showAndWait();
 
             if (dialog.getResult() != null) {
@@ -199,7 +206,7 @@ public class BoardDesignView extends VBox {
 
             if ( ! availableWalls.isEmpty()) {
                 ChoiceDialog dialog = new ChoiceDialog();
-                dialog.setContentText("Vælg hvilken retning, der skal tilføjes en væg");
+                dialog.setContentText("Chose the direction of the wall");
                 dialog.getItems().addAll(availableWalls);
                 dialog.showAndWait();
 
@@ -221,14 +228,14 @@ public class BoardDesignView extends VBox {
             }
 
             TextInputDialog dialog = new TextInputDialog();
-            dialog.setContentText("Hvilket nummer checkpoint skal dette være?");
+            dialog.setContentText("Which number should the checkpoint be (1-4)?");
             dialog.showAndWait();
 
             if (dialog.getResult() != null) {
                 int no = Integer.parseInt(dialog.getResult());
 
                 if (no <= board.getCheckpoints().size()) {
-                    String msg = "Du har indtastet et tal der allerede findes. Du skal mindst indtaste " + (board.getCheckpoints().size() + 1);
+                    String msg = "You have typed a number that already exist, the next checkpoint should be number. " + (board.getCheckpoints().size() + 1);
                     Alert alert = new Alert(Alert.AlertType.WARNING, msg);
                     alert.showAndWait();
 

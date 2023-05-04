@@ -36,6 +36,7 @@ public class SpaceTemplate {
 
 
     public PlayerTemplate player;
+    public int startPlayerNo;
     public int x;
     public int y;
     public List<Heading> walls = new ArrayList<>();
@@ -47,6 +48,7 @@ public class SpaceTemplate {
         if(space.getPlayer() != null) {
             this.player = new PlayerTemplate().fromPlayer(space.getPlayer());
         }
+        this.startPlayerNo = space.getStartPlayerNo();
         this.walls = space.getWalls();
         this.actions = space.getActions();
 
@@ -67,7 +69,7 @@ public class SpaceTemplate {
         for (Heading wall : walls) {
             space.addWall(wall);
         }
-
+        space.setStartPlayerNo(this.startPlayerNo);
         return space;
 
     }
