@@ -204,6 +204,10 @@ public class Board extends Subject {
     public int getOrderNumber(@NotNull Player player)
     {
         if (player.board ==this){
+            if (playerOrder.size() ==0)
+            {
+                setPlayerOrder();
+            }
             return playerOrder.indexOf(player);
         }
         else
@@ -319,6 +323,9 @@ public class Board extends Subject {
 
         }
         else {
+            for (int i = 0; i < players.size(); i++) {
+                playerOrder.add(players.get(i));
+            }
             //if there is no antenna it will take player one as first player
             setCurrentPlayer(getPlayer(0));
         }
