@@ -181,8 +181,10 @@ public class GameController {
                         executeCommand(currentPlayer, command);
 
                         //setting the next player;
+                        //sout i used for debugging remove later
+                        System.out.println(board.getOrderNumber(currentPlayer) +" "+ board.getPlayersNumber());
                         if (board.getOrderNumber(currentPlayer)+1 < board.getPlayersNumber()) {
-                            board.setCurrentPlayer(board.getPlayerOrder().get(board.getPlayerNumber(currentPlayer)+1));
+                            board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
                         } else {
                             //adds a step because we now have been through all the players
                             step++;
@@ -201,7 +203,7 @@ public class GameController {
                             if (step < Player.NO_REGISTERS) {
                                 makeProgramFieldsVisible(step);
                                 board.setStep(step);
-                                board.setCurrentPlayer(board.getPlayer(0));
+                                board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
                             } else {
 
                                 startProgrammingPhase();
@@ -377,12 +379,13 @@ public class GameController {
     }
     public void executeCommandOptionAndContinue(Command command,Player player){
         int step =board.getStep();
+        Player currentPlayer = board.getCurrentPlayer();
         board.setPhase(Phase.ACTIVATION);
         executeCommand(player,command);
-        int nextPlayerNumber = board.getPlayerNumber(player) + 1;
-        if (nextPlayerNumber < board.getPlayersNumber()) {
-            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-            if (board.isStepMode() == false) {
+        if (board.getOrderNumber(currentPlayer)+1 < board.getPlayersNumber()) {
+            board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
+
+        if (board.isStepMode() == false) {
                 executePrograms();
             }
         } else {
@@ -390,7 +393,7 @@ public class GameController {
                 if (step < Player.NO_REGISTERS) {
                     makeProgramFieldsVisible(step);
                     board.setStep(step);
-                    board.setCurrentPlayer(board.getPlayer(0));
+                    board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
                 } else {
                     startProgrammingPhase();
                 }
