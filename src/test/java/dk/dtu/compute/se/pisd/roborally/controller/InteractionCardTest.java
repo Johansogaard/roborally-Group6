@@ -53,8 +53,5 @@ public class InteractionCardTest {
         //moving 3 tiles forward
         controller.executeCommand(player, card2.command);
         assertEquals(board.getSpace(1,5), player.getSpace());
-
-
     }
-
 }
