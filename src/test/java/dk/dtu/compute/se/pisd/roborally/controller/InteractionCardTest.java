@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
 
+import java.lang.reflect.Method;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InteractionCardTest {
@@ -32,9 +34,10 @@ public class InteractionCardTest {
     }
 
     @Test
-    public void testPlayerMovesForward() {
+    public void testPlayerMovesForward() throws Exception{
         Board board = new Board(8,8,"testboard"); // replace with a real Board object
         Player player = new Player(board, "Blue", "John");
+        GameController controller = new GameController(board);
 
         //testcards
         CommandCard card = new CommandCard(Command.FORWARD);
@@ -43,15 +46,17 @@ public class InteractionCardTest {
         player.setSpace(board.getSpace(1,1)); // assume this sets initial position
         player.setHeading(Heading.SOUTH); // assume player will move downwards on the board
 
-      //GameController is a class with a method for executing a command
-        GameController controller = new GameController(board);
-        controller.executeCommand(player, card.command);
+        // Use reflection to access the private executeCommand method
+        Method executeCommand = GameController.class.getDeclaredMethod("executeCommand", Player.class, Command.class);
+        executeCommand.setAccessible(true);
 
+        // Call the private method with the necessary arguments
+        executeCommand.invoke(controller, player, card.command);
         // After moving forward, player should now be at space (1,2)
         assertEquals(board.getSpace(1,2), player.getSpace());
 
         //moving 3 tiles forward
-        controller.executeCommand(player, card2.command);
+        executeCommand.invoke(controller, player, card2.command);
         assertEquals(board.getSpace(1,5), player.getSpace());
     }
 }
