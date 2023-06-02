@@ -96,26 +96,18 @@ public class GameController {
         }
     }
     public void fillEmptyRegister() {
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
-            Player player = board.getPlayer(i);
-            if (player != null) {
-                boolean emptyRegister = false; // Flag to check if the current player's register is empty
+        List<Player> players=board.getPlayers();
+        for (int i = 0; i < players.size(); i++) {
+
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                    CommandCardField field = player.getProgramField(j);
-                    if (field.getCard() == null) {
-                        emptyRegister = true;
-                        break;
+                    if (players.get(i).getProgramField(j).getCard() == null) {
+                        players.get(i).getProgramField(j).setCard(generateRandomCommandCard());
                     }
                 }
-                if (emptyRegister) {
-                    for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                        CommandCardField field = player.getProgramField(j);
-                        field.setCard(generateRandomCommandCard());
-                    }
+
                 }
             }
-        }
-    }
+
 
 
     // XXX: V2
