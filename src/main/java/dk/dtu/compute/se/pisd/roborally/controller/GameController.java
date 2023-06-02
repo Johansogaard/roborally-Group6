@@ -229,7 +229,7 @@ public class GameController {
             //     (this concerns the way cards are modelled as well as the way they are executed).
 
             switch (command) {
-                case Move_1:
+                case FORWARD:
                     this.moveForward(player);
                     break;
                 case RIGHT:
@@ -238,7 +238,7 @@ public class GameController {
                 case LEFT:
                     this.turnLeft(player);
                     break;
-                case Move_2:
+                case FASTFORWARD:
                     this.fastForward(player);
                     break;
                 case Move_3:
