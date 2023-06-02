@@ -6,6 +6,7 @@ import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import java.lang.reflect.Method;
 
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InteractionCardTest {
@@ -34,7 +35,7 @@ public class InteractionCardTest {
     }
 
     @Test
-    public void testPlayerMovesForward() throws Exception{
+    public void testProgrammingCards() throws Exception{
         Board board = new Board(8,8,"testboard"); // replace with a real Board object
         Player player = new Player(board, "Blue", "John");
         GameController controller = new GameController(board);
@@ -42,9 +43,15 @@ public class InteractionCardTest {
         //testcards
         CommandCard card = new CommandCard(Command.FORWARD);
         CommandCard card2 = new CommandCard(Command.Move_3);
+        CommandCard card3 = new CommandCard(Command.FASTFORWARD);
+        CommandCard card4 = new CommandCard(Command.BACK);
+        CommandCard card5 = new CommandCard(Command.LEFT);
+        CommandCard card6 = new CommandCard(Command.RIGHT);
+        CommandCard card7 = new CommandCard(Command.uTurn);
+
 
         player.setSpace(board.getSpace(1,1)); // assume this sets initial position
-        player.setHeading(Heading.SOUTH); // assume player will move downwards on the board
+        player.setHeading(SOUTH); // assume player will move downwards on the board
 
         // Use reflection to access the private executeCommand method
         Method executeCommand = GameController.class.getDeclaredMethod("executeCommand", Player.class, Command.class);
@@ -58,5 +65,20 @@ public class InteractionCardTest {
         //moving 3 tiles forward
         executeCommand.invoke(controller, player, card2.command);
         assertEquals(board.getSpace(1,5), player.getSpace());
+
+        executeCommand.invoke(controller, player, card3.command);
+        assertEquals(board.getSpace(1,7), player.getSpace());
+
+        executeCommand.invoke(controller, player, card4.command);
+        assertEquals(board.getSpace(1,6), player.getSpace());
+
+        executeCommand.invoke(controller, player, card5.command);
+        assertEquals(EAST, player.getHeading());
+
+        executeCommand.invoke(controller, player, card6.command);
+        assertEquals(SOUTH, player.getHeading());
+
+        executeCommand.invoke(controller, player, card7.command);
+        assertEquals(NORTH, player.getHeading());
     }
 }
