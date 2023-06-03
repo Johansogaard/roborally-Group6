@@ -169,6 +169,10 @@ public class Board extends Subject {
         }
     }
 
+    public void testSetCurrentPlayer(Player player){
+        this.current = player;
+    }
+
     public Phase getPhase() {
         return phase;
     }
