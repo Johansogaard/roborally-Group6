@@ -10,6 +10,11 @@ import static dk.dtu.compute.se.pisd.roborally.model.Heading.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InteractionCardTest {
+    private Board board;
+    private Player player;
+    private GameController controller;
+
+    Method executeCommand;
     @Test
     public void testCardAssignmentToPlayer() {
         // Create a board object
@@ -34,51 +39,62 @@ public class InteractionCardTest {
         assertEquals(card, player.getProgramField(0).getCard());
     }
 
-    @Test
-    public void testProgrammingCards() throws Exception{
-        Board board = new Board(8,8,"testboard"); // replace with a real Board object
-        Player player = new Player(board, "Blue", "John");
-        GameController controller = new GameController(board);
-
-        //testcards
-        CommandCard card = new CommandCard(Command.FORWARD);
-        CommandCard card2 = new CommandCard(Command.Move_3);
-        CommandCard card3 = new CommandCard(Command.FASTFORWARD);
-        CommandCard card4 = new CommandCard(Command.BACK);
-        CommandCard card5 = new CommandCard(Command.LEFT);
-        CommandCard card6 = new CommandCard(Command.RIGHT);
-        CommandCard card7 = new CommandCard(Command.uTurn);
-
-
-        player.setSpace(board.getSpace(1,1)); // assume this sets initial position
-        player.setHeading(SOUTH); // assume player will move downwards on the board
-
-        // Use reflection to access the private executeCommand method
-        Method executeCommand = GameController.class.getDeclaredMethod("executeCommand", Player.class, Command.class);
+    public void setUp() throws NoSuchMethodException {
+        board = new Board(9, 9, "testboard");
+        player = new Player(board, "Blue", "John");
+        controller = new GameController(board);
+        player.setSpace(board.getSpace(4, 4)); // Set the player at the center of the board
+        player.setHeading(SOUTH); // Assume player will move downwards on the board
+        executeCommand = GameController.class.getDeclaredMethod("executeCommand", Player.class, Command.class);
         executeCommand.setAccessible(true);
+    }
 
-        // Call the private method with the necessary arguments
-        executeCommand.invoke(controller, player, card.command);
-        // After moving forward, player should now be at space (1,2)
-        assertEquals(board.getSpace(1,2), player.getSpace());
+    @Test
+    public void testMoveForward() throws Exception {
+        setUp();
+        executeCommand.invoke(controller, player, Command.FORWARD);
+        assertEquals(board.getSpace(4, 5), player.getSpace());
+    }
 
-        //moving 3 tiles forward
-        executeCommand.invoke(controller, player, card2.command);
-        assertEquals(board.getSpace(1,5), player.getSpace());
+    @Test
+    public void testMove3Tiles() throws Exception {
+        setUp();
+        executeCommand.invoke(controller, player, Command.Move_3);
+        assertEquals(board.getSpace(4, 7), player.getSpace());
+    }
 
-        executeCommand.invoke(controller, player, card3.command);
-        assertEquals(board.getSpace(1,7), player.getSpace());
+    @Test
+    public void testFastForward() throws Exception {
+        setUp();
+        executeCommand.invoke(controller, player, Command.FASTFORWARD);
+        assertEquals(board.getSpace(4, 6), player.getSpace());
+    }
 
-        executeCommand.invoke(controller, player, card4.command);
-        assertEquals(board.getSpace(1,6), player.getSpace());
+    @Test
+    public void testMoveBackward() throws Exception {
+        setUp();
+        executeCommand.invoke(controller, player, Command.BACK);
+        assertEquals(board.getSpace(4, 3), player.getSpace());
+    }
 
-        executeCommand.invoke(controller, player, card5.command);
+    @Test
+    public void testTurnLeft() throws Exception {
+        setUp();
+        executeCommand.invoke(controller, player, Command.LEFT);
         assertEquals(EAST, player.getHeading());
+    }
 
-        executeCommand.invoke(controller, player, card6.command);
-        assertEquals(SOUTH, player.getHeading());
+    @Test
+    public void testTurnRight() throws Exception {
+        setUp();
+        executeCommand.invoke(controller, player, Command.RIGHT);
+        assertEquals(WEST, player.getHeading());
+    }
 
-        executeCommand.invoke(controller, player, card7.command);
+    @Test
+    public void testUTurn() throws Exception {
+        setUp();
+        executeCommand.invoke(controller, player, Command.uTurn);
         assertEquals(NORTH, player.getHeading());
     }
 }

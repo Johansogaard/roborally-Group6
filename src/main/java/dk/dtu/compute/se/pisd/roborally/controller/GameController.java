@@ -98,15 +98,13 @@ public class GameController {
     public void fillEmptyRegister() {
         List<Player> players=board.getPlayers();
         for (int i = 0; i < players.size(); i++) {
-
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
                     if (players.get(i).getProgramField(j).getCard() == null) {
                         players.get(i).getProgramField(j).setCard(generateRandomCommandCard());
                     }
                 }
-
-                }
             }
+        }
 
 
 
@@ -265,9 +263,26 @@ public class GameController {
                 case BACK:
                     this.Back(player);
                     break;
+                case AGAIN:
+                    this.again(player, board.getStep());
+                    break;
                 default:
                     // DO NOTHING (for now)
             }
+        }
+    }
+
+    private void again(Player player, int currentStep) {
+
+        int previousStep = (currentStep - 1 + Player.NO_REGISTERS) % Player.NO_REGISTERS;
+        CommandCard previousCard = player.getProgramField(previousStep).getCard();
+
+        if (previousCard != null && previousCard.command == Command.AGAIN) {
+            again(player, currentStep-1);
+
+        } else if (previousCard != null) {
+            Command previousCommand = previousCard.command;
+            executeCommand(player, previousCommand);
         }
     }
 
