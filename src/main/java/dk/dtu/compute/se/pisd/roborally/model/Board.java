@@ -208,12 +208,17 @@ public class Board extends Subject {
             {
                 setPlayerOrder();
             }
-            return playerOrder.indexOf(player);
+            for (Player pl : playerOrder)
+            {
+                if (pl.getName().equals(player.getName()))
+                {
+                    return playerOrder.indexOf(pl);
+                }
+
+            }
+
         }
-        else
-        {
-            return -1;
-        }
+       return -1;
     }
     public int getPlayerNumber(@NotNull Player player) {
         if (player.board == this) {
