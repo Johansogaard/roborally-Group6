@@ -40,6 +40,8 @@ public class BoardTemplate {
 
     public int width;
     public int height;
+    public int step;
+    public Phase phase;
 
     //public int antennaX, antennaY;
 
@@ -49,7 +51,7 @@ public class BoardTemplate {
 
     public List<PlayerTemplate> players = new ArrayList<>();
     public List<SpaceTemplate> spaces = new ArrayList<>();
-    public List<Player> playerOrder = new ArrayList<>();
+    public ArrayList<String> playerOrder = new ArrayList<>();
     private PlayerTemplate current;
     private AntennaTemplate antenna;
 
@@ -57,8 +59,12 @@ public class BoardTemplate {
     public BoardTemplate fromBoard(Board board) {
         this.width = board.width;
         this.height = board.height;
+        this.step = board.getStep();
+        this.phase = board.getPhase();
         if (board.getPlayers().size()>0) {
-            this.playerOrder = board.getPlayerOrder();
+            for (Player player : board.getPlayerOrder()) {
+                this.playerOrder.add(player.getName());
+            }
             this.current = new PlayerTemplate().fromPlayer(board.getCurrentPlayer());
 
             for (Player player : board.getPlayers()) {
@@ -93,25 +99,30 @@ public class BoardTemplate {
     public Board toBoard() {
 
         Board board = new Board(this.width, this.height);
-        if (this.antenna != null) {
-            board.setAntenna(this.antenna.toAntenna(board));
-        }
+        board.setStep(this.step);
+        board.setPhase(this.phase);
+
+        //first adding the players but where they are missing space because they are not istantiated yet
         if (players.size()>0) {
             for (PlayerTemplate playerTemplate : players) {
                 board.addPlayer(playerTemplate.toPlayer(board));
             }
+            ArrayList<Player> plOrder = new ArrayList<>();
+            for (String playerName : playerOrder)
+            {
+               plOrder.add(getPlayerFromName(board.getPlayers(),playerName));
 
-            board.setPlayerOrder(playerOrder);
+            }
+            board.setPlayerOrder(plOrder);
             board.setCurrentPlayer(board.getPlayer(current.no));
-            board.setCurrentPlayer(current.toPlayer(board));
+
         }
-
-
+        //Adding all the spaces
         for (int i = 0; i < spaces.size(); i++) {
 
             SpaceTemplate sp = spaces.get(i);
             if (sp.player != null) {
-                board.getSpace(sp.x, sp.y).setPlayer(sp.player.toPlayer(board));
+                board.getSpace(sp.x, sp.y).setPlayer(getPlayerFromName(board.getPlayers(),sp.player));
             }
             if (sp.walls.size() > 0) {
                 for (int f = 0; f < sp.walls.size(); f++) {
@@ -131,11 +142,24 @@ public class BoardTemplate {
 
 
         }
+        if (this.antenna != null) {
+            board.setAntenna(this.antenna.toAntenna(board));
+        }
+
 
 
 
         return board;
 
+    }
+    //Returns the player that has the name of the input from the given list
+    public Player getPlayerFromName(List<Player> players, String name) {
+        for (Player player : players) {
+            if (player.getName().equals(name)) {
+                return player;
+            }
+        }
+        return null;
     }
 
     @Override
