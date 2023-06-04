@@ -29,6 +29,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static dk.dtu.compute.se.pisd.roborally.model.Command.SPAM;
+
 /**
  * ...
  *
@@ -105,6 +107,7 @@ public class GameController {
                 }
             }
         }
+        //players.get(i).deck.drawCard()
 
 
 
@@ -263,6 +266,18 @@ public class GameController {
                 case BACK:
                     this.Back(player);
                     break;
+                case SPAM:
+                    this.spam(player);
+                    break;
+                case TROJANHORSE:
+                    this.trojanHorse(player);
+                    break;
+                case WORM:
+                    this.worm(player);
+                    break;
+                case VIRUS:
+                    this.again(player, board.getStep());
+                    break;
                 case AGAIN:
                     this.again(player, board.getStep());
                     break;
@@ -272,8 +287,23 @@ public class GameController {
         }
     }
 
-    private void again(Player player, int currentStep) {
+    private void worm(Player player) {
+    }
 
+    private void trojanHorse(Player player) {
+        executeCommand(player, player.deck.drawCard().command);
+        player.deck.addCard(new CommandCard(SPAM));
+        player.deck.addCard(new CommandCard(SPAM));
+        player.deck.shuffle();
+    }
+
+    private void spam(Player player) {
+        executeCommand(player, player.deck.drawCard().command);
+    }
+
+
+    private void again(Player player, int currentStep) {
+//man kan optimere lidt senere
         int previousStep = (currentStep - 1 + Player.NO_REGISTERS) % Player.NO_REGISTERS;
         CommandCard previousCard = player.getProgramField(previousStep).getCard();
 
@@ -281,8 +311,7 @@ public class GameController {
             again(player, currentStep-1);
 
         } else if (previousCard != null) {
-            Command previousCommand = previousCard.command;
-            executeCommand(player, previousCommand);
+            executeCommand(player, previousCard.command);
         }
     }
 

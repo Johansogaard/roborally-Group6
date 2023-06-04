@@ -45,7 +45,17 @@ public enum Command {
     BACK("Move back"),
 
     AGAIN("Again"),
+
+    SPAM("Spam"),
+
+    TROJANHORSE("Trojan horse"),
+
+    WORM("Worm"),
+
+    VIRUS("Spam"),
     uTurn("U-turn");
+
+
 
 
 
