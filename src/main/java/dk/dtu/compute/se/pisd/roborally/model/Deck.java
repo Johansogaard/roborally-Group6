@@ -14,6 +14,9 @@ public class Deck {
 
     private void makeDeck() {
 
+        for (int i = 0; i < 3; i++) {
+            cards.add(new CommandCard(Command.SPAM));
+        }
         //  Add FORWARD cards
         for (int i = 0; i < 5; i++) {
             cards.add(new CommandCard(Command.FORWARD));

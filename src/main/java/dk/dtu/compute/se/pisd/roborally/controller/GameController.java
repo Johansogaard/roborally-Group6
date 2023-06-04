@@ -102,12 +102,12 @@ public class GameController {
         for (int i = 0; i < players.size(); i++) {
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
                     if (players.get(i).getProgramField(j).getCard() == null) {
-                        players.get(i).getProgramField(j).setCard(generateRandomCommandCard());
+                        players.get(i).getProgramField(j).setCard(players.get(i).deck.drawCard());
                     }
                 }
             }
         }
-        //players.get(i).deck.drawCard()
+
 
 
 
@@ -126,6 +126,7 @@ public class GameController {
         board.setPlayerOrder();
         board.setStep(0);
         fillEmptyRegister();
+
     }
 
     // XXX: V2
@@ -276,7 +277,7 @@ public class GameController {
                     this.worm(player);
                     break;
                 case VIRUS:
-                    this.again(player, board.getStep());
+                    this.virus(player, board.getStep());
                     break;
                 case AGAIN:
                     this.again(player, board.getStep());
@@ -286,20 +287,24 @@ public class GameController {
             }
         }
     }
+private void executeTopCard(Player player){
+        player.getProgramField(board.getStep()).setCard(player.deck.drawCard());
+        executeCommand(player, player.getProgramField(board.getStep()).getCard().command);
+    }
+    private void virus(Player player, int step) {
+    }
 
     private void worm(Player player) {
     }
 
     private void trojanHorse(Player player) {
-        executeCommand(player, player.deck.drawCard().command);
+        executeTopCard(player);
         player.deck.addCard(new CommandCard(SPAM));
         player.deck.addCard(new CommandCard(SPAM));
         player.deck.shuffle();
     }
 
-    private void spam(Player player) {
-        executeCommand(player, player.deck.drawCard().command);
-    }
+    private void spam(Player player) {executeTopCard(player);}
 
 
     private void again(Player player, int currentStep) {
