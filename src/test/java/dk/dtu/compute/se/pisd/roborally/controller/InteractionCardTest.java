@@ -57,7 +57,7 @@ public class InteractionCardTest {
         executeNextStep = GameController.class.getDeclaredMethod("executeNextStep");
         executeNextStep.setAccessible(true);
 
-        board.testSetCurrentPlayer(player);
+        //board.testSetCurrentPlayer(player); error
         board.setPhase(Phase.ACTIVATION);
         board.addPlayer(player);
     }

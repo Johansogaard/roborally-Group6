@@ -8,27 +8,29 @@ public class DeckTest {
     @Test
     public void testDeckSizeAfterInstantiation() {
         Deck deck = new Deck();
-        assertEquals(10, deck.cards.size());
+        assertEquals(18, deck.cards.size());
     }
 
     @Test
     public void testDeckSizeAfterDrawingCards() {
         Deck deck = new Deck();
         deck.drawCard();
-        assertEquals(9, deck.cards.size());
+        assertEquals(17, deck.cards.size());
 
         deck.drawCard();
-        assertEquals(8, deck.cards.size());
+        assertEquals(16, deck.cards.size());
     }
 
     @Test
-    public void testdrawfromemptydeck() {
+    public void testDrawFromEmptyDeck() {
         Deck deck = new Deck();
-        deck.drawCard();
-        assertEquals(9, deck.cards.size());
+
+        for(int i=0; i<18;i++){deck.drawCard();}
+
+        assertEquals(0, deck.cards.size());
 
         deck.drawCard();
-        assertEquals(8, deck.cards.size());
+        assertEquals(17, deck.cards.size());
     }
 
     @Test
