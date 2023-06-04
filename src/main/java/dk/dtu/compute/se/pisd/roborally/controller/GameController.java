@@ -375,8 +375,10 @@ void executeTopCard(Player player){
                 }
 
             }
-
+            else{player.reboot=true;}
+            //move to reeboot token
         }
+
     }
 
     /**
