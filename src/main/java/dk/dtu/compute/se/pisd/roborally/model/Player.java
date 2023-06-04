@@ -46,7 +46,7 @@ public class Player extends Subject {
     public Deck deck;
     private Space space;
     private Heading heading = SOUTH;
-
+    public boolean reboot = false;
     public CommandCardField[] getProgram() {
         return program;
     }

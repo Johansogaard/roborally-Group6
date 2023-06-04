@@ -57,7 +57,7 @@ public class InteractionCardTest {
         executeNextStep = GameController.class.getDeclaredMethod("executeNextStep");
         executeNextStep.setAccessible(true);
 
-        //board.testSetCurrentPlayer(player); error
+        //board.testSetCurrentPlayer(player);
         board.setPhase(Phase.ACTIVATION);
         board.addPlayer(player);
     }
@@ -171,4 +171,35 @@ public class InteractionCardTest {
         assertEquals(NORTH, player.getHeading());// Player should move forward to space (4, 6)
 
     }
+
+    @Test
+    public void testTrojanHorse() throws Exception {
+        //can sometimes fail
+        setUp();
+        int spamCount = 0;
+        player.deck.cards.add(0, new CommandCard(Command.FORWARD));
+        executeCommand.invoke(controller, player, Command.TROJANHORSE);
+
+        for (int i=0; i<19; i++ ) {
+            if (player.deck.cards.get(i).command == Command.SPAM) {
+                spamCount++;
+            }
+
+        }
+        assertEquals(board.getSpace(4, 5), player.getSpace());
+        assertEquals(2, spamCount);
+
 }
+    @Test
+    public void testSpam() throws Exception {
+        //can sometimes fail
+        setUp();
+        player.deck.cards.add(0, new CommandCard(Command.FORWARD));
+        executeCommand.invoke(controller, player, Command.SPAM);
+
+        assertEquals(board.getSpace(4, 5), player.getSpace());
+        }
+
+
+    }
+

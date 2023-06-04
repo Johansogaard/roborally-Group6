@@ -126,7 +126,9 @@ public class GameController {
         board.setPlayerOrder();
         board.setStep(0);
         fillEmptyRegister();
-
+        for(Player player : board.getPlayers()){
+            player.reboot = false;
+        }
     }
 
     // XXX: V2
@@ -240,7 +242,7 @@ public class GameController {
 
     // XXX: V2
     public void executeCommand(@NotNull Player player, Command command) {
-        if (player != null && player.board == board && command != null) {
+        if (player != null && player.board == board && command != null && player.reboot==false) {
             // XXX This is a very simplistic way of dealing with some basic cards and
             //     their execution. This should eventually be done in a more elegant way
             //     (this concerns the way cards are modelled as well as the way they are executed).
@@ -287,7 +289,7 @@ public class GameController {
             }
         }
     }
-private void executeTopCard(Player player){
+void executeTopCard(Player player){
         player.getProgramField(board.getStep()).setCard(player.deck.drawCard());
         executeCommand(player, player.getProgramField(board.getStep()).getCard().command);
     }
@@ -295,6 +297,7 @@ private void executeTopCard(Player player){
     }
 
     private void worm(Player player) {
+        player.reboot=true;
     }
 
     private void trojanHorse(Player player) {

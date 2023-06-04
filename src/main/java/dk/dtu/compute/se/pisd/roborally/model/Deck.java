@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Deck {
-    protected List<CommandCard> cards;
+    public List<CommandCard> cards;
 
     public Deck() {
         cards = new ArrayList<>();
@@ -14,9 +14,9 @@ public class Deck {
 
     private void makeDeck() {
 
-        for (int i = 0; i < 3; i++) {
-            cards.add(new CommandCard(Command.SPAM));
-        }
+        /*for (int i = 0; i < 5; i++) {
+            cards.add(new CommandCard(Command.WORM));
+        }to test*/
         //  Add FORWARD cards
         for (int i = 0; i < 5; i++) {
             cards.add(new CommandCard(Command.FORWARD));
