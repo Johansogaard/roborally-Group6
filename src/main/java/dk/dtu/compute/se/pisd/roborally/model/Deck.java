@@ -4,11 +4,15 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+
+
 public class Deck {
     public List<CommandCard> cards;
+    public List<CommandCard> discardPile;
 
     public Deck() {
         cards = new ArrayList<>();
+        discardPile = new ArrayList<>();
         makeDeck();
     }
 
@@ -18,6 +22,12 @@ public class Deck {
             cards.add(new CommandCard(Command.WORM));
         }to test*/
         //  Add FORWARD cards
+
+        cards=discardPile;
+        while(discardPile.size()>0){
+            discardPile.remove(0);
+        }
+
         for (int i = 0; i < 5; i++) {
             cards.add(new CommandCard(Command.FORWARD));
         }
@@ -71,8 +81,10 @@ public class Deck {
     }
 
     public void addCard(CommandCard card) {
+        if(card.command==Command.SPAM){discardPile.add(card);}
+        else{
         cards.add(card);
-    }
+    }}
 
 
 }

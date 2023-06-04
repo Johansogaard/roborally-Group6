@@ -294,17 +294,19 @@ void executeTopCard(Player player){
         executeCommand(player, player.getProgramField(board.getStep()).getCard().command);
     }
     private void virus(Player player, int step) {
+        //not needed
     }
 
     private void worm(Player player) {
-        player.reboot=true;
+        //prop not neeeded
+         player.reboot=true;
     }
 
     private void trojanHorse(Player player) {
+        //not needed
         executeTopCard(player);
         player.deck.addCard(new CommandCard(SPAM));
         player.deck.addCard(new CommandCard(SPAM));
-        player.deck.shuffle();
     }
 
     private void spam(Player player) {executeTopCard(player);}

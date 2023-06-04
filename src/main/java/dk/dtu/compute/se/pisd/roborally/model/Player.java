@@ -44,6 +44,7 @@ public class Player extends Subject {
     private String name;
     private String color;
     public Deck deck;
+
     private Space space;
     private Heading heading = SOUTH;
     public boolean reboot = false;
