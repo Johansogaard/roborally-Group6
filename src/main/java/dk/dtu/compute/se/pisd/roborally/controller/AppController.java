@@ -108,7 +108,7 @@ public class AppController implements Observer {
     public void designBoard(
     ){
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setContentText("Vælg bredden af spillepladen");
+        dialog.setContentText("Vælg breddenl af spillepladen");
         dialog.showAndWait();
 
         int width = Integer.parseInt(dialog.getResult());
