@@ -272,7 +272,7 @@ public class GameController {
                 case SPAM:
                     this.spam(player);
                     break;
-                case TROJANHORSE:
+                /*case TROJANHORSE:
                     this.trojanHorse(player);
                     break;
                 case WORM:
@@ -280,7 +280,7 @@ public class GameController {
                     break;
                 case VIRUS:
                     this.virus(player, board.getStep());
-                    break;
+                    break;*/
                 case AGAIN:
                     this.again(player, board.getStep());
                     break;
@@ -293,7 +293,7 @@ void executeTopCard(Player player){
         player.getProgramField(board.getStep()).setCard(player.deck.drawCard());
         executeCommand(player, player.getProgramField(board.getStep()).getCard().command);
     }
-    private void virus(Player player, int step) {
+    /*private void virus(Player player, int step) {
         //not needed
     }
 
@@ -307,7 +307,7 @@ void executeTopCard(Player player){
         executeTopCard(player);
         player.deck.addCard(new CommandCard(SPAM));
         player.deck.addCard(new CommandCard(SPAM));
-    }
+    }*/
 
     private void spam(Player player) {executeTopCard(player);}
 
