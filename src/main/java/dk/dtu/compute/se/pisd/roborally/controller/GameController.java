@@ -266,10 +266,18 @@ public class GameController {
                 case AGAIN:
                     this.again(player, board.getStep());
                     break;
+                case SPAM:
+                    this.spam(player);
+                    break;
                 default:
                     // DO NOTHING (for now)
             }
         }
+    }
+
+    private void spam(Player player) {
+        player.getProgramField(board.getStep()).setCard(player.deck.drawCard());
+        executeCommand(player, player.getProgramField(board.getStep()).getCard().command);
     }
 
     private void again(Player player, int currentStep) {
