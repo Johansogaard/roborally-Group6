@@ -95,24 +95,44 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
     private void updateBelt(){
         ConveyorBelt belt = space.getConveyorBelt();
-        if (belt != null) {
+        ConveyorBelt2 belt2 = space.getConveyorBelt2();
+        if (belt != null || belt2 != null) {
             switch (belt.getHeading()) {
+
                 case EAST:
-                    addImage("images/greencon.png").setRotate(90);
+                    if(space.getConveyorBelt2()!=null){
+                        addImage("images/bluecon.png").setRotate(90);
+                    } else {
+                        addImage("images/greencon.png").setRotate(90);
+                    }
 
                     break;
 
                 case SOUTH:
-                    addImage("images/greencon.png").setRotate(180);
+                    if(belt == null){
+                        addImage("images/bluecon.png").setRotate(180);
+                    } else {
+                        addImage("images/greencon.png").setRotate(180);
+                    }
                     break;
 
                 case WEST:
-                    addImage("images/greencon.png").setRotate(-90);
+                    if(belt2!=null){
+                        addImage("images/bluecon.png").setRotate(-90);
+                    } else {
+                        addImage("images/greencon.png").setRotate(-90);
+                    }
+
                     break;
 
                 case NORTH:
-                    addImage("images/greencon.png");
+                    if(belt2!=null){
+                        addImage("images/bluecon.png");
+                    } else {
+                        addImage("images/greencon.png");
+                    }
             }
+
             /*
             Polygon fig = new Polygon(0.0, 0.0,
                     60.0, 0.0,
