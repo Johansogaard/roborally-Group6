@@ -1,4 +1,5 @@
 package dk.dtu.compute.se.pisd.roborally.api;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates.BoardTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class SaveAndLoadController {
 
     //method handles HTTP POST requests to the "/save" endpoint
     @PostMapping("/save")
-    public ResponseEntity<String> saveGame(@RequestBody Board board) {
+    public ResponseEntity<String> saveGame(@RequestBody BoardTemplate boardTemplate) {
         //path to save games on server (local atm)
         String gameFolder = "/Users/andersjefsen/Desktop/testingRoboRally/SAVED GAMES";
 
@@ -30,7 +31,7 @@ public class SaveAndLoadController {
         String boardName = name_of_the_board;
 
         // Call to saveGame method in ApiService to save the board
-        apiService.saveGame(board, gameFolder, boardName);
+        apiService.saveGame(boardTemplate, gameFolder, boardName);
 
         //return 200 OK message
         return ResponseEntity.ok().build();
@@ -38,14 +39,14 @@ public class SaveAndLoadController {
 
     //method handles HTTP GET requests
     @GetMapping("/load/{boardName}")
-    public ResponseEntity<Board> loadGame(@PathVariable String boardName) {
+    public ResponseEntity<BoardTemplate> loadGame(@PathVariable String boardName) {
         //path to load game
         String gameFolder = "/Users/andersjefsen/Desktop/testingRoboRally/SAVED GAMES";
 
         // Call to loadGame method in ApiService to save the board
-        Board board = apiService.loadGame(gameFolder, boardName);
+        BoardTemplate boardTemplate = apiService.loadGame(gameFolder, boardName);
 
         //returning the loaded board in the response
-        return ResponseEntity.ok(board);
+        return ResponseEntity.ok(boardTemplate);
     }
 }
