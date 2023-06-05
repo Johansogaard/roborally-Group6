@@ -38,6 +38,14 @@ import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
  *
  */
 public class Board extends Subject {
+    public RebootToken getRebootToken() {
+        return rebootToken;
+    }
+
+    public void setRebootToken(RebootToken rebootToken) {
+        this.rebootToken = rebootToken;
+    }
+
     public Antenna getAntenna() {
         return antenna;
     }
@@ -48,6 +56,7 @@ public class Board extends Subject {
     }
 
     private Antenna antenna;
+    private RebootToken rebootToken;
 
     public final int width;
 

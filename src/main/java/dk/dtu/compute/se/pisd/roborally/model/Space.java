@@ -70,6 +70,13 @@ public class Space extends Subject {
             board.setAntenna(new Antenna(board,this.x,this.y));
             notifyChange();
         }
+    public void addRebootToken() {
+        board.setRebootToken(new RebootToken(board, x, y));
+        notifyChange();
+    }
+
+
+
     public void addGear(Direction direction) {
         boolean check = false;
 

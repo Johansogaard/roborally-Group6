@@ -221,6 +221,10 @@ public class SpaceView extends StackPane implements ViewObserver {
         {
            addImage("images/antenna.png");
         }
+            if (space.board.getRebootToken() !=null && (space.board.getRebootToken().x == space.x&&space.board.getRebootToken().y == space.y))
+            {
+                addImage("images/RebootToken.png");
+            }
         if(space.getStartPlayerNo() !=0)
         {
             addImage("images/startpoint.png");
