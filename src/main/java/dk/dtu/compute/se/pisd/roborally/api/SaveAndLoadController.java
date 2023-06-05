@@ -1,52 +1,43 @@
 package dk.dtu.compute.se.pisd.roborally.api;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates.BoardTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-
-//class is a RESTful controller
+//RESTful API controller
 @RestController
-//sets the base URI path for all request mappings within the controller class
+
+//used to map the web request given to the api
 @RequestMapping("/api/game")
 public class SaveAndLoadController {
 
-    // Unique board name: current timestamp
-    String name_of_the_board = "board_" + System.currentTimeMillis();
+    //defining the absolute path to the server:
+    private static final String GAMES_FOLDER = "/Users/andersjefsen/Desktop/testingRoboRally/SAVED GAMES";
 
-
-    //ensures that class has access to ApiService
-    @Autowired
-    ApiService apiService;
-
-    //method handles HTTP POST requests to the "/save" endpoint
-    @PostMapping("/save")
-    public ResponseEntity<String> saveGame(@RequestBody BoardTemplate boardTemplate) {
-        //path to save games on server (local atm)
-        String gameFolder = "/Users/andersjefsen/Desktop/testingRoboRally/SAVED GAMES";
-
-        //using unique name for board
-        String boardName = name_of_the_board;
-
-        // Call to saveGame method in ApiService to save the board
-        apiService.saveGame(boardTemplate, gameFolder, boardName);
-
-        //return 200 OK message
-        return ResponseEntity.ok().build();
+    //this maps the HTTP POST requests, also it expects JSON files.
+    @PostMapping(value = "/{gameId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    //saveGame method that takes gameID from the path varible and game objects from body.
+    public void saveGame(@PathVariable String gameId, @RequestBody byte[] gameData) {
+        try {
+            //this writes the game data to a file named after the gameID
+            Files.write(Paths.get(GAMES_FOLDER, gameId + ".json"), gameData);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not save game", e);
+        }
     }
 
-    //method handles HTTP GET requests
-    @GetMapping("/load/{boardName}")
-    public ResponseEntity<BoardTemplate> loadGame(@PathVariable String boardName) {
-        //path to load game
-        String gameFolder = "/Users/andersjefsen/Desktop/testingRoboRally/SAVED GAMES";
-
-        // Call to loadGame method in ApiService to save the board
-        BoardTemplate boardTemplate = apiService.loadGame(gameFolder, boardName);
-
-        //returning the loaded board in the response
-        return ResponseEntity.ok(boardTemplate);
+    //This maps the HTTP GET requests, and it will only deliver JSON files.
+    @GetMapping(value = "/{gameId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    //loadGame from the path variable and returns a byte array
+    public byte[] loadGame(@PathVariable String gameId) {
+        try {
+            //this reads all the bytes from the file into a byte array and retuyrns it
+            return Files.readAllBytes(Paths.get(GAMES_FOLDER, gameId + ".json"));
+        } catch (IOException e) {
+            throw new RuntimeException("Could not load game", e);
+        }
     }
 }
