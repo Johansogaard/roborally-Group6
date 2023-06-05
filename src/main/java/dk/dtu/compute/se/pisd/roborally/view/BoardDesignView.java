@@ -71,6 +71,7 @@ public class BoardDesignView extends VBox {
     }
 
     private void addOptions() {
+        this.fieldOptions.add("Laser");
         this.fieldOptions.add("Antenna");
         this.fieldOptions.add("Conveyor Belt");
         this.fieldOptions.add("Player start field");
@@ -109,6 +110,9 @@ public class BoardDesignView extends VBox {
                 }
 
                 switch ((String) dialog.getSelectedItem()) {
+                    case "Laser":
+                        addLasers(space);
+                        break;
 
                     case "Antenna":
                        addAntenna(space);
@@ -133,6 +137,7 @@ public class BoardDesignView extends VBox {
                     case "Gear":
                         addGear(space);
                         break;
+
                 }
 
             }
@@ -186,7 +191,6 @@ public class BoardDesignView extends VBox {
             }
 
         }
-
         private void addWalls(Space space) {
 
             List<Heading> currentWalls = space.getWalls();
@@ -271,6 +275,37 @@ public class BoardDesignView extends VBox {
                 space.addGear((Direction) dialog.getSelectedItem());
             }
 
+        }
+        private void addLasers(Space space) {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setContentText("Enter the laser direction (N, E, S, W):");
+            dialog.showAndWait();
+
+            if (dialog.getResult() != null) {
+                String directionStr = dialog.getResult();
+                Heading direction;
+
+                switch (directionStr.toUpperCase()) {
+                    case "N":
+                        direction = Heading.NORTH;
+                        break;
+                    case "E":
+                        direction = Heading.EAST;
+                        break;
+                    case "S":
+                        direction = Heading.SOUTH;
+                        break;
+                    case "W":
+                        direction = Heading.WEST;
+                        break;
+                    default:
+                        // Invalid direction entered
+                        return;
+                }
+
+                Lasers lasers = new Lasers(direction);
+                space.addAction(lasers);
+            }
         }
 
     }

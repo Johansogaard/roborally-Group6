@@ -181,7 +181,14 @@ public class SpaceView extends StackPane implements ViewObserver {
             if (action instanceof Gear) {
                 addImage("images/gear" + (((Gear) action).direction) + ".png");
             }
-
+            if (action instanceof Lasers) {
+                Lasers laser = (Lasers) action;
+                if (laser.isOn()) {
+                    addImage("images/SingleLaserON.png");
+                } else {
+                    addImage("images/SingleLaserOFF.png");
+                }
+            }
         }
     }
     private ImageView addImage(String name) {

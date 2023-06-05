@@ -45,6 +45,7 @@ public class Space extends Subject {
     public final int y;
 
     private Player player;
+    private Lasers lasers;
 
 
     public List<Heading> getWalls() {
@@ -84,6 +85,11 @@ public class Space extends Subject {
             notifyChange();
         }
     }
+    public void addLasers(){
+        board.setLasers(new Lasers(Heading.NORTH));
+        notifyChange();
+
+    }
     public List<FieldAction> getActions() {
         return actions;
     }
@@ -104,6 +110,8 @@ public class Space extends Subject {
         return belt;
 
     }
+
+
     public void setStartPlayerNo(int startPlayerNo) {
         this.startPlayerNo = startPlayerNo;
         notifyChange();
