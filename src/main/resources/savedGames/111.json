@@ -1,0 +1,354 @@
+{
+  "width": 8,
+  "height": 8,
+  "step": 0,
+  "phase": "PROGRAMMING",
+  "players": [
+    {
+      "no": 0,
+      "name": "Player 1",
+      "color": "red",
+      "heading": "WEST",
+      "space": [
+        5,
+        0
+      ],
+      "program": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "cards": [
+        {
+          "card": {
+            "command": "Move_3",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "uTurn",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "uTurn",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          },
+          "visible": true
+        }
+      ]
+    },
+    {
+      "no": 1,
+      "name": "Player 2",
+      "color": "green",
+      "heading": "NORTH",
+      "space": [
+        1,
+        7
+      ],
+      "program": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "cards": [
+        {
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "FASTFORWARD",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "BACK",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "LEFT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "BACK",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "BACK",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          },
+          "visible": true
+        }
+      ]
+    }
+  ],
+  "spaces": [
+    {
+      "startPlayerNo": 1,
+      "x": 0,
+      "y": 6,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 1,
+      "y": 3,
+      "walls": [
+        "NORTH"
+      ],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 2,
+      "x": 1,
+      "y": 6,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "player": "Player 2",
+      "startPlayerNo": 0,
+      "x": 1,
+      "y": 7,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 3,
+      "x": 2,
+      "y": 6,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 3,
+      "y": 3,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 4,
+      "x": 3,
+      "y": 6,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 5,
+      "x": 4,
+      "y": 6,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "player": "Player 1",
+      "startPlayerNo": 0,
+      "x": 5,
+      "y": 0,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 6,
+      "x": 5,
+      "y": 6,
+      "walls": [],
+      "actions": []
+    }
+  ],
+  "playerOrder": [
+    "Player 2",
+    "Player 1"
+  ],
+  "current": {
+    "no": 0,
+    "name": "Player 1",
+    "color": "red",
+    "heading": "WEST",
+    "space": [
+      5,
+      0
+    ],
+    "program": [
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      }
+    ],
+    "cards": [
+      {
+        "card": {
+          "command": "Move_3",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "RIGHT",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "uTurn",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "uTurn",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "FORWARD",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "RIGHT",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "AGAIN",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "RIGHT",
+          "observers": []
+        },
+        "visible": true
+      }
+    ]
+  },
+  "antenna": {
+    "x": 7,
+    "y": 6
+  }
+}
