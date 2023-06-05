@@ -65,7 +65,22 @@ public class AppController implements Observer {
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
     }
+    public void playOnline()
+    {
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("","Join Game","Create Game");
+        dialog.setTitle("Join or create game");
+        dialog.setHeaderText("Select a option");
+        Optional<String> result = dialog.showAndWait();
+        if (result.equals("Create Game"))
+        {
 
+        }
+        else
+        {
+
+        }
+
+    }
     public void newGame() {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
