@@ -1,12 +1,12 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 import java.util.ArrayList;
 
+import static dk.dtu.compute.se.pisd.roborally.model.Command.SPAM;
 
 
-
-    public class Deck {
-        private ArrayList<CommandCard> cards;
-        private ArrayList<CommandCard> discardPile;
+public class Deck {
+        ArrayList<CommandCard> cards;
+        ArrayList<CommandCard> discardPile;
         public Deck() {
             cards = new ArrayList<>();
             discardPile = new ArrayList<>();
@@ -14,8 +14,8 @@ import java.util.ArrayList;
         }
 
         private void makeDeck() {
-            this.cards=discardPile;
-            while(discardPile.size()>0){discardPile.remove(0);}
+            ;
+            while(discardPile.size()>0){cards.add(discardPile.remove(0));}
             //  Add FORWARD cards
             for (int i = 0; i < 5; i++) {
                 cards.add(new CommandCard(Command.FORWARD));
@@ -70,8 +70,11 @@ import java.util.ArrayList;
         }
 
         public void addCard(CommandCard card) {
-            cards.add(card);
+
+            if(card.command==SPAM) {discardPile.add(card);}
+            else{cards.add(card);}
+
+            }
         }
 
 
-    }
