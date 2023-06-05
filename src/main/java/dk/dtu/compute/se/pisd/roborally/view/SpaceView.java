@@ -217,10 +217,14 @@ public class SpaceView extends StackPane implements ViewObserver {
         if (subject == this.space) {
             this.getChildren().clear();
             addImage("images/floor.png");
-        if (space.board.getAntenna() !=null && (space.board.getAntenna().x == space.x&&space.board.getAntenna().y == space.y))
+        if (space.board.getRebootToken() !=null && (space.board.getRebootToken().x == space.x&&space.board.getRebootToken().y == space.y))
         {
-           addImage("images/antenna.png");
+           addImage("images/RebootToken.png");
         }
+            if (space.board.getAntenna() !=null && (space.board.getAntenna().x == space.x&&space.board.getAntenna().y == space.y))
+            {
+                addImage("images/antenna.png");
+            }
         if(space.getStartPlayerNo() !=0)
         {
             addImage("images/startpoint.png");

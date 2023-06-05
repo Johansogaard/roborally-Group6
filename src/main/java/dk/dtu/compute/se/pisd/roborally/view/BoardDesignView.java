@@ -77,6 +77,7 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Walls");
         this.fieldOptions.add("Checkpoint");
         this.fieldOptions.add("Gear");
+        this.fieldOptions.add("Reboot token");
     }
 
     private class SpaceEventHandler implements EventHandler<MouseEvent> {
@@ -133,12 +134,22 @@ public class BoardDesignView extends VBox {
                     case "Gear":
                         addGear(space);
                         break;
+
+                    case "Reboot token":
+                        addRebootToken(space);
+                        break;
                 }
 
             }
 
             event.consume();
         }
+        private void addRebootToken(Space space)
+        {
+
+            if (this.board.getRebootToken() == null) {
+                space.addRebootToken();
+            }}
         private void addAntenna(Space space)
         {
 

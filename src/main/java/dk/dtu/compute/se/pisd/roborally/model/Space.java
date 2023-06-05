@@ -65,6 +65,11 @@ public class Space extends Subject {
             notifyChange();
         }
         }
+    public void addRebootToken()
+    {
+        board.setRebootToken(new RebootToken(board,this.x,this.y));
+        notifyChange();
+    }
         public void addAntenna()
         {
             board.setAntenna(new Antenna(board,this.x,this.y));
