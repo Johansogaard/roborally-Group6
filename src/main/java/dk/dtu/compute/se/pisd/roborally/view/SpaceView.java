@@ -93,45 +93,29 @@ public class SpaceView extends StackPane implements ViewObserver {
 
 
     }
-    private void updateBelt(){
+    private void updateBelt() {
         ConveyorBelt belt = space.getConveyorBelt();
         ConveyorBelt2 belt2 = space.getConveyorBelt2();
-        if (belt != null || belt2 != null) {
+        if (belt != null) {
             switch (belt.getHeading()) {
 
                 case EAST:
-                    if(space.getConveyorBelt2()!=null){
-                        addImage("images/bluecon.png").setRotate(90);
-                    } else {
-                        addImage("images/greencon.png").setRotate(90);
-                    }
-
+                    addImage("images/greencon.png").setRotate(90);
                     break;
 
                 case SOUTH:
-                    if(belt == null){
-                        addImage("images/bluecon.png").setRotate(180);
-                    } else {
-                        addImage("images/greencon.png").setRotate(180);
-                    }
+                    addImage("images/greencon.png").setRotate(180);
                     break;
 
                 case WEST:
-                    if(belt2!=null){
-                        addImage("images/bluecon.png").setRotate(-90);
-                    } else {
-                        addImage("images/greencon.png").setRotate(-90);
-                    }
-
+                    addImage("images/greencon.png").setRotate(-90);
                     break;
 
                 case NORTH:
-                    if(belt2!=null){
-                        addImage("images/bluecon.png");
-                    } else {
-                        addImage("images/greencon.png");
-                    }
+                    addImage("images/greencon.png");
+
             }
+
 
             /*
             Polygon fig = new Polygon(0.0, 0.0,
@@ -144,8 +128,26 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.getChildren().add(fig);
 
              */
-        }
+        } else if (belt2 != null) {
+            switch (belt2.getHeading()) {
 
+                case EAST:
+                    addImage("images/bluecon.png").setRotate(90);
+                    break;
+
+                case SOUTH:
+                    addImage("images/bluecon.png").setRotate(180);
+                    break;
+
+                case WEST:
+                    addImage("images/bluecon.png").setRotate(-90);
+                    break;
+                case NORTH:
+                    addImage("images/bluecon.png");
+
+            }
+
+        }
     }
     private void updateWalls(){
 

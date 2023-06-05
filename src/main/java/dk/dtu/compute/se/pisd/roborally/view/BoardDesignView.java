@@ -199,7 +199,7 @@ public class BoardDesignView extends VBox {
 
             if (dialog.getSelectedItem() != null) {
 
-                ConveyorBelt belt = new ConveyorBelt();
+                ConveyorBelt2 belt = new ConveyorBelt2();
                 belt.setHeading((Heading) dialog.getSelectedItem());
 
                 space.addAction(belt);

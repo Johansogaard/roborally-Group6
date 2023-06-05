@@ -104,16 +104,13 @@ public class Space extends Subject {
         return belt;
     }
     public ConveyorBelt2 getConveyorBelt2() {
+
         ConveyorBelt2 belt = null;
-        int count = 0;
+
 
         for (FieldAction action : this.actions) {
-            if (action instanceof ConveyorBelt) {
-                count++;
-                if (count == 2) {
-                    belt = (ConveyorBelt2) action;
-                    break;
-                }
+            if (action instanceof ConveyorBelt2 && belt == null) {
+                belt = (ConveyorBelt2) action;
             }
         }
 
