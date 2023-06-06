@@ -310,6 +310,11 @@ public class GameController {
             moveForward(player);
         }
     }
+    private void Move2(Player player) {
+        for (int i = 0 ; i<2;i++) {
+            moveForward(player);
+        }
+    }
 
     /**
      * @author Johan Søgaard Jørgensen(JJ)

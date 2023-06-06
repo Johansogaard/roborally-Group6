@@ -93,13 +93,14 @@ public class SpaceView extends StackPane implements ViewObserver {
 
 
     }
-    private void updateBelt(){
+    private void updateBelt() {
         ConveyorBelt belt = space.getConveyorBelt();
+        ConveyorBelt2 belt2 = space.getConveyorBelt2();
         if (belt != null) {
             switch (belt.getHeading()) {
+
                 case EAST:
                     addImage("images/greencon.png").setRotate(90);
-
                     break;
 
                 case SOUTH:
@@ -112,7 +113,10 @@ public class SpaceView extends StackPane implements ViewObserver {
 
                 case NORTH:
                     addImage("images/greencon.png");
+
             }
+
+
             /*
             Polygon fig = new Polygon(0.0, 0.0,
                     60.0, 0.0,
@@ -124,8 +128,26 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.getChildren().add(fig);
 
              */
-        }
+        } else if (belt2 != null) {
+            switch (belt2.getHeading()) {
 
+                case EAST:
+                    addImage("images/bluecon.png").setRotate(90);
+                    break;
+
+                case SOUTH:
+                    addImage("images/bluecon.png").setRotate(180);
+                    break;
+
+                case WEST:
+                    addImage("images/bluecon.png").setRotate(-90);
+                    break;
+                case NORTH:
+                    addImage("images/bluecon.png");
+
+            }
+
+        }
     }
     private void updateWalls(){
 

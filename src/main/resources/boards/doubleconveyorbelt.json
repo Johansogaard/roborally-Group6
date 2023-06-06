@@ -1,0 +1,38 @@
+{
+  "width": 8,
+  "height": 8,
+  "step": 0,
+  "phase": "INITIALISATION",
+  "players": [],
+  "spaces": [
+    {
+      "startPlayerNo": 0,
+      "x": 2,
+      "y": 0,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 4,
+      "y": 4,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ]
+    }
+  ],
+  "playerOrder": []
+}

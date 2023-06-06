@@ -78,6 +78,7 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Checkpoint");
         this.fieldOptions.add("Gear");
         this.fieldOptions.add("Reboot token");
+        this.fieldOptions.add("double Conveyor belt");
     }
 
     private class SpaceEventHandler implements EventHandler<MouseEvent> {
@@ -117,6 +118,10 @@ public class BoardDesignView extends VBox {
 
                     case "Conveyor Belt":
                         addConveyorBelt(space);
+                        break;
+
+                    case "double Conveyor belt":
+                        addConveyorBelt2(space);
                         break;
 
                     case "Player start field":
@@ -179,6 +184,33 @@ public class BoardDesignView extends VBox {
             if (dialog.getSelectedItem() != null) {
 
                 ConveyorBelt belt = new ConveyorBelt();
+                belt.setHeading((Heading) dialog.getSelectedItem());
+
+                space.addAction(belt);
+            }
+
+        }
+        private void addConveyorBelt2(Space space) {
+
+            for (FieldAction action : space.getActions()) {
+                if (action instanceof ConveyorBelt2) {
+                    // TODO add some explanation to the user that there is already a belt at this space
+                    return;
+                }
+            }
+
+            ChoiceDialog dialog = new ChoiceDialog();
+            dialog.setContentText("Which way should the belt move the player?");
+            dialog.getItems().add(Heading.NORTH);
+            dialog.getItems().add(Heading.EAST);
+            dialog.getItems().add(Heading.SOUTH);
+            dialog.getItems().add(Heading.WEST);
+
+            dialog.showAndWait();
+
+            if (dialog.getSelectedItem() != null) {
+
+                ConveyorBelt2 belt = new ConveyorBelt2();
                 belt.setHeading((Heading) dialog.getSelectedItem());
 
                 space.addAction(belt);
