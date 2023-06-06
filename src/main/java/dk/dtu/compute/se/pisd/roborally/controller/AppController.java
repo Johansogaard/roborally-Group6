@@ -21,13 +21,18 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadSaveGame;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates.BoardTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import javafx.application.Platform;
@@ -39,13 +44,32 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.RestTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Optional;
+import javafx.scene.control.TextInputDialog;
 /**
  * ...
  *
@@ -53,6 +77,9 @@ import java.util.Optional;
  *
  */
 public class AppController implements Observer {
+    private static final Logger logger = LoggerFactory.getLogger(AppController.class);
+
+    private static final String BASE_URL = "http://localhost:8083/api/game";
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
@@ -62,9 +89,72 @@ public class AppController implements Observer {
     final private String gamesPath = "src/main/resources/savedGames";
     private GameController gameController;
 
+    private static final String GAMES_FOLDER = "/Users/andersjefsen/Desktop/testingRoboRally/SAVED GAMES";
+    private static final String JSON_EXT = "json";
+    private final RestTemplate restTemplate = new RestTemplate();
+
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
     }
+
+    public void saveGameToServer() {
+        TextInputDialog td = new TextInputDialog("NewGameSave");
+        td.setHeaderText("Enter a name for the saved game");
+        Optional<String> result = td.showAndWait();
+
+        if (result.isPresent()) {
+            String fileName = result.get();
+            String filePath = GAMES_FOLDER + "/" + fileName + "." + JSON_EXT;
+            BoardTemplate template = new BoardTemplate().fromBoard(gameController.board);
+            GsonBuilder gsonBuilder = new GsonBuilder()
+                    .registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>())
+                    .setPrettyPrinting();
+            Gson gson = gsonBuilder.create();
+            String jsonData = gson.toJson(template, template.getClass());
+
+            try (FileWriter fileWriter = new FileWriter(filePath)) {
+                fileWriter.write(jsonData);
+                logger.info("Successfully saved the board locally: {}", fileName);
+            } catch (IOException e) {
+                logger.error("Error saving board locally: {}", fileName, e);
+                throw new RuntimeException("Could not save game locally", e);
+            }
+
+            sendToServer(fileName);
+        }
+    }
+
+    private void sendToServer(String fileName) {
+        String gameId = fileName.substring(0, fileName.lastIndexOf('.'));
+        String apiUrl = BASE_URL + gameId;
+
+        try {
+            byte[] gameData = Files.readAllBytes(Paths.get(GAMES_FOLDER, fileName));
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<byte[]> requestEntity = new HttpEntity<>(gameData, headers);
+            ResponseEntity<Void> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, Void.class);
+
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                logger.info("Game data sent successfully to the server for gameId: {}", gameId);
+            } else {
+                logger.error("Error occurred while sending game data to the server for gameId: {}", gameId);
+                throw new RuntimeException("Could not send game data to the server");
+            }
+        } catch (IOException e) {
+            logger.error("Error occurred while reading game data locally: {}", fileName, e);
+            throw new RuntimeException("Could not read game data locally", e);
+        }
+    }
+    public void loadGameFromServer() {
+                showFilesToChoseFrom(GAMES_FOLDER);
+                Board loadedBoard = LoadSaveGame.loadBoard(GAMES_FOLDER,fileToOpen);
+        gameController = new GameController(loadedBoard);
+                roboRally.createBoardView(gameController);
+    }
+
+
+
 
     public void newGame() {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
@@ -134,6 +224,11 @@ public class AppController implements Observer {
         }
 
     }
+
+
+
+
+
 
     public void showFilesToChoseFrom(String pathName)
     {

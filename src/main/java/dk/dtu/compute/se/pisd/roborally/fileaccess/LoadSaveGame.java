@@ -31,13 +31,15 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
 
 import java.io.*;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class LoadSaveGame {
+    private static final Logger logger = LoggerFactory.getLogger(LoadSaveGame.class);
 
     private static final String BOARDSFOLDER = "boards";
     private static final String GAMESFOLDER = "savedGames";
@@ -45,7 +47,9 @@ public class LoadSaveGame {
     private static final String JSON_EXT = "json";
 
     public static Board loadBoard(String path, String boardname) {
-      if (boardname == null) {
+        logger.info("Loading board: {}, from path: {}", boardname, path);
+
+        if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
         String filename;
@@ -82,8 +86,10 @@ public class LoadSaveGame {
 
 
 			reader.close();
-			return result;
+            logger.info("Successfully loaded the board: {}", boardname);
+            return result;
 		} catch (IOException e1) {
+            logger.error("Error loading board: {}, from path: {}", boardname, path, e1);
             if (reader != null) {
                 try {
                     reader.close();
@@ -101,6 +107,7 @@ public class LoadSaveGame {
     }
 
     public static void saveBoard(Board board,String path, String name) {
+        logger.info("Saving board: {}, to path: {}", name, path);
         BoardTemplate template = new BoardTemplate().fromBoard(board);
 
         //String filename = "src/main/resources/boards" + "/" + name + "." + JSON_EXT;
@@ -117,7 +124,11 @@ public class LoadSaveGame {
             writer = gson.newJsonWriter(fileWriter);
             gson.toJson(template, template.getClass(), writer);
             writer.close();
+            logger.info("Successfully saved the board: {}", name);
+
         } catch (IOException e1) {
+            logger.error("Error saving board: {}, to path: {}", name, path, e1);
+
             if (writer != null) {
                 try {
                     writer.close();
@@ -131,5 +142,18 @@ public class LoadSaveGame {
             }
         }
     }
+    public static byte[] convertBoardToByteArray(Board board) {
+        logger.info("Converting board: {} to byte array");
 
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(board);
+            oos.flush();
+            return bos.toByteArray();
+        } catch (IOException e) {
+            logger.error("Error converting board: {} to byte array", e);
+            throw new RuntimeException("Could not convert board to byte array", e);
+        }
+    }
 }
