@@ -79,7 +79,7 @@ public class Client {
     }
     public String getGameInstance(int id)
     {
-        String data =getDataFromApi("GET",API_BASE_URL+"/id");
+        String data =getDataFromApi("GET",API_BASE_URL+"/"+id);
         saveStringAsJsonFile(data,curr_Game_Path);
         return data;
     }

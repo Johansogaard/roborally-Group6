@@ -62,8 +62,10 @@ public class AppController implements Observer {
     final private RoboRally roboRally;
     final private String boardsPath = "src/main/resources/boards";
     final private String gamesPath = "src/main/resources/savedGames";
+    final private String currGamePath = "src/main/resources/currGameInstance";
+    final private String currGameFile = "currGame.json";
     private GameController gameController;
-    private boolean isOnline = false;
+    private ClientController client = null;
 
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
@@ -76,8 +78,24 @@ public class AppController implements Observer {
         Optional<String> result = dialog.showAndWait();
         if (result.get().equals("Create Game"))
         {
-        isOnline = true;
+        client = new ClientController(new Client());
         newGame();
+        }
+        else if(result.get().equals("Join Game"))
+        {
+            client = new ClientController(new Client());
+            TextInputDialog inputDialog = new TextInputDialog();
+            inputDialog.setContentText("Write the id of the game you want to join");
+            inputDialog.showAndWait();
+
+
+
+
+            client.joinGame(Integer.parseInt(inputDialog.getResult()));
+            client.getGameInstance();
+            Board loadedBoard = LoadSaveGame.loadBoard(currGamePath,currGameFile);
+            gameController = new GameController(loadedBoard,client);
+            roboRally.createBoardView(gameController);
         }
         else
         {
@@ -112,8 +130,8 @@ public class AppController implements Observer {
                 board.addPlayer(player);
                 player.setSpawn();
             }
-            if (isOnline) {
-                gameController = new GameController(board,new ClientController(new Client()));
+            if (client != null) {
+                gameController = new GameController(board,client);
                 gameController.client.createGame(gameController.board.getPlayers().size());
             }
             else
@@ -131,9 +149,9 @@ public class AppController implements Observer {
             gameController.startProgrammingPhase();
 
             roboRally.createBoardView(gameController);
-            if (isOnline)
+            if (client != null)
             {
-
+                LoadSaveGame.saveBoard(gameController.board,currGamePath ,currGameFile);
             }
         }
     }
@@ -164,6 +182,7 @@ public class AppController implements Observer {
         if (result.isPresent()) {
             String fileName = result.get();
             LoadSaveGame.saveBoard(gameController.board,gamesPath ,fileName);
+
         }
 
     }
