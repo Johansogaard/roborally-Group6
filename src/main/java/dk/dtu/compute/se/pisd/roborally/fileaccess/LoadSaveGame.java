@@ -44,22 +44,22 @@ public class LoadSaveGame {
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
-    public static Board loadBoard(String path, String boardname) {
+    public static Board loadBoard(String path, String boardname) throws FileNotFoundException {
       if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
         String filename;
-        if (path == "src/main/resources/boards")
+        if (path.equals("src/main/resources/boards"))
         {
-            filename = BOARDSFOLDER + "/" + boardname;
+            filename = path + "/" + boardname;
         }
         else
         {
             filename = GAMESFOLDER + "/" + boardname;
         }
-        ClassLoader classLoader = LoadSaveGame.class.getClassLoader();
 
-        InputStream inputStream = classLoader.getResourceAsStream(filename);
+        InputStream inputStream = new FileInputStream(filename);
+
         if (inputStream == null) {
             // TODO these constants should be defined somewhere
             return new Board(8,8);

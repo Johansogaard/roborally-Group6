@@ -41,6 +41,7 @@ import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,7 +67,7 @@ public class AppController implements Observer {
         this.roboRally = roboRally;
     }
 
-    public void newGame() {
+    public void newGame() throws FileNotFoundException {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
@@ -168,7 +169,7 @@ public class AppController implements Observer {
             // Do something with the selected file
             if (selectedFile==null)
             {
-
+                System.out.println("File is null");
             }
             else {
                 fileToOpen = selectedFile;
@@ -188,13 +189,12 @@ public class AppController implements Observer {
 
 
     }
-    public Board loadBoard()
-    {
+    public Board loadBoard() throws FileNotFoundException {
 
         showFilesToChoseFrom(boardsPath);
         return LoadSaveGame.loadBoard(boardsPath,fileToOpen);
     }
-    public void loadGame() {
+    public void loadGame() throws FileNotFoundException {
 
             showFilesToChoseFrom(gamesPath);
                 Board loadedBoard = LoadSaveGame.loadBoard(gamesPath,fileToOpen);

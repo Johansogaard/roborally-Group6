@@ -1,0 +1,28 @@
+{
+  "width": 8,
+  "height": 8,
+  "step": 0,
+  "phase": "INITIALISATION",
+  "players": [],
+  "spaces": [
+    {
+      "startPlayerNo": 0,
+      "x": 5,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.ConveyorBelt2",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ]
+    }
+  ],
+  "playerOrder": [],
+  "rebootToken": {
+    "x": 4,
+    "y": 2
+  }
+}
