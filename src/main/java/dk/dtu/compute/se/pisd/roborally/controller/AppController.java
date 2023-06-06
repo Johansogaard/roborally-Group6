@@ -67,7 +67,7 @@ public class AppController implements Observer {
         this.roboRally = roboRally;
     }
 
-    public void newGame() throws FileNotFoundException {
+    public void newGame() {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
@@ -189,12 +189,12 @@ public class AppController implements Observer {
 
 
     }
-    public Board loadBoard() throws FileNotFoundException {
+    public Board loadBoard() {
 
         showFilesToChoseFrom(boardsPath);
         return LoadSaveGame.loadBoard(boardsPath,fileToOpen);
     }
-    public void loadGame() throws FileNotFoundException {
+    public void loadGame()  {
 
             showFilesToChoseFrom(gamesPath);
                 Board loadedBoard = LoadSaveGame.loadBoard(gamesPath,fileToOpen);

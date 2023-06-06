@@ -44,7 +44,7 @@ public class LoadSaveGame {
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
-    public static Board loadBoard(String path, String boardname) throws FileNotFoundException {
+    public static Board loadBoard(String path, String boardname) {
       if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
@@ -57,13 +57,9 @@ public class LoadSaveGame {
         {
             filename = GAMESFOLDER + "/" + boardname;
         }
+try {
+    InputStream inputStream = new FileInputStream(filename);
 
-        InputStream inputStream = new FileInputStream(filename);
-
-        if (inputStream == null) {
-            // TODO these constants should be defined somewhere
-            return new Board(8,8);
-        }
 
 		// In simple cases, we can create a Gson object with new Gson():
         GsonBuilder simpleBuilder = new GsonBuilder().
@@ -99,6 +95,11 @@ public class LoadSaveGame {
 
         return null;
     }
+     catch (FileNotFoundException e){
+
+
+        return new Board(8,8);
+    }}
 
     public static void saveBoard(Board board,String path, String name) {
         BoardTemplate template = new BoardTemplate().fromBoard(board);

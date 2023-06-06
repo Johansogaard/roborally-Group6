@@ -61,13 +61,7 @@ public class RoboRallyMenuBar extends MenuBar {
         this.getMenus().add(controlMenu);
 
         newGame = new MenuItem("New Game");
-        newGame.setOnAction( e -> {
-            try {
-                this.appController.newGame();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+        newGame.setOnAction( e -> this.appController.newGame());
         controlMenu.getItems().add(newGame);
 
         stopGame = new MenuItem("Stop Game");
@@ -80,11 +74,7 @@ public class RoboRallyMenuBar extends MenuBar {
 
         loadGame = new MenuItem("Load Game");
         loadGame.setOnAction( e -> {
-            try {
-                this.appController.loadGame();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
+            this.appController.loadGame();
         });
         controlMenu.getItems().add(loadGame);
 
