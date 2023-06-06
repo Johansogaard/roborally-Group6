@@ -1,6 +1,5 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
-import dk.dtu.compute.se.pisd.roborally.TestUtils;
 import org.junit.jupiter.api.Test;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Command.SPAM;
@@ -9,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DeckTest {
-    private TestUtils testUtils;
+
     @Test
     public void testSpamAddCard() throws NoSuchMethodException {
 

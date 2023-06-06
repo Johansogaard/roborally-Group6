@@ -307,9 +307,7 @@ public class GameController {
 
     private void Move3(Player player) {
         for (int i = 0 ; i<3;i++) {
-            moveForward(player);
-        }
-    }
+            if(player.reboot==false){moveForward(player);}}}
     private void Move2(Player player) {
         for (int i = 0 ; i<2;i++) {
             moveForward(player);
@@ -326,6 +324,7 @@ public class GameController {
      */
     // TODO: V2
     public void moveForward(@NotNull Player player) {
+
         Space space = player.getSpace();
         if (player != null && player.board == board && space != null) {
             Heading heading = player.getHeading();
@@ -392,9 +391,9 @@ public class GameController {
 
     // TODO: V2
     public void fastForward(@NotNull Player player) {
-        moveForward(player);
-        moveForward(player);
-    }
+        for (int i = 0 ; i<2;i++) {
+            if(player.reboot==false){moveForward(player);}}}
+
 
     // TODO: V2
     public void turnRight(@NotNull Player player) {
