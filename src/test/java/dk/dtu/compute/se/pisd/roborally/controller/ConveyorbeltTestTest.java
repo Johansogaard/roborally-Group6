@@ -3,6 +3,7 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.SpaceView;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,23 +28,9 @@ class ConveyorbeltTestTest {
 
     private ConveyorBelt2 conveyorBelt2;
 
-    //private Space space;
+    private Player player;
 
     private SpaceView spaceView;
-
-    private ConveyorBelt2 getConveyorBelt2() {
-
-        ConveyorBelt2 belt = null;
-
-
-        for (FieldAction action : this.actions) {
-            if (action instanceof ConveyorBelt2 && belt == null) {
-                belt = (ConveyorBelt2) action;
-            }
-        }
-
-        return belt;
-    }
 
 
     @BeforeEach
@@ -69,16 +56,18 @@ class ConveyorbeltTestTest {
 
     @Test
     public void testDoAction() {
+
         Board board =  gameController.board;
         Player player1 = board.getPlayer(0);
-        Player player2 = board.getPlayer(1);
+        player1.getHeading().equals(Heading.EAST);
+
 
         gameController.moveCurrentPlayerToSpace(board.getSpace(1,1));
 
-        boolean result = conveyorBelt2.doAction(gameController, (board.getSpace(1,1)));
+        conveyorBelt2.doAction(gameController, (board.getSpace(1,1)));
 
-        assertTrue((result));
-        assertEquals(player1, board.getSpace(3,1).getPlayer(),"Player"+player1.getName()+"should be here");
+
+        assertEquals(player1, board.getSpace(3,1).getPlayer(),player1.getName()+" should be here");
 
     }
 }
