@@ -74,7 +74,7 @@ public class AppController implements Observer {
         dialog.setTitle("Join or create game");
         dialog.setHeaderText("Select a option");
         Optional<String> result = dialog.showAndWait();
-        if (result.equals("Create Game"))
+        if (result.get().equals("Create Game"))
         {
         isOnline = true;
         newGame();
@@ -104,13 +104,7 @@ public class AppController implements Observer {
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
             Board board = loadBoard();
-            if (isOnline) {
-                gameController = new GameController(board,new ClientController(new Client()));
-            }
-            else
-            {
-                gameController = new GameController(board,null);
-            }
+
             int no = result.get();
             for (int i = 0; i < no; i++) {
                 Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
@@ -118,14 +112,29 @@ public class AppController implements Observer {
                 board.addPlayer(player);
                 player.setSpawn();
             }
+            if (isOnline) {
+                gameController = new GameController(board,new ClientController(new Client()));
+                gameController.client.createGame(gameController.board.getPlayers().size());
+            }
+            else
+            {
+                gameController = new GameController(board,null);
+            }
+
+
 
 
             // XXX: V2
             // board.setCurrentPlayer(board.getPlayer(0));
             board.setCurrentPlayer(board.getPlayer(0));
+
             gameController.startProgrammingPhase();
 
             roboRally.createBoardView(gameController);
+            if (isOnline)
+            {
+
+            }
         }
     }
 

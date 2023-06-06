@@ -6,28 +6,47 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class ClientController {
+    public int getId() {
+        return id;
+    }
+
     int id;
-    private static final String API_BASE_URL = "http://localhost:8080/game"; // Replace with your API's base URL
+    int playerNumb;
+
+    public void setMaxPlayerNumb(int maxPlayerNumb) {
+        this.maxPlayerNumb = maxPlayerNumb;
+    }
+
+    int maxPlayerNumb;
 
     public final Client client;
     public ClientController(Client client)
     {
         this.client = client;
     }
-    public void createGame() {
-        int id = client.getID();
+    public void createGame(int maxNumbOfPlayers) {
+        id = client.CreateGameInstance(maxNumbOfPlayers);
+        playerNumb =1;
 
-       // client.postDataToApi(API_BASE_URL)
+
+    }
+    public void postGameInstance()
+    {
+        client.postGameInstance(id);
+    }
+    public void joinGame(int id)
+    {
+        this.id = id;
+      playerNumb = client.joinGame(id);
+
+      getGameInstance();
+    }
+    public void getGameInstance()
+    {
+        client.getGameInstance(id);
     }
 
 
 
-    public static void saveStringAsJsonFile(String jsonString, String filePath) {
-        try (FileWriter fileWriter = new FileWriter(filePath)) {
-            fileWriter.write(jsonString);
-            System.out.println("JSON file saved successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

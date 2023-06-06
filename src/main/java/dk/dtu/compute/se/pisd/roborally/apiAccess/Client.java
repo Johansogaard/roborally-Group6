@@ -12,7 +12,7 @@ import java.nio.file.Paths;
  */
 public class Client {
     private static final String API_BASE_URL = "http://localhost:8080/game"; // Replace with your API's base URL
-
+    private static final String curr_Game_Path = "src/main/resources/currGameInstance/currGame.json";
     public String getGameInstance(String gameID)
     {
         return getDataFromApi("GET",API_BASE_URL+"/"+gameID);
@@ -69,9 +69,24 @@ public class Client {
         }
         return null;
     }
-    public int getID()
+    public void postGameInstance(int id)
     {
-        return Integer.parseInt(getDataFromApi("GET",API_BASE_URL+"/id"));
+        postDataToApi(API_BASE_URL+"/"+id,curr_Game_Path);
+    }
+    public int CreateGameInstance(int maxNumbOfPlayers)
+    {
+        return Integer.parseInt(getDataFromApi("GET",API_BASE_URL+"/id/"+maxNumbOfPlayers));
+    }
+    public String getGameInstance(int id)
+    {
+        String data =getDataFromApi("GET",API_BASE_URL+"/id");
+        saveStringAsJsonFile(data,curr_Game_Path);
+        return data;
+    }
+    //returns the player number you are in the game
+    public int joinGame(int id)
+    {
+      return Integer.parseInt(getDataFromApi("GET",API_BASE_URL+"/"+id+"/join"));
     }
     public String getDataFromApi(String request,String API_BASE_URL)
     {
@@ -105,7 +120,14 @@ public class Client {
         }
         return null;
     }
-
+    public static void saveStringAsJsonFile(String jsonString, String filePath) {
+        try (FileWriter fileWriter = new FileWriter(filePath)) {
+            fileWriter.write(jsonString);
+            System.out.println("JSON file saved successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 

@@ -74,8 +74,13 @@ public class PlayerView extends Tab implements ViewObserver {
 
         this.gameController = gameController;
         this.player = player;
-
-        programLabel = new Label("Program");
+        if (gameController.client!=null)
+        {
+            programLabel = new Label("Program"+"\t\tGamID = "+gameController.client.getId());
+        }
+        else {
+            programLabel = new Label("Program");
+        }
 
         programPane = new GridPane();
         programPane.setVgap(2.0);

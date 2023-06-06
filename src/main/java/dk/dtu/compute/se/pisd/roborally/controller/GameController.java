@@ -77,6 +77,7 @@ public class GameController {
     // XXX: V2
     public void startProgrammingPhase() {
 
+
         board.setPhase(Phase.PROGRAMMING);
         board.setStep(0);
 
@@ -238,6 +239,10 @@ public class GameController {
         } else {
             // this should not happen
             assert false;
+        }
+        if (client!=null)
+        {
+            client.postGameInstance();
         }
     }
 
