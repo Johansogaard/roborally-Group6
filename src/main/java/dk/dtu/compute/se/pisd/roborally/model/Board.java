@@ -256,16 +256,16 @@ public class Board extends Subject {
         int y = space.y;
         switch (heading) {
             case SOUTH:
-                y = (y + 1) % height;
+                y++;
                 break;
             case WEST:
-                x = (x + width - 1) % width;
+                x--;
                 break;
             case NORTH:
-                y = (y + height - 1) % height;
+                y--;
                 break;
             case EAST:
-                x = (x + 1) % width;
+                x++;
                 break;
         }
 

@@ -13,7 +13,7 @@ public class Pit implements FieldAction {
 
         Board board = space.board;
         Player player = space.getPlayer();
-        player.reboot();
+
 
         if (player == null) {
             return false;

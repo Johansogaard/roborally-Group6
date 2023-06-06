@@ -22,6 +22,8 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -48,7 +50,7 @@ public class Player extends Subject {
     public Deck discardpile;
     private Space space;
     private Heading heading = SOUTH;
-
+    public boolean reboot=false;
     public CommandCardField[] getProgram() {
         return program;
     }
@@ -190,17 +192,38 @@ public class Player extends Subject {
         return lastCheckpoint;
     }
 
-    public void reboot() {
-        // Reset the program cards to null
-        for (int i = 0; i < program.length; i++) {
-            program[i].setCard(null);
+    public void preboot(GameController gamecontroller) {
+        ChoiceDialog dialog = new ChoiceDialog();
+        dialog.setContentText("Which way should the player point");
+        dialog.getItems().add(Heading.NORTH);
+        dialog.getItems().add(Heading.EAST);
+        dialog.getItems().add(Heading.SOUTH);
+        dialog.getItems().add(Heading.WEST);
+
+        dialog.showAndWait();
+
+        if (dialog.getSelectedItem() != null) {
+            reboot(gamecontroller, (Heading) dialog.getSelectedItem());
+
         }
 
-        // Reset the player's space and heading
-        setSpace(null);
-        setHeading(SOUTH);
+    }
+
+    public void reboot(GameController gamecontroller, Heading heading) {
+        // Reset the program cards to null
+        reboot=true;
+        deck.addCard( new CommandCard(Command.SPAM));
+
+        setHeading(heading);
+
+        if((board.getSpace((board.getRebootToken().x),(board.getRebootToken().y))).getPlayer()!=null){
+            gamecontroller.moveForward(board.getSpace((board.getRebootToken().x),(board.getRebootToken().y)).getPlayer());}
+
+        setSpace(board.getSpace((board.getRebootToken().x),(board.getRebootToken().y)));
+
 
         // Notify observers of the change
         notifyChange();
     }
+
 }

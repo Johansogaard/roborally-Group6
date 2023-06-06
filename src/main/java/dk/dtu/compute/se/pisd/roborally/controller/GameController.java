@@ -182,7 +182,7 @@ public class GameController {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
 
                 //checks if card is something
-                if (card != null) {
+                if (card != null && currentPlayer.reboot==false) {
                     //gets the command
                     Command command = card.command;
 
@@ -351,6 +351,7 @@ public class GameController {
                 }
 
             }
+            else{ player.preboot(this);}
 
         }
     }
