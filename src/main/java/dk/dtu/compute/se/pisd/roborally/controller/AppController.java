@@ -26,6 +26,8 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+import dk.dtu.compute.se.pisd.roborally.apiAccess.Client;
+import dk.dtu.compute.se.pisd.roborally.apiAccess.ClientController;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadSaveGame;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -61,6 +63,7 @@ public class AppController implements Observer {
     final private String boardsPath = "src/main/resources/boards";
     final private String gamesPath = "src/main/resources/savedGames";
     private GameController gameController;
+    private boolean isOnline = false;
 
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
@@ -73,7 +76,8 @@ public class AppController implements Observer {
         Optional<String> result = dialog.showAndWait();
         if (result.equals("Create Game"))
         {
-
+        isOnline = true;
+        newGame();
         }
         else
         {
@@ -81,6 +85,7 @@ public class AppController implements Observer {
         }
 
     }
+
     public void newGame() {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
@@ -99,9 +104,13 @@ public class AppController implements Observer {
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
             Board board = loadBoard();
-
-            gameController = new GameController(board);
-
+            if (isOnline) {
+                gameController = new GameController(board,new ClientController(new Client()));
+            }
+            else
+            {
+                gameController = new GameController(board,null);
+            }
             int no = result.get();
             for (int i = 0; i < no; i++) {
                 Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
@@ -214,7 +223,7 @@ public class AppController implements Observer {
             showFilesToChoseFrom(gamesPath);
                 Board loadedBoard = LoadSaveGame.loadBoard(gamesPath,fileToOpen);
 
-                gameController = new GameController(loadedBoard);
+                gameController = new GameController(loadedBoard,null);
 
 
                 roboRally.createBoardView(gameController);

@@ -21,13 +21,12 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud;
+import dk.dtu.compute.se.pisd.roborally.apiAccess.ClientController;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * ...
@@ -38,13 +37,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class GameController {
 
     final public Board board;
+    final public ClientController client;
     public boolean won = false;
     /**
      * GameController is a controller for
      * @param board is the gameboard in use
      */
-    public GameController(@NotNull Board board) {
+    public GameController(@NotNull Board board,ClientController client) {
         this.board = board;
+        this.client= client;
     }
 
     /**
@@ -127,12 +128,18 @@ public class GameController {
 
     // XXX: V2
     private void makeProgramFieldsVisible(int register) {
-        if (register >= 0 && register < Player.NO_REGISTERS) {
-            for (int i = 0; i < board.getPlayersNumber(); i++) {
-                Player player = board.getPlayer(i);
-                CommandCardField field = player.getProgramField(register);
-                field.setVisible(true);
+        if (client == null) {
+            if (register >= 0 && register < Player.NO_REGISTERS) {
+                for (int i = 0; i < board.getPlayersNumber(); i++) {
+                    Player player = board.getPlayer(i);
+                    CommandCardField field = player.getProgramField(register);
+                    field.setVisible(true);
+                }
             }
+        }
+        else
+        {
+
         }
     }
 
