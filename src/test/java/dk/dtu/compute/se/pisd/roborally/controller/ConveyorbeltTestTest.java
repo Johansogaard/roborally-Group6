@@ -60,6 +60,7 @@ class ConveyorbeltTestTest {
         Board board =  gameController.board;
         Player player1 = board.getPlayer(0);
         player1.getHeading().equals(Heading.EAST);
+        player1 = board.getCurrentPlayer();
 
 
         gameController.moveCurrentPlayerToSpace(board.getSpace(1,1));
@@ -70,6 +71,8 @@ class ConveyorbeltTestTest {
         assertEquals(player1, board.getSpace(3,1).getPlayer(),player1.getName()+" should be here");
 
     }
+
+
 }
 
 

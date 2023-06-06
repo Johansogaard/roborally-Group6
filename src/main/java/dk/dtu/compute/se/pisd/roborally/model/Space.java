@@ -117,6 +117,23 @@ public class Space extends Subject {
         return belt;
     }
 
+    public ConveyorBelt3 getConveyorBelt3() {
+
+        ConveyorBelt3 belt = null;
+
+
+        for (FieldAction action : this.actions) {
+            if (action instanceof ConveyorBelt3 && belt == null) {
+                belt = (ConveyorBelt3) action;
+            }
+        }
+
+        return belt;
+    }
+
+
+
+
     public void setStartPlayerNo(int startPlayerNo) {
         this.startPlayerNo = startPlayerNo;
         notifyChange();
