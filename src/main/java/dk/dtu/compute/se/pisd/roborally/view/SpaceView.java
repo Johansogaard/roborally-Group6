@@ -130,7 +130,8 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.getChildren().add(fig);
 
              */
-        } else if (belt2 != null) {
+        }
+        if (belt2 != null) {
             switch (belt2.getHeading()) {
 
                 case EAST:
@@ -150,22 +151,22 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
 
         }
-        else{
+        if(belt3 != null){
             switch(belt3.getHeading()){
 
                 case EAST:
-                    addImage("images/bluecon.png").setRotate(90);
+                    addImage("images/greencon.png").setRotate(90);
                     break;
 
                 case SOUTH:
-                    addImage("images/bluecon.png").setRotate(180);
+                    addImage("images/greencon.png").setRotate(180);
                     break;
 
                 case WEST:
-                    addImage("images/bluecon.png").setRotate(-90);
+                    addImage("images/greencon.png").setRotate(-90);
                     break;
                 case NORTH:
-                    addImage("images/bluecon.png");
+                    addImage("");
             }
         }
     }
