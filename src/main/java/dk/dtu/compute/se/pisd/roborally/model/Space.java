@@ -93,6 +93,22 @@ public class Space extends Subject {
             notifyChange();
         }
     }
+    public void addPushPanel(Direction direction) {
+        boolean check = false;
+
+        for (FieldAction action : actions) {
+            if (action instanceof Gear) {
+                check = true;
+            }
+        }
+
+
+
+        if (!check) {
+            this.actions.add(new Gear(direction));
+            notifyChange();
+        }
+    }
     public List<FieldAction> getActions() {
         return actions;
     }

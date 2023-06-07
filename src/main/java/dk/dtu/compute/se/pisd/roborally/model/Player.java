@@ -190,7 +190,7 @@ public class Player extends Subject {
         return lastCheckpoint;
     }
 
-    public void preboot(Player player) {
+    /*public void preboot(Player player) {
         ChoiceDialog dialog = new ChoiceDialog();
         dialog.setContentText("Which way should the player point");
         dialog.getItems().add(Heading.NORTH);
@@ -205,16 +205,16 @@ public class Player extends Subject {
 
         }
 
-    }
+    }*/
 
-    public void reboot(Heading heading) {
+    public void preboot(Player player) {
         // Reset the program cards to null
 
         Space tokenLokation =board.getSpace((board.getRebootToken().x),(board.getRebootToken().y));
         reboot=true;
         deck.addCard( new CommandCard(Command.SPAM));
 
-        setHeading(heading);
+       // setHeading(heading);
 
         if((tokenLokation.getPlayer()!=null)){
             moveForward(tokenLokation.getPlayer());}
@@ -253,7 +253,7 @@ public class Player extends Subject {
                 {
                     isWall=true;
                 }
-                if (target.getPlayer()!=null&& isWall!=true)
+                if (isWall!=true && target.getPlayer()!=null)
                 {
                    isWall = pushPlayer(heading);
                 }
@@ -274,30 +274,32 @@ public class Player extends Subject {
      * @param heading        this is the direction of the push
      * @param
      */
-    public boolean pushPlayer(Heading heading)
-    {
+    public boolean pushPlayer(Heading heading) {
         Space space = getSpace();
         Space target = board.getNeighbour(space, heading);
         Player playerToPush = target.getPlayer();
-        Space nextTarget = board.getNeighbour(target,heading);
-        boolean isWall =false;
+        Space nextTarget = board.getNeighbour(target, heading);
 
-        // XXX note that this removes an other player from the space, when there
-        //     is another player on the target. Eventually, this needs to be
-        //     implemented in a way so that other players are pushed away!
+        if(nextTarget==null) {
+        playerToPush.preboot(playerToPush);
+        return false;}
 
-        //added a rekursive loop that will always check the player infront before pushing
-        if (target.getWalls().contains(heading))
-        {
-            isWall=true;
+        boolean isWall = false;
+
+        if (target.getWalls().contains(heading)) {
+            isWall = true;
         }
-        if(nextTarget.getPlayer()!=null&&isWall !=true)
-        {
-           isWall= playerToPush.pushPlayer(heading);
+
+        if (nextTarget != null && isWall != true && nextTarget.getPlayer() != null) {
+            isWall = playerToPush.pushPlayer(heading);
         }
-        if (isWall!=true) {
-            nextTarget.setPlayer(playerToPush);
+
+        if (isWall != true) {
+            if (nextTarget != null) {
+                nextTarget.setPlayer(playerToPush);
+            } else {
+                preboot(playerToPush);
+            }
         }
         return isWall;
-    }
-}
+    }}

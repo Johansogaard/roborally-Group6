@@ -237,7 +237,7 @@ public class BoardDesignView extends VBox {
             }
 
             ChoiceDialog dialog = new ChoiceDialog();
-            dialog.setContentText("Which way should the belt move the player?");
+            dialog.setContentText("Which way should push panel face?");
             dialog.getItems().add(Heading.NORTH);
             dialog.getItems().add(Heading.EAST);
             dialog.getItems().add(Heading.SOUTH);
