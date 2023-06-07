@@ -13,11 +13,13 @@ public class ConveyorBelt2 implements FieldAction {
 
     public Heading getHeading() { return heading; }
 
-    public void setHeading(Heading heading) { this.heading = heading;
-    }
+    private boolean hasMoved = false;
+
+    public void setHeading(Heading heading) { this.heading = heading;}
 
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
+
 
         Player currentPlayer = space.getPlayer();
         Space neighbourSpace = space.board.getNeighbour(space,heading);
@@ -28,20 +30,29 @@ public class ConveyorBelt2 implements FieldAction {
             return false;
         } else {
 
-            currentPlayer.setSpace(neighbourSpace);
+
+
+            Space secondNeighbourSpace = space.board.getNeighbour(neighbourSpace, heading);
 
             for (FieldAction action : neighbourSpace.actions) {
-                if (action instanceof ConveyorBelt2 || action instanceof ConveyorBelt3 && ((ConveyorBelt2) action).getHeading() != this.heading.opposite()) {
+                for (FieldAction action2 : secondNeighbourSpace.actions) {
 
-                        action.doAction(gameController, currentPlayer.getSpace());
+                    if (action instanceof ConveyorBelt2 || action instanceof ConveyorBelt3 && ((ConveyorBelt3) action).getHeading() != this.heading.opposite()) {
 
+                        currentPlayer.setSpace(neighbourSpace);
+
+                    }
+                    if(action2 instanceof ConveyorBelt2 || action2 instanceof ConveyorBelt3 && ((ConveyorBelt3) action).getHeading() != this.heading.opposite()){
+
+                        currentPlayer.setSpace(secondNeighbourSpace);
+                    }
                 }
             }
 
-            Space secondNeighbourSpace = space.board.getNeighbour(neighbourSpace, heading);
-            if(secondNeighbourSpace.actions instanceof ConveyorBelt2 || secondNeighbourSpace.actions instanceof  ConveyorBelt3) {
-                currentPlayer.setSpace(secondNeighbourSpace);
-            }
+
+            //if(secondNeighbourSpace.actions instanceof ConveyorBelt2 || secondNeighbourSpace.actions instanceof  ConveyorBelt3) {
+               // currentPlayer.setSpace(secondNeighbourSpace);
+            //}
             return true;
         }
 
