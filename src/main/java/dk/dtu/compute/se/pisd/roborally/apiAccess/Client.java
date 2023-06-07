@@ -1,5 +1,13 @@
 package dk.dtu.compute.se.pisd.roborally.apiAccess;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates.BoardTemplate;
+import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -112,6 +120,10 @@ public class Client {
     {
        return getDataFromApi("GET",API_BASE_URL+"/"+id+"/status");
     }
+    public void postGameInstanceActivationPhase(int id,String jsonData)
+    {
+        postDataToApi(API_BASE_URL+"/"+id+"/step",jsonData);
+    }
     public void postGameInstanceProgrammingPhase(int id,String jsonData,int playerNumb)
     {
         postDataToApi(API_BASE_URL+"/"+id+"/"+playerNumb,jsonData);
@@ -174,6 +186,34 @@ public class Client {
             e.printStackTrace();
         }
     }
+    public static Board loadGameInstanceFromString(String jsonString)
+    {
+        GsonBuilder gsonBuilder = new GsonBuilder()
+                .registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+        Gson gson = gsonBuilder.create();
+
+        try (JsonReader reader = new JsonReader(new StringReader(jsonString))) {
+            BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
+            return template.toBoard();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String getGameInstanceAsString(Board board)
+    {
+        BoardTemplate template = new BoardTemplate().fromBoard(board);
+
+        GsonBuilder gsonBuilder = new GsonBuilder()
+                .registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>())
+                .setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+
+        return gson.toJson(template);
+    }
+
 
 }
 

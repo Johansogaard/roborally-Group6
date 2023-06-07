@@ -26,8 +26,8 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
-import dk.dtu.compute.se.pisd.roborally.apiAccess.Client;
-import dk.dtu.compute.se.pisd.roborally.apiAccess.ClientController;
+
+import dk.dtu.compute.se.pisd.roborally.apiAccess.Repository;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadSaveGame;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -66,7 +66,7 @@ public class AppController implements Observer {
     final private String currGameFile = "currGame";
     final private String jsonFile = ".jsoon";
     private GameController gameController;
-    private ClientController client = null;
+    private Repository repository = null;
 
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
@@ -79,12 +79,12 @@ public class AppController implements Observer {
         Optional<String> result = dialog.showAndWait();
         if (result.get().equals("Create Game"))
         {
-        client = new ClientController(new Client());
+        repository = Repository.getInstance();
         newGame();
         }
         else if(result.get().equals("Join Game"))
         {
-            client = new ClientController(new Client());
+            repository = Repository.getInstance();
             TextInputDialog inputDialog = new TextInputDialog();
             inputDialog.setContentText("Write the id of the game you want to join");
             inputDialog.showAndWait();
@@ -92,10 +92,10 @@ public class AppController implements Observer {
 
 
 
-            client.joinGame(Integer.parseInt(inputDialog.getResult()));
+            repository.joinGame(Integer.parseInt(inputDialog.getResult()));
 
-            Board loadedBoard = LoadSaveGame.loadGameInstanceFromString(client.getGameInstance());
-            gameController = new GameController(loadedBoard,client);
+            Board loadedBoard = repository.getGameInstance();
+            gameController = new GameController(loadedBoard);
             roboRally.createBoardView(gameController);
 
         }
@@ -132,14 +132,14 @@ public class AppController implements Observer {
                 board.addPlayer(player);
                 player.setSpawn();
             }
-            if (client != null) {
-                gameController = new GameController(board,client);
-                gameController.client.createGame(gameController.board.getPlayers().size());
+            if (repository != null) {
+                gameController = new GameController(board);
+                repository.createGame(gameController.board.getPlayers().size());
 
             }
             else
             {
-                gameController = new GameController(board,null);
+                gameController = new GameController(board);
             }
 
 
@@ -152,9 +152,9 @@ public class AppController implements Observer {
             gameController.startProgrammingPhase();
 
             roboRally.createBoardView(gameController);
-            if (client != null)
+            if (repository != null)
             {
-               client.postGameInstance(LoadSaveGame.getGameInstanceAsString(board));
+               repository.postGameInstance(board);
             }
         }
     }
@@ -254,7 +254,7 @@ public class AppController implements Observer {
             showFilesToChoseFrom(gamesPath);
                 Board loadedBoard = LoadSaveGame.loadBoard(gamesPath,fileToOpen);
 
-                gameController = new GameController(loadedBoard,null);
+                gameController = new GameController(loadedBoard);
 
 
                 roboRally.createBoardView(gameController);

@@ -32,7 +32,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,9 +73,9 @@ public class PlayerView extends Tab implements ViewObserver {
 
         this.gameController = gameController;
         this.player = player;
-        if (gameController.client!=null)
+        if (gameController.repository !=null)
         {
-            programLabel = new Label("Program"+"\t\tGamID = "+gameController.client.getId());
+            programLabel = new Label("Program"+"\t\tGamID = "+gameController.repository.getId());
         }
         else {
             programLabel = new Label("Program");

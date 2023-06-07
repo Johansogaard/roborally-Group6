@@ -132,32 +132,5 @@ public class LoadSaveGame {
             }
         }
     }
-    public static Board loadGameInstanceFromString(String jsonString)
-    {
-        GsonBuilder gsonBuilder = new GsonBuilder()
-                .registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
-        Gson gson = gsonBuilder.create();
-
-        try (JsonReader reader = new JsonReader(new StringReader(jsonString))) {
-            BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
-            return template.toBoard();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public static String getGameInstanceAsString(Board board)
-    {
-        BoardTemplate template = new BoardTemplate().fromBoard(board);
-
-        GsonBuilder gsonBuilder = new GsonBuilder()
-                .registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>())
-                .setPrettyPrinting();
-        Gson gson = gsonBuilder.create();
-
-        return gson.toJson(template);
-    }
 
 }

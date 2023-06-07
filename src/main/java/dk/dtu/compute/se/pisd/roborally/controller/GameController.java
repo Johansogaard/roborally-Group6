@@ -21,8 +21,8 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import dk.dtu.compute.se.pisd.roborally.apiAccess.ClientController;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadSaveGame;
+
+import dk.dtu.compute.se.pisd.roborally.apiAccess.Repository;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
@@ -37,16 +37,16 @@ import java.util.*;
  */
 public class GameController {
 
-    final public Board board;
-    final public ClientController client;
+    public Board board;
+    final public Repository repository;
     public boolean won = false;
     /**
      * GameController is a controller for
      * @param board is the gameboard in use
      */
-    public GameController(@NotNull Board board,ClientController client) {
+    public GameController(@NotNull Board board) {
         this.board = board;
-        this.client= client;
+        this.repository = Repository.getInstance();
     }
 
     /**
@@ -126,10 +126,10 @@ public class GameController {
         board.setPlayerOrder();
         board.setStep(0);
         fillEmptyRegister();
-        if (client!=null) {
+        if (repository !=null) {
             mergeCards();
-            client.postGameInstanceProgrammingPhase(LoadSaveGame.getGameInstanceAsString(board));
-            client.waitForPlayers();
+            repository.postGameInstanceProgrammingPhase(board);
+            board =repository.getGameInstance();
 
 
         }
@@ -137,10 +137,10 @@ public class GameController {
     }
     public void mergeCards()
     {
-        Board loadedBoard = LoadSaveGame.loadGameInstanceFromString(client.getGameInstance());
+        Board loadedBoard =repository.getGameInstance();
         for (int i =0;i<board.getPlayers().size();i++)
         {
-            if (i != client.getPlayerNumb())
+            if (i != repository.getPlayerNumb())
             {
                 board.getPlayers().get(i).setCards(loadedBoard.getPlayers().get(i).getCards());
             }
@@ -149,7 +149,7 @@ public class GameController {
 
     // XXX: V2
     private void makeProgramFieldsVisible(int register) {
-        if (client == null) {
+
             if (register >= 0 && register < Player.NO_REGISTERS) {
                 for (int i = 0; i < board.getPlayersNumber(); i++) {
                     Player player = board.getPlayer(i);
@@ -158,11 +158,8 @@ public class GameController {
                 }
             }
         }
-        else
-        {
 
-        }
-    }
+
 
     // XXX: V2
     private void makeProgramFieldsInvisible() {
@@ -199,71 +196,81 @@ public class GameController {
         //gets the curr player
 
         Player currentPlayer = board.getCurrentPlayer();
+        if(repository==null||(repository.getPlayerNumb()-1)==currentPlayer.no) {
+            //cheks if the phase is activation and the curr player is not null
+            if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
+                //the curr register
+                int step = board.getStep();
+                //checks if the step in correct and not a unusable value
+                if (step >= 0 && step < Player.NO_REGISTERS) {
+                    //gets the curr card
+                    CommandCard card = currentPlayer.getProgramField(step).getCard();
 
-        //cheks if the phase is activation and the curr player is not null
-        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
-            //the curr register
-            int step = board.getStep();
-            //checks if the step in correct and not a unusable value
-            if (step >= 0 && step < Player.NO_REGISTERS) {
-                //gets the curr card
-                CommandCard card = currentPlayer.getProgramField(step).getCard();
+                    //checks if card is something
+                    if (card != null) {
+                        //gets the command
+                        Command command = card.command;
 
-                //checks if card is something
-                if (card != null) {
-                    //gets the command
-                    Command command = card.command;
-
-                    //if the command is Interactive then the phase must be changed
-                    if (card.command.isInteractive()) {
-                        board.setPhase(Phase.PLAYER_INTERACTION);
-                    } else {
-                        //else it will executecommand
-                        executeCommand(currentPlayer, command);
-
-                        //setting the next player;
-                        //sout i used for debugging remove later
-                        System.out.println(board.getOrderNumber(currentPlayer) +" "+ board.getPlayersNumber());
-                        if (board.getOrderNumber(currentPlayer)+1 < board.getPlayersNumber()) {
-                            board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
+                        //if the command is Interactive then the phase must be changed
+                        if (card.command.isInteractive()) {
+                            board.setPhase(Phase.PLAYER_INTERACTION);
                         } else {
-                            //adds a step because we now have been through all the players
-                            step++;
+                            //else it will executecommand
+                            executeCommand(currentPlayer, command);
 
-                            //we run doaction on all fields because now all players have done the current register
-                            for(Player player : this.board.getPlayers()){
-                                for (FieldAction action : player.getSpace().getActions()) {
-                                    if (won) {
-                                        break;
-                                    }
-                                    action.doAction(this, player.getSpace());
-                                }
-                            }
-
-                            //checks if we have more steps than registers if thats the case we will start the programming phase
-                            if (step < Player.NO_REGISTERS) {
-                                makeProgramFieldsVisible(step);
-                                board.setStep(step);
-                                board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
+                            //setting the next player;
+                            //sout i used for debugging remove later
+                            System.out.println(board.getOrderNumber(currentPlayer) + " " + board.getPlayersNumber());
+                            if (board.getOrderNumber(currentPlayer) + 1 < board.getPlayersNumber()) {
+                                board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer) + 1) % (board.getPlayers().size())));
                             } else {
+                                //adds a step because we now have been through all the players
+                                step++;
 
-                                startProgrammingPhase();
+                                //we run doaction on all fields because now all players have done the current register
+                                for (Player player : this.board.getPlayers()) {
+                                    for (FieldAction action : player.getSpace().getActions()) {
+                                        if (won) {
+                                            break;
+                                        }
+                                        action.doAction(this, player.getSpace());
+                                    }
+                                }
+
+                                //checks if we have more steps than registers if thats the case we will start the programming phase
+                                if (step < Player.NO_REGISTERS) {
+                                    makeProgramFieldsVisible(step);
+                                    board.setStep(step);
+                                    board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer) + 1) % (board.getPlayers().size())));
+                                } else {
+                                    board.setCurrentPlayer(null);
+                                    startProgrammingPhase();
+                                }
                             }
                         }
                     }
+                } else {
+                    // this should not happen
+                    assert false;
                 }
-            }else {
+            } else {
                 // this should not happen
                 assert false;
             }
-        } else {
-            // this should not happen
-            assert false;
+            if (repository !=null)
+            {
+                repository.postGameInstanceActivationPhase(board);
+                executeNextStep();
+            }
         }
-        if (client!=null)
+        else
         {
-            client.postGameInstance(LoadSaveGame.getGameInstanceAsString(board));
+            repository.waitForPlayers();
+            board = repository.getGameInstance();
+            executeNextStep();
         }
+
+
     }
 
     // XXX: V2
