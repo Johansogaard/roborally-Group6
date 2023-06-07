@@ -98,20 +98,29 @@ public class AppController implements Observer {
     }
 
     public void saveGameToServer() {
+        // Creating a dialog box for user input
         TextInputDialog td = new TextInputDialog("NewGameSave");
         td.setHeaderText("Enter a name for the saved game");
         Optional<String> result = td.showAndWait();
 
+        // If user has entered a name
         if (result.isPresent()) {
+            // Get the entered name and create a file path with it
             String fileName = result.get();
             String filePath = GAMES_FOLDER + "/" + fileName + "." + JSON_EXT;
+            // Convert the current game board to a template
             BoardTemplate template = new BoardTemplate().fromBoard(gameController.board);
+
+            // Set up Gson with custom adapter and pretty printing
             GsonBuilder gsonBuilder = new GsonBuilder()
                     .registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>())
                     .setPrettyPrinting();
             Gson gson = gsonBuilder.create();
+
+            // Convert the board template to a JSON string
             String jsonData = gson.toJson(template, template.getClass());
 
+            // Try to write the JSON data to a local file
             try (FileWriter fileWriter = new FileWriter(filePath)) {
                 fileWriter.write(jsonData);
                 logger.info("Successfully saved the board locally: {}", fileName);
@@ -119,21 +128,34 @@ public class AppController implements Observer {
                 logger.error("Error saving board locally: {}", fileName, e);
                 throw new RuntimeException("Could not save game locally", e);
             }
-
+            //Sends the game to the server
             sendToServer(fileName);
         }
     }
 
     private void sendToServer(String fileName) {
+        // Remove the extension from the filename to get the game ID
         String gameId = fileName.substring(0, fileName.lastIndexOf('.'));
+
+        // Create the URL to POST to
         String apiUrl = BASE_URL + gameId;
 
+        // Attempt to read the local game file and send it to the server
         try {
+            // Read the entire file into a byte array
             byte[] gameData = Files.readAllBytes(Paths.get(GAMES_FOLDER, fileName));
+
+            // Set up HTTP headers to indicate we're sending JSON data
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
+
+            // Set up an HTTP request entity with our game data and headers
             HttpEntity<byte[]> requestEntity = new HttpEntity<>(gameData, headers);
+
+            // Send the request to the server
             ResponseEntity<Void> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, Void.class);
+
+            // If the server responded with HTTP 200 OK, it was successful
 
             if (responseEntity.getStatusCode() == HttpStatus.OK) {
                 logger.info("Game data sent successfully to the server for gameId: {}", gameId);
@@ -147,11 +169,27 @@ public class AppController implements Observer {
         }
     }
     public void loadGameFromServer() {
-                showFilesToChoseFrom(GAMES_FOLDER);
-                Board loadedBoard = LoadSaveGame.loadBoard(GAMES_FOLDER,fileToOpen);
-        gameController = new GameController(loadedBoard);
-                roboRally.createBoardView(gameController);
+        try {
+            System.out.println("Showing files to choose from...");
+            showFilesToChoseFrom(GAMES_FOLDER);
+
+            System.out.println("Loading board...");
+            Board loadedBoard = LoadSaveGame.loadBoard(GAMES_FOLDER, fileToOpen);
+
+            System.out.println("Creating GameController...");
+            gameController = new GameController(loadedBoard);
+
+            System.out.println("Creating BoardView...");
+            roboRally.createBoardView(gameController);
+
+            System.out.println("Game loaded successfully from server");
+        } catch (Exception e) {
+            System.out.println("An error occurred:");
+            e.printStackTrace();
+        }
     }
+
+
 
 
 

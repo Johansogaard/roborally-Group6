@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.fileaccess;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
@@ -31,8 +32,14 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 /**
  * ...
  *
@@ -45,6 +52,8 @@ public class LoadSaveGame {
     private static final String GAMESFOLDER = "savedGames";
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
+
+
 
     public static Board loadBoard(String path, String boardname) {
         logger.info("Loading board: {}, from path: {}", boardname, path);
@@ -142,18 +151,7 @@ public class LoadSaveGame {
             }
         }
     }
-    public static byte[] convertBoardToByteArray(Board board) {
-        logger.info("Converting board: {} to byte array");
 
-        try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(bos);
-            oos.writeObject(board);
-            oos.flush();
-            return bos.toByteArray();
-        } catch (IOException e) {
-            logger.error("Error converting board: {} to byte array", e);
-            throw new RuntimeException("Could not convert board to byte array", e);
-        }
-    }
+
+
 }
