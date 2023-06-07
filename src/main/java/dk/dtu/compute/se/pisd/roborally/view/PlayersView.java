@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import javafx.scene.control.TabPane;
 
@@ -41,14 +42,23 @@ public class PlayersView extends TabPane implements ViewObserver {
 
     public PlayersView(GameController gameController) {
         board = gameController.board;
-
+//not sure this works
         this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-
-        playerViews = new PlayerView[board.getPlayersNumber()];
-        for (int i = 0; i < board.getPlayersNumber();  i++) {
-            playerViews[i] = new PlayerView(gameController, board.getPlayers().get(i));
-            this.getTabs().add(playerViews[i]);
+        if (gameController.client==null || gameController.board.getPhase() == Phase.ACTIVATION) {
+            playerViews = new PlayerView[board.getPlayersNumber()];
+            for (int i = 0; i < board.getPlayersNumber(); i++) {
+                playerViews[i] = new PlayerView(gameController, board.getPlayers().get(i));
+                this.getTabs().add(playerViews[i]);
+            }
         }
+        else
+        {
+            //if the mode is online the player should only see his own programming field
+            playerViews = new PlayerView[1];
+            playerViews[0] = new PlayerView(gameController,board.getPlayers().get(gameController.client.getPlayerNumb()-1));
+            this.getTabs().add(playerViews[0]);
+        }
+
         board.attach(this);
         update(board);
     }

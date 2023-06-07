@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.apiAccess.ClientController;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadSaveGame;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
@@ -125,6 +126,25 @@ public class GameController {
         board.setPlayerOrder();
         board.setStep(0);
         fillEmptyRegister();
+        if (client!=null) {
+            mergeCards();
+            client.postGameInstanceProgrammingPhase(LoadSaveGame.getGameInstanceAsString(board));
+            client.waitForPlayers();
+
+
+        }
+
+    }
+    public void mergeCards()
+    {
+        Board loadedBoard = LoadSaveGame.loadGameInstanceFromString(client.getGameInstance());
+        for (int i =0;i<board.getPlayers().size();i++)
+        {
+            if (i != client.getPlayerNumb())
+            {
+                board.getPlayers().get(i).setCards(loadedBoard.getPlayers().get(i).getCards());
+            }
+        }
     }
 
     // XXX: V2
@@ -242,7 +262,7 @@ public class GameController {
         }
         if (client!=null)
         {
-            client.postGameInstance();
+            client.postGameInstance(LoadSaveGame.getGameInstanceAsString(board));
         }
     }
 

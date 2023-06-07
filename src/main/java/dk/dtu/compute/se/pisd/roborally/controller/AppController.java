@@ -63,7 +63,8 @@ public class AppController implements Observer {
     final private String boardsPath = "src/main/resources/boards";
     final private String gamesPath = "src/main/resources/savedGames";
     final private String currGamePath = "src/main/resources/currGameInstance";
-    final private String currGameFile = "currGame.json";
+    final private String currGameFile = "currGame";
+    final private String jsonFile = ".jsoon";
     private GameController gameController;
     private ClientController client = null;
 
@@ -92,10 +93,11 @@ public class AppController implements Observer {
 
 
             client.joinGame(Integer.parseInt(inputDialog.getResult()));
-            client.getGameInstance();
-            Board loadedBoard = LoadSaveGame.loadBoard(currGamePath,currGameFile);
+
+            Board loadedBoard = LoadSaveGame.loadGameInstanceFromString(client.getGameInstance());
             gameController = new GameController(loadedBoard,client);
             roboRally.createBoardView(gameController);
+
         }
         else
         {
@@ -133,6 +135,7 @@ public class AppController implements Observer {
             if (client != null) {
                 gameController = new GameController(board,client);
                 gameController.client.createGame(gameController.board.getPlayers().size());
+
             }
             else
             {
@@ -151,7 +154,7 @@ public class AppController implements Observer {
             roboRally.createBoardView(gameController);
             if (client != null)
             {
-                LoadSaveGame.saveBoard(gameController.board,currGamePath ,currGameFile);
+               client.postGameInstance(LoadSaveGame.getGameInstanceAsString(board));
             }
         }
     }

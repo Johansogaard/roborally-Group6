@@ -17,7 +17,7 @@ public class Client {
     {
         return getDataFromApi("GET",API_BASE_URL+"/"+gameID);
     }
-    public String postDataToApi(String API_BASE_URL,String filePath)
+    public String postDataToApiFromFile(String API_BASE_URL,String filePath)
     { try {
         // Read the content of the JSON file
         String jsonContent = readJsonFile(filePath);
@@ -58,6 +58,45 @@ public class Client {
     }
         return null;
     }
+    public String postDataToApi(String API_BASE_URL,String jsonData)
+    { try {
+
+        // Send POST request to API with JSON content
+        URL url = new URL(API_BASE_URL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setDoOutput(true);
+
+        // Write the JSON content to the request body
+        try (OutputStream outputStream = connection.getOutputStream();
+             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream))) {
+            writer.write(jsonData);
+        }
+
+        // Get the response from the API
+        int responseCode = connection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            // Process the response
+            StringBuilder response = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+            }
+
+            return response.toString();
+        } else {
+            // Handle error response
+            System.out.println("Error response: " + responseCode);
+            return Integer.toString(responseCode);
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+        return null;
+    }
 
 
     private String readJsonFile(String filePath) {
@@ -69,9 +108,17 @@ public class Client {
         }
         return null;
     }
-    public void postGameInstance(int id)
+    public String getStatus(int id)
     {
-        postDataToApi(API_BASE_URL+"/"+id,curr_Game_Path);
+       return getDataFromApi("GET",API_BASE_URL+"/"+id+"/status");
+    }
+    public void postGameInstanceProgrammingPhase(int id,String jsonData,int playerNumb)
+    {
+        postDataToApi(API_BASE_URL+"/"+id+"/"+playerNumb,jsonData);
+    }
+    public void postGameInstance(int id,String jsonData)
+    {
+        postDataToApi(API_BASE_URL+"/"+id,jsonData);
     }
     public int CreateGameInstance(int maxNumbOfPlayers)
     {
@@ -80,7 +127,6 @@ public class Client {
     public String getGameInstance(int id)
     {
         String data =getDataFromApi("GET",API_BASE_URL+"/"+id);
-        saveStringAsJsonFile(data,curr_Game_Path);
         return data;
     }
     //returns the player number you are in the game
