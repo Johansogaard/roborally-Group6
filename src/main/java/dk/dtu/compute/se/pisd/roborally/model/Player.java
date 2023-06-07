@@ -201,13 +201,13 @@ public class Player extends Subject {
         dialog.showAndWait();
 
         if (dialog.getSelectedItem() != null) {
-            reboot(player, (Heading) dialog.getSelectedItem());
+            reboot( (Heading) dialog.getSelectedItem());
 
         }
 
     }
 
-    public void reboot(Player player,Heading heading) {
+    public void reboot(Heading heading) {
         // Reset the program cards to null
 
         Space tokenLokation =board.getSpace((board.getRebootToken().x),(board.getRebootToken().y));
@@ -255,7 +255,7 @@ public class Player extends Subject {
                 }
                 if (target.getPlayer()!=null&& isWall!=true)
                 {
-                   isWall = pushPlayer(heading, player);
+                   isWall = pushPlayer(heading);
                 }
                 if (isWall!=true) {
                     target.setPlayer(this);
@@ -274,7 +274,7 @@ public class Player extends Subject {
      * @param heading        this is the direction of the push
      * @param
      */
-    public boolean pushPlayer(Heading heading, Player player)
+    public boolean pushPlayer(Heading heading)
     {
         Space space = getSpace();
         Space target = board.getNeighbour(space, heading);
@@ -293,7 +293,7 @@ public class Player extends Subject {
         }
         if(nextTarget.getPlayer()!=null&&isWall !=true)
         {
-           isWall= playerToPush.pushPlayer(heading, player);
+           isWall= playerToPush.pushPlayer(heading);
         }
         if (isWall!=true) {
             nextTarget.setPlayer(playerToPush);

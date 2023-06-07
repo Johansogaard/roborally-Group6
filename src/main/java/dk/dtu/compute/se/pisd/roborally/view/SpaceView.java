@@ -203,6 +203,9 @@ public class SpaceView extends StackPane implements ViewObserver {
             if (action instanceof Gear) {
                 addImage("images/gear" + (((Gear) action).direction) + ".png");
             }
+            if (action instanceof PushPanel) {
+                addImage("images/pushpanel" + (((PushPanel) action)) + ".png");
+            }
 
         }
     }

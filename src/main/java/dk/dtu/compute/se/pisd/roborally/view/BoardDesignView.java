@@ -78,7 +78,9 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Checkpoint");
         this.fieldOptions.add("Gear");
         this.fieldOptions.add("Reboot token");
-        this.fieldOptions.add("double Conveyor belt");
+        this.fieldOptions.add("Double Conveyor belt");
+        this.fieldOptions.add("Push panel");
+        this.fieldOptions.add("Pit");
     }
 
     private class SpaceEventHandler implements EventHandler<MouseEvent> {
@@ -113,15 +115,18 @@ public class BoardDesignView extends VBox {
                 switch ((String) dialog.getSelectedItem()) {
 
                     case "Antenna":
-                       addAntenna(space);
+                        addAntenna(space);
                         break;
 
                     case "Conveyor Belt":
                         addConveyorBelt(space);
                         break;
 
-                    case "double Conveyor belt":
+                    case "Double Conveyor belt":
                         addConveyorBelt2(space);
+                        break;
+                    case "push panel":
+                        addPushPanel(space);
                         break;
 
                     case "Player start field":
@@ -142,6 +147,9 @@ public class BoardDesignView extends VBox {
                     case "Reboot token":
                         addRebootToken(space);
                         break;
+                    case "Pit":
+                        space.addPit();
+                        break;
                 }
 
             }
@@ -155,14 +163,14 @@ public class BoardDesignView extends VBox {
             }
         }
 
-        private void addAntenna(Space space)
-        {
+        private void addAntenna(Space space) {
 
             if (this.board.getAntenna() == null) {
                 space.addAntenna();
             }
 
         }
+
         private void addConveyorBelt(Space space) {
 
             for (FieldAction action : space.getActions()) {
@@ -190,6 +198,7 @@ public class BoardDesignView extends VBox {
             }
 
         }
+
         private void addConveyorBelt2(Space space) {
 
             for (FieldAction action : space.getActions()) {
@@ -218,6 +227,33 @@ public class BoardDesignView extends VBox {
 
         }
 
+        private void addPushPanel(Space space) {
+
+            for (FieldAction action : space.getActions()) {
+                if (action instanceof PushPanel) {
+                    // TODO add some explanation to the user that there is already a belt at this space
+                    return;
+                }
+            }
+
+            ChoiceDialog dialog = new ChoiceDialog();
+            dialog.setContentText("Which way should the belt move the player?");
+            dialog.getItems().add(Heading.NORTH);
+            dialog.getItems().add(Heading.EAST);
+            dialog.getItems().add(Heading.SOUTH);
+            dialog.getItems().add(Heading.WEST);
+
+            dialog.showAndWait();
+
+            if (dialog.getSelectedItem() != null) {
+
+                PushPanel pushPanel = new PushPanel();
+                pushPanel.setHeading((Heading) dialog.getSelectedItem());
+
+                space.addAction(pushPanel);
+            }
+        }
+
         private void addPlayerStart(Space space) {
 
             TextInputDialog dialog = new TextInputDialog();
@@ -228,7 +264,9 @@ public class BoardDesignView extends VBox {
                 space.setStartPlayerNo(Integer.parseInt(dialog.getResult()));
             }
 
+
         }
+
 
         private void addWalls(Space space) {
 

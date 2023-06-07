@@ -1,0 +1,54 @@
+{
+  "width": 8,
+  "height": 8,
+  "step": 0,
+  "phase": "INITIALISATION",
+  "players": [],
+  "spaces": [
+    {
+      "startPlayerNo": 1,
+      "x": 2,
+      "y": 0,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "INSTANCE": {
+            "no": 1
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 1,
+      "x": 3,
+      "y": 0,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 3,
+      "y": 3,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Pit",
+          "INSTANCE": {}
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 2,
+      "x": 4,
+      "y": 0,
+      "walls": [],
+      "actions": []
+    }
+  ],
+  "playerOrder": [],
+  "rebootToken": {
+    "x": 7,
+    "y": 0
+  }
+}
