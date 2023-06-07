@@ -30,24 +30,30 @@ public class ConveyorBelt2 implements FieldAction {
             return false;
         } else {
 
-
-
             Space secondNeighbourSpace = space.board.getNeighbour(neighbourSpace, heading);
 
             for (FieldAction action : neighbourSpace.actions) {
-                for (FieldAction action2 : secondNeighbourSpace.actions) {
+                if (action instanceof ConveyorBelt2 || action instanceof ConveyorBelt3 && ((ConveyorBelt3) action).getHeading() != this.heading.opposite()) {
+                    currentPlayer.setSpace(neighbourSpace);
 
-                    if (action instanceof ConveyorBelt2 || action instanceof ConveyorBelt3 && ((ConveyorBelt3) action).getHeading() != this.heading.opposite()) {
+                    for (FieldAction action2 : secondNeighbourSpace.actions) {
 
-                        currentPlayer.setSpace(neighbourSpace);
+                        if(action2 instanceof ConveyorBelt2 || action2 instanceof ConveyorBelt3 && ((ConveyorBelt3) action2).getHeading() != this.heading.opposite()){
 
+                            currentPlayer.setSpace(secondNeighbourSpace);
+                        }
+                        else{
+                            break;
+                        }
                     }
-                    if(action2 instanceof ConveyorBelt2 || action2 instanceof ConveyorBelt3 && ((ConveyorBelt3) action).getHeading() != this.heading.opposite()){
 
-                        currentPlayer.setSpace(secondNeighbourSpace);
-                    }
                 }
+                else{
+                    break;
+                }
+
             }
+
 
 
             //if(secondNeighbourSpace.actions instanceof ConveyorBelt2 || secondNeighbourSpace.actions instanceof  ConveyorBelt3) {
