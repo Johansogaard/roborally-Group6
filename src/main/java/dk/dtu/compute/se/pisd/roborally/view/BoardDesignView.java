@@ -76,6 +76,7 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Player start field");
         this.fieldOptions.add("Walls");
         this.fieldOptions.add("Checkpoint");
+        this.fieldOptions.add("Directional Conveyor belt");
         this.fieldOptions.add("Gear");
         this.fieldOptions.add("double Conveyor belt");
     }

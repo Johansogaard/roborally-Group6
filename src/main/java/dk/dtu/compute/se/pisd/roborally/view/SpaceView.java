@@ -155,18 +155,18 @@ public class SpaceView extends StackPane implements ViewObserver {
             switch(belt3.getHeading()){
 
                 case EAST:
-                    addImage("images/greencon.png").setRotate(90);
+                    addImage("images/DDCB.png").setRotate(90);
                     break;
 
                 case SOUTH:
-                    addImage("images/greencon.png").setRotate(180);
+                    addImage("images/DDCB.png").setRotate(180);
                     break;
 
                 case WEST:
-                    addImage("images/greencon.png").setRotate(-90);
+                    addImage("images/DDCB.png").setRotate(-90);
                     break;
                 case NORTH:
-                    addImage("");
+                    addImage("images/DDCB.png");
             }
         }
     }

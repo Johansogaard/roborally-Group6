@@ -19,35 +19,30 @@ public class ConveyorBelt3 implements FieldAction {
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
         Player currentPlayer = space.getPlayer();
-        Space neighbourSpace = space.board.getNeighbour(space, heading);
-
         currentPlayer.setHeading(this.heading);
 
-        // Check if the neighbor space is occupied by another player
-        if (neighbourSpace.getPlayer() != null) {
-            return false;
-        } else {
-            // Move the current player to the neighbor space
-            currentPlayer.setSpace(neighbourSpace);
-
-            // Move the player in all four directions
-            for (Heading direction : Heading.values()) {
-                // Exclude the opposite direction of the current heading
-                if (direction != this.heading.opposite()) {
-                    Space nextSpace = neighbourSpace.board.getNeighbour(neighbourSpace, direction);
-                    // Check if the next space has a conveyor belt action
-                    for (FieldAction action : nextSpace.actions) {
-                        if (action instanceof ConveyorBelt) {
-                            // Move the player to the next space with conveyor belt action
-                            action.doAction(gameController, currentPlayer.getSpace());
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return true;
+        // Check if the player can move forward
+        Space nextSpace = space.board.getNeighbour(space, heading);
+        if (nextSpace == null || nextSpace.getPlayer() != null) {
+            return false; // Player cannot move forward
         }
-    }
 
+        currentPlayer.setSpace(nextSpace);
+
+        // Move the player further if there are more directional conveyor belts
+        for (FieldAction action : nextSpace.getActions()) {
+            if (action instanceof ConveyorBelt3) {
+                ConveyorBelt3 conveyorBelt = (ConveyorBelt3) action;
+                currentPlayer.setHeading(conveyorBelt.getHeading());
+                nextSpace = nextSpace.board.getNeighbour(nextSpace, conveyorBelt.getHeading());
+                if (nextSpace == null || nextSpace.getPlayer() != null) {
+                    return true; // Player reached the final destination
+                }
+                currentPlayer.setSpace(nextSpace);
+            }
+        }
+
+        return true;
+    }
 }
+

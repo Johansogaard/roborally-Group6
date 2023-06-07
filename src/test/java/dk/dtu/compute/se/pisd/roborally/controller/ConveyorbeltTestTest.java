@@ -68,7 +68,7 @@ class ConveyorbeltTestTest {
         conveyorBelt2.doAction(gameController, (board.getSpace(1,1)));
 
 
-        assertEquals(player1, board.getSpace(3,1).getPlayer(),player1.getName()+" should be here");
+        assertEquals(player1, board.getSpace(2,1).getPlayer(),player1.getName()+" should be here");
 
     }
 

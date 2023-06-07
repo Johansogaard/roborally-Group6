@@ -31,15 +31,17 @@ public class ConveyorBelt2 implements FieldAction {
             currentPlayer.setSpace(neighbourSpace);
 
             for (FieldAction action : neighbourSpace.actions) {
-                if (action instanceof ConveyorBelt2 && ((ConveyorBelt2) action).getHeading() != this.heading.opposite()) {
+                if (action instanceof ConveyorBelt2 || action instanceof ConveyorBelt3 && ((ConveyorBelt2) action).getHeading() != this.heading.opposite()) {
 
                         action.doAction(gameController, currentPlayer.getSpace());
 
                 }
             }
-            Space secondNeighbourSpace = space.board.getNeighbour(neighbourSpace, heading);
-            currentPlayer.setSpace(secondNeighbourSpace);
 
+            Space secondNeighbourSpace = space.board.getNeighbour(neighbourSpace, heading);
+            if(secondNeighbourSpace.actions instanceof ConveyorBelt2 || secondNeighbourSpace.actions instanceof  ConveyorBelt3) {
+                currentPlayer.setSpace(secondNeighbourSpace);
+            }
             return true;
         }
 
