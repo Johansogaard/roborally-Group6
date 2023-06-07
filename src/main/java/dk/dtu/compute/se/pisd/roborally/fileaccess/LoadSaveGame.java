@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.fileaccess;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
@@ -31,6 +32,13 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * ...
@@ -38,14 +46,19 @@ import java.io.*;
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class LoadSaveGame {
+    private static final Logger logger = LoggerFactory.getLogger(LoadSaveGame.class);
 
     private static final String BOARDSFOLDER = "boards";
     private static final String GAMESFOLDER = "savedGames";
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
+
+
     public static Board loadBoard(String path, String boardname) {
-      if (boardname == null) {
+        logger.info("Loading board: {}, from path: {}", boardname, path);
+
+        if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
         String filename;
@@ -78,8 +91,10 @@ try {
 
 
 			reader.close();
-			return result;
+            logger.info("Successfully loaded the board: {}", boardname);
+            return result;
 		} catch (IOException e1) {
+            logger.error("Error loading board: {}, from path: {}", boardname, path, e1);
             if (reader != null) {
                 try {
                     reader.close();
@@ -102,6 +117,7 @@ try {
     }}
 
     public static void saveBoard(Board board,String path, String name) {
+        logger.info("Saving board: {}, to path: {}", name, path);
         BoardTemplate template = new BoardTemplate().fromBoard(board);
 
         //String filename = "src/main/resources/boards" + "/" + name + "." + JSON_EXT;
@@ -118,7 +134,11 @@ try {
             writer = gson.newJsonWriter(fileWriter);
             gson.toJson(template, template.getClass(), writer);
             writer.close();
+            logger.info("Successfully saved the board: {}", name);
+
         } catch (IOException e1) {
+            logger.error("Error saving board: {}, to path: {}", name, path, e1);
+
             if (writer != null) {
                 try {
                     writer.close();
@@ -132,5 +152,7 @@ try {
             }
         }
     }
+
+
 
 }
