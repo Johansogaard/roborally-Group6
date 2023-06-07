@@ -67,7 +67,7 @@ public class DeckTest {
         deck.drawCard();
 
         // Assert that the drawn card is null
-        assertEquals(deck.cards.size(), 18);
+        assertEquals(deck.cards.size(), 17);
     }
     @Test
     public void testAddCardToDeck() {
