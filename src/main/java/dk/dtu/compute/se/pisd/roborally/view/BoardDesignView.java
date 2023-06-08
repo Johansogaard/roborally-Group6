@@ -149,9 +149,11 @@ public class BoardDesignView extends VBox {
                     case "Gear":
                         addGear(space);
                         break;
-                    case "Reboot token":
+                   /* case "Reboot token":
                         addRebootToken(space);
                         break;
+
+                    */
                     case "Pit":
                         space.addPit();
                         break;
