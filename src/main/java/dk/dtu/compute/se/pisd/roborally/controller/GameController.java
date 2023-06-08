@@ -84,16 +84,18 @@ public class GameController {
                     CommandCardField field = player.getProgramField(j);
                     field.setCard(null);
                     field.setVisible(true);
+
                 }
                 for (int j = 0; j < Player.NO_CARDS; j++) {
                     CommandCardField field = player.getCardField(j);
-                    field.setCard(generateRandomCommandCard());
+                    field.setCard(player.deck.drawCard());
+
                     field.setVisible(true);
                 }
             }
         }
     }
-    public void fillEmptyRegister() {
+    /*public void fillEmptyRegister() {
         List<Player> players=board.getPlayers();
         for (int i = 0; i < players.size(); i++) {
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
@@ -111,8 +113,7 @@ public class GameController {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
-    }
-
+    }*/
     // XXX: V2
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
@@ -120,7 +121,6 @@ public class GameController {
         board.setPhase(Phase.ACTIVATION);
         board.setPlayerOrder();
         board.setStep(0);
-        fillEmptyRegister();
     }
 
     // XXX: V2
@@ -129,7 +129,9 @@ public class GameController {
             for (int i = 0; i < board.getPlayersNumber(); i++) {
                 Player player = board.getPlayer(i);
                 CommandCardField field = player.getProgramField(register);
-                field.setVisible(true);
+                field.setVisible(true);if(player.getProgramField(register).getCard()==null){
+                    player.getProgramField(register).setCard(player.deck.drawCard());;
+                }
             }
         }
     }
@@ -176,11 +178,11 @@ public class GameController {
             int step = board.getStep();
             //checks if the step in correct and not a unusable value
             if (step >= 0 && step < Player.NO_REGISTERS) {
-                //gets the curr card
+
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
 
                 //checks if card is something
-                if (card != null && currentPlayer.reboot==false) {
+                if (!currentPlayer.reboot) {
                     //gets the command
                     Command command = card.command;
 
@@ -192,8 +194,7 @@ public class GameController {
                         executeCommand(currentPlayer, command);
 
                         //setting the next player;
-                        //sout i used for debugging remove later
-                        System.out.println(board.getOrderNumber(currentPlayer) +" "+ board.getPlayersNumber());
+                    }}
                         if (board.getOrderNumber(currentPlayer)+1 < board.getPlayersNumber()) {
                             board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
                         } else {
@@ -222,15 +223,11 @@ public class GameController {
                         }
                     }
                 }
-            }else {
-                // this should not happen
-                assert false;
+
             }
-        } else {
-            // this should not happen
-            assert false;
-        }
-    }
+
+
+
 
     // XXX: V2
     public void executeCommand(@NotNull Player player, Command command) {
