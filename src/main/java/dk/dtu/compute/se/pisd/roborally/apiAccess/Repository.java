@@ -101,7 +101,7 @@ public class Repository implements IRepository {
 
             }
 
-        }
+
         for (int f=0;f<newBoard.getPlayers().size();f++)
         {
             newBoard.getPlayers().get(f).setObservers(newBoard.getObservers());
@@ -114,7 +114,7 @@ public class Repository implements IRepository {
                 newBoard.getPlayers().get(f).getProgram()[i].setObservers(oldBoard.getPlayers().get(f).getProgram()[i].getObservers());
             }
         }
-
+        }
         return newBoard;
     }
 
