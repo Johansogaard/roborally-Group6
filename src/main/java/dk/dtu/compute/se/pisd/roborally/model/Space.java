@@ -130,13 +130,14 @@ public class Space extends Subject {
         return player;
     }
 
-    public ConveyorBelt getConveyorBelt() {
 
-        ConveyorBelt belt = null;
+    public ConveyorBelt5 getConveyorBelt() {
+
+        ConveyorBelt5 belt = null;
 
         for (FieldAction action : this.actions) {
-            if (action instanceof ConveyorBelt && belt == null) {
-                belt = (ConveyorBelt) action;
+            if (action instanceof ConveyorBelt5 && belt == null) {
+                belt = (ConveyorBelt5) action;
             }
         }
 

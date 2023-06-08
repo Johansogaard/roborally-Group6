@@ -94,7 +94,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     }
     private void updateBelt() {
-        ConveyorBelt belt = space.getConveyorBelt();
+        ConveyorBelt5 belt = space.getConveyorBelt();
         ConveyorBelt2 belt2 = space.getConveyorBelt2();
         ConveyorBelt3 belt3 = space.getConveyorBelt3();
         ConveyorBelt4 belt4 = space.getConveyorBelt4();

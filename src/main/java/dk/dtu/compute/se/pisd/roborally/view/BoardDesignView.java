@@ -3,8 +3,6 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 
 import com.sun.javafx.scene.traversal.Direction;
-import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.controller.SaveBoardDesignController;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.event.EventHandler;
@@ -13,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,9 +146,9 @@ public class BoardDesignView extends VBox {
                     case "Gear":
                         addGear(space);
                         break;
-                    case "Reboot token":
+                    /* case "Reboot token":
                         addRebootToken(space);
-                        break;
+                        break; */
                     case "Pit":
                         space.addPit();
                         break;
@@ -173,7 +170,7 @@ public class BoardDesignView extends VBox {
         private void addConveyorBelt(Space space) {
 
             for (FieldAction action : space.getActions()) {
-                if (action instanceof ConveyorBelt) {
+                if (action instanceof ConveyorBelt5) {
                     // TODO add some explanation to the user that there is already a belt at this space
                     return;
                 }
@@ -190,7 +187,7 @@ public class BoardDesignView extends VBox {
 
             if (dialog.getSelectedItem() != null) {
 
-                ConveyorBelt belt = new ConveyorBelt();
+                ConveyorBelt5 belt = new ConveyorBelt5();
                 belt.setHeading((Heading) dialog.getSelectedItem());
 
                 space.addAction(belt);

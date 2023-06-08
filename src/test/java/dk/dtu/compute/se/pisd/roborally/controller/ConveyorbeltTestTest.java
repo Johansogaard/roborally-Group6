@@ -3,7 +3,6 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.SpaceView;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +26,7 @@ class ConveyorbeltTestTest {
     }
 
     private ConveyorBelt2 conveyorBelt2;
-    private ConveyorBelt conveyorBelt;
+    private ConveyorBelt5 conveyorBelt;
 
     private Player player;
 
