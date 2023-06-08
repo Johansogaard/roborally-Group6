@@ -76,9 +76,10 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Player start field");
         this.fieldOptions.add("Walls");
         this.fieldOptions.add("Checkpoint");
-        this.fieldOptions.add("Directional Conveyor belt");
+        this.fieldOptions.add("Double Directional Conveyor belt");
         this.fieldOptions.add("Gear");
         this.fieldOptions.add("double Conveyor belt");
+        this.fieldOptions.add("Single Directional Conveyor belt");
     }
 
     private class SpaceEventHandler implements EventHandler<MouseEvent> {
@@ -112,8 +113,11 @@ public class BoardDesignView extends VBox {
 
                 switch ((String) dialog.getSelectedItem()) {
 
-                    case "Directional Conveyor belt":
+                    case "Double Directional Conveyor belt":
                         addConveyorBelt3(space);
+                        break;
+                    case "Single Directional Conveyor belt":
+                        addConveyorBelt4(space);
                         break;
 
                     case "Antenna":
@@ -233,6 +237,34 @@ public class BoardDesignView extends VBox {
             if (dialog.getSelectedItem() != null) {
 
                 ConveyorBelt3 belt = new ConveyorBelt3();
+                belt.setHeading((Heading) dialog.getSelectedItem());
+
+                space.addAction(belt);
+            }
+
+        }
+
+        private void addConveyorBelt4(Space space) {
+
+            for (FieldAction action : space.getActions()) {
+                if (action instanceof ConveyorBelt4) {
+                    // TODO add some explanation to the user that there is already a belt at this space
+                    return;
+                }
+            }
+
+            ChoiceDialog dialog = new ChoiceDialog();
+            dialog.setContentText("Which way should the belt move the player?");
+            dialog.getItems().add(Heading.NORTH);
+            dialog.getItems().add(Heading.EAST);
+            dialog.getItems().add(Heading.SOUTH);
+            dialog.getItems().add(Heading.WEST);
+
+            dialog.showAndWait();
+
+            if (dialog.getSelectedItem() != null) {
+
+                ConveyorBelt4 belt = new ConveyorBelt4();
                 belt.setHeading((Heading) dialog.getSelectedItem());
 
                 space.addAction(belt);

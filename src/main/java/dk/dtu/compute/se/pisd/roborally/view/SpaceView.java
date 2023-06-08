@@ -97,6 +97,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         ConveyorBelt belt = space.getConveyorBelt();
         ConveyorBelt2 belt2 = space.getConveyorBelt2();
         ConveyorBelt3 belt3 = space.getConveyorBelt3();
+        ConveyorBelt4 belt4 = space.getConveyorBelt4();
 
         if (belt != null) {
             switch (belt.getHeading()) {
@@ -169,6 +170,25 @@ public class SpaceView extends StackPane implements ViewObserver {
                     addImage("images/DDCB.png");
             }
         }
+        if(belt4 != null) {
+            switch (belt4.getHeading()) {
+
+                case NORTH:
+                    addImage("images/SDCB.png").setRotate(90);
+                    break;
+
+                case SOUTH:
+                    addImage("images/SDCB.png").setRotate(180);
+                    break;
+
+                case WEST:
+                    addImage("images/SDCB.png").setRotate(-90);
+                    break;
+                case EAST:
+                    addImage("images/SDCB.png");
+            }
+        }
+
     }
     private void updateWalls(){
 

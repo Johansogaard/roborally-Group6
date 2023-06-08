@@ -131,6 +131,20 @@ public class Space extends Subject {
         return belt;
     }
 
+    public ConveyorBelt4 getConveyorBelt4() {
+
+        ConveyorBelt4 belt = null;
+
+
+        for (FieldAction action : this.actions) {
+            if (action instanceof ConveyorBelt4 && belt == null) {
+                belt = (ConveyorBelt4) action;
+            }
+        }
+
+        return belt;
+    }
+
 
 
 

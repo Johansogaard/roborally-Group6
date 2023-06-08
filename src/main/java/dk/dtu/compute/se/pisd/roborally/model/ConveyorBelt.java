@@ -28,10 +28,8 @@ public class ConveyorBelt implements FieldAction {
             return false;
         } else {
 
-
-
            for (FieldAction action : neighbourSpace.actions) {
-                if (action instanceof ConveyorBelt && ((ConveyorBelt) action).getHeading() != this.heading.opposite()) {
+                if (action instanceof ConveyorBelt || action instanceof ConveyorBelt4) {
                     currentPlayer.setSpace(neighbourSpace);
                 }
             }
