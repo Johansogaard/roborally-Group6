@@ -80,7 +80,7 @@ class BoardTest {
     @Test
     void addPlayer() {
         // Create a new player
-        Player player = new Player(board, "Red", "TestPlayer");
+        Player player = new Player(board, "red", "TestPlayer");
 
         // Add the player to the board
         board.addPlayer(player);
