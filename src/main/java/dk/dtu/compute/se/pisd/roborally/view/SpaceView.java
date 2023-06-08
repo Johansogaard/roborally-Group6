@@ -157,19 +157,19 @@ public class SpaceView extends StackPane implements ViewObserver {
         if (pushpanel != null) {
             switch (pushpanel.getHeading()) {
 
-                case EAST:
+                case WEST:
                     addImage("images/pushpanel.png").setRotate(90);
                     break;
 
-                case SOUTH:
+                case NORTH:
                     addImage("images/pushpanel.png").setRotate(180);
                     break;
 
-                case WEST:
+                case EAST:
                     addImage("images/pushpanel.png").setRotate(-90);
                     break;
 
-                case NORTH:
+                case SOUTH:
                     addImage("images/pushpanel.png");
 
             }}}

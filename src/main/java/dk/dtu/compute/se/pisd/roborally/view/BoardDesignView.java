@@ -125,7 +125,7 @@ public class BoardDesignView extends VBox {
                     case "Double Conveyor belt":
                         addConveyorBelt2(space);
                         break;
-                    case "push panel":
+                    case "Push panel":
                         addPushPanel(space);
                         break;
 
