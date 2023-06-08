@@ -30,6 +30,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.net.URISyntaxException;
 
 /**
@@ -212,10 +213,10 @@ public class SpaceView extends StackPane implements ViewObserver {
     private ImageView addImage(String name) {
         Image img = null;
         try {
-            img = new Image(SpaceView.class.getClassLoader().getResource(name).toURI().toString());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+            File file = new File("./src/main/resources/" + name);
+            img = new Image(file.toURI().toString());
+        } catch (Exception e) {
+            e.printStackTrace();}
         ImageView imgView = new ImageView(img);
         imgView.setImage(img);
         imgView.setFitHeight(SPACE_HEIGHT);

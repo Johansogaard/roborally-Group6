@@ -54,6 +54,7 @@ public class Deck {
 
         public void shuffle() {
             ArrayList<CommandCard> shuffleddeck = new ArrayList<>();
+
             while(cards.size()>0)
             {
                 int index = (int) (Math.random() * cards.size());

@@ -241,7 +241,7 @@ public class GameController {
 
             switch (command) {
                 case FORWARD:
-                    player.moveForward(player);
+                    player.moveForward();
                     break;
                 case RIGHT:
                     this.turnRight(player);
@@ -294,7 +294,7 @@ public class GameController {
 
     private void Back(Player player) {
         uTurn(player);
-        player.moveForward(player);
+        player.moveForward();
         uTurn(player);
     }
 
@@ -306,10 +306,10 @@ public class GameController {
     private void Move3(Player player) {
         for (int i = 0 ; i<3;i++) {
             if(player.reboot==false){
-                player.moveForward(player);}}}
+                player.moveForward();}}}
     private void Move2(Player player) {
         for (int i = 0 ; i<2;i++) {
-            player.moveForward(player);
+            player.moveForward();
         }
     }
 
@@ -317,7 +317,7 @@ public class GameController {
     public void fastForward(@NotNull Player player) {
         for (int i = 0 ; i<2;i++) {
             if(player.reboot==false){
-                player.moveForward(player);}}}
+                player.moveForward();}}}
 
 
     // TODO: V2

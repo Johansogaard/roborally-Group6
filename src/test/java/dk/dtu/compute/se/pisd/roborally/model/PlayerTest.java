@@ -40,7 +40,7 @@ class PlayerTest {
     public void testMoveForward() {
 
 
-        player.moveForward(player);
+        player.moveForward();
 
         assertEquals(board.getSpace(4, 5), player.getSpace());
     }
@@ -51,7 +51,7 @@ class PlayerTest {
 
         board.getSpace(4, 5).addWall(Heading.SOUTH);
 
-        player.moveForward(player);
+        player.moveForward();
 
         // Since there is a wall, the player should stay in the same space
         assertEquals(board.getSpace(4, 5), player.getSpace());
@@ -67,8 +67,26 @@ class PlayerTest {
 
 
         // Invoke pushPlayer on player
-        player.moveForward(player);
+        player.moveForward();
 
+        assertEquals(board.getSpace(4, 6), player2.getSpace()); // Player should move forward
+        assertEquals(board.getSpace(4, 5), player.getSpace()); // Player2 should move to player's previous space
+
+    }
+
+    @Test
+    public void testPushPlayer2() {
+
+
+        // Create another player
+        Player player2 = new Player(board, "Red", "Jane");
+        Player player3 = new Player(board, "green", "zohan");
+        player2.setSpace(board.getSpace(4, 5)); // Set player2 in front of player
+        player3.setSpace(board.getSpace(4, 6));
+
+        // Invoke pushPlayer on player
+        player.moveForward();
+        assertEquals(board.getSpace(4, 7), player3.getSpace());
         assertEquals(board.getSpace(4, 6), player2.getSpace()); // Player should move forward
         assertEquals(board.getSpace(4, 5), player.getSpace()); // Player2 should move to player's previous space
 
@@ -83,7 +101,7 @@ class PlayerTest {
         player2.setSpace(board.getSpace(4, 5)); // Set player2 in front of player
 
        player2.getSpace().addWall(Heading.SOUTH);
-        player.moveForward(player);
+        player.moveForward();
 
         // Since there is a wall, the player and player2 should stay in the same spaces
         assertEquals(board.getSpace(4, 4), player.getSpace());
@@ -103,18 +121,31 @@ class PlayerTest {
 
         board.getSpace(9,9).setPlayer(player);
         player.setHeading(SOUTH);
-        player.moveForward(player);
+        player.moveForward();
 
         assertEquals(player.getSpace(),board.getSpace(6,9));
     }
     @Test
     void Reboot() {
         board.getSpace(6,9).addRebootToken();
-        player.preboot(player);
+        player.preboot();
 
         assertEquals(player.getSpace(),board.getSpace(6,9));
 
         assertTrue(player.deck.discardPile.get(0).command== SPAM);
+    }
+
+    @Test
+    void RebootWhenPlayerAlreadyThere() {
+        Player player2 = new Player(board, "red", "J");
+        board.getSpace(6,9).addRebootToken();
+
+        player.preboot();
+        player2.preboot();
+
+        assertEquals(player.getSpace(),board.getSpace(5,9));
+        assertEquals(player2.getSpace(),board.getSpace(6,9));
+
     }
     @Test
     void PushedOutOfBoard(){
@@ -123,8 +154,24 @@ class PlayerTest {
         player.setSpace(board.getSpace(9, 9));
         player2.setSpace(board.getSpace(9, 8));
         player2.setHeading(SOUTH);
-        player2.moveForward(player2);
+        player2.moveForward();
 
         assertEquals(player.getSpace(),board.getSpace(6,9));
     }
+
+    @Test
+    void PushedOutOfBoard2(){
+        Player player2 = new Player(board, "red", "J");
+        Player player3 = new Player(board, "green", "zohan");
+        board.getSpace(6,9).addRebootToken();
+        player.setSpace(board.getSpace(9, 9));
+        player2.setSpace(board.getSpace(9, 8));
+        player3.setSpace(board.getSpace(9, 7));
+        player3.setHeading(SOUTH);
+        player3.moveForward();
+        player3.moveForward();
+        assertEquals(player.getSpace(),board.getSpace(5,9));
+        assertEquals(player2.getSpace(),board.getSpace(6,9));
+    }
+
 }

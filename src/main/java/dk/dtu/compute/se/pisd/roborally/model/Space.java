@@ -176,7 +176,7 @@ public class Space extends Subject {
             if(player!=null){
             for (FieldAction fieldaction : player.getSpace().getActions()) {
                 if (fieldaction instanceof Pit) {
-                    player.preboot(player);
+                    player.preboot();
                 }}}
             notifyChange();
         }

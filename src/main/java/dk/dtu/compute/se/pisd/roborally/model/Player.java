@@ -22,8 +22,6 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
@@ -207,19 +205,19 @@ public class Player extends Subject {
 
     }*/
 
-    public void preboot(Player player) {
+    public void preboot() {
         // Reset the program cards to null
 
         Space tokenLokation =board.getSpace((board.getRebootToken().x),(board.getRebootToken().y));
         reboot=true;
         deck.addCard( new CommandCard(Command.SPAM));
 
-       // setHeading(heading);
+        setHeading(heading.WEST);
 
         if((tokenLokation.getPlayer()!=null)){
-            moveForward(tokenLokation.getPlayer());}
+            tokenLokation.getPlayer().moveForward();}
 
-        setSpace(tokenLokation);
+        this.setSpace(tokenLokation);
 
 
         // Notify observers of the change
@@ -235,9 +233,9 @@ public class Player extends Subject {
      * It wait to move until the pushplayer method has returned if there is a wall infront of the players that the robot is going to push
      */
     // TODO: V2
-    public void moveForward(Player player) {
+    public void moveForward() {
 
-        Space space = getSpace();
+        Space space =this.getSpace();
         if (this != null && this.board == board && space != null) {
             Heading heading = getHeading();
             Space target = board.getNeighbour(space, heading);
@@ -262,7 +260,7 @@ public class Player extends Subject {
                 }
 
             }
-            else{ preboot(player);}
+            else{ preboot();}
 
         }
     }
@@ -280,9 +278,9 @@ public class Player extends Subject {
         Player playerToPush = target.getPlayer();
         Space nextTarget = board.getNeighbour(target, heading);
 
-        if(nextTarget==null) {
-        playerToPush.preboot(playerToPush);
-        return false;}
+        if(target==null) {
+            preboot();
+        }
 
         boolean isWall = false;
 
@@ -290,16 +288,25 @@ public class Player extends Subject {
             isWall = true;
         }
 
-        if (nextTarget != null && isWall != true && nextTarget.getPlayer() != null) {
-            isWall = playerToPush.pushPlayer(heading);
+        // Check if there's a wall or a player in front of the next space
+        if (nextTarget != null && !isWall) {
+            if(nextTarget.getPlayer() != null) {
+                // Recursive call to push the next player
+                isWall = playerToPush.pushPlayer(heading); // change this to playerToPush
+            } else if (nextTarget.getWalls().contains(heading)) {
+                // If there's a wall in front of the next space, stop pushing
+                isWall = true;
+            }
         }
 
-        if (isWall != true) {
+        // Only push the player if there's no wall
+        if (!isWall) {
             if (nextTarget != null) {
                 nextTarget.setPlayer(playerToPush);
             } else {
-                preboot(playerToPush);
+                playerToPush.preboot();
             }
         }
+
         return isWall;
     }}

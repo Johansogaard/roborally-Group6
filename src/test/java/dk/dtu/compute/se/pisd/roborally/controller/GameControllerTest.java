@@ -58,7 +58,7 @@ private Board board;
 
 
 
-        current.moveForward(current);
+        current.moveForward();
 
         assertEquals(current, board.getSpace(0, 1).getPlayer(), "Player " + current.getName() + " should beSpace (0,1)!");
         assertEquals(Heading.SOUTH, current.getHeading(), "Player 0 should be heading SOUTH!");
