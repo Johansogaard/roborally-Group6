@@ -258,9 +258,6 @@ public class Player extends Subject {
         Space target = board.getNeighbour(space, heading);
         boolean isWall = false;
 
-
-
-
         if (space.getWalls().contains(heading)) {
             return true;
         }
@@ -276,7 +273,6 @@ public class Player extends Subject {
         if (!isWall) {
             setSpace(target);
         }
-
 
         return isWall;
     }

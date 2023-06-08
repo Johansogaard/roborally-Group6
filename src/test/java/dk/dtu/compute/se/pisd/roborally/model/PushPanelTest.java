@@ -51,7 +51,7 @@ Method executeNextStep;
         }
 
         @Test
-        public void testPushPanel() throws InvocationTargetException, IllegalAccessException {
+        public void testPushPanel() {
             // Get the current player and space
 
 
@@ -72,6 +72,32 @@ Method executeNextStep;
             // Verify the results
             assertEquals(player.getSpace(),board.getSpace(4,3));
               // Player should have moved from the current space
+
+
+        }
+
+        @Test
+        public void testPushPanelOffTurn() {
+            // Get the current player and space
+
+
+            // Set up the push panel heading
+            // Change this to the desired heading
+
+            // Create a push panel instance
+            PushPanel pushPanel = new PushPanel();
+            pushPanel.setHeading(NORTH);
+
+            // Add the push panel action to the current space
+            board.getSpace(4,4).addAction(pushPanel);
+            board.setStep(0);
+            pushPanel.doAction(controller, board.getSpace(4,4));
+            // Perform the action
+
+
+            // Verify the results
+            assertEquals(player.getSpace(),board.getSpace(4,4));
+            // Player should have moved from the current space
 
 
         }
