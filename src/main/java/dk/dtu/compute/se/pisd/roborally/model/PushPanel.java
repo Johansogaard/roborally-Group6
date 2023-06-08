@@ -18,7 +18,7 @@ public class PushPanel implements FieldAction {
 
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
-       if((gameController.board.getStep()==2)||(gameController.board.getStep()==4)){
+       if((gameController.board.getStep()==1)||(gameController.board.getStep()==3)){
         Player currentPlayer = space.getPlayer();
         Space neighbourSpace = space.board.getNeighbour(space,heading);
 

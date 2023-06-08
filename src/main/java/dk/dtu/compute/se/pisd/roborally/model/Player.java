@@ -233,37 +233,18 @@ public class Player extends Subject {
      * It wait to move until the pushplayer method has returned if there is a wall infront of the players that the robot is going to push
      */
     // TODO: V2
-    public void moveForward() {
 
-        Space space =this.getSpace();
-        if (this != null && this.board == board && space != null) {
-            Heading heading = getHeading();
-            Space target = board.getNeighbour(space, heading);
-            if (target != null ) {
-                boolean isWall =false;
 
-                // XXX note that this removes an other player from the space, when there
-                //     is another player on the target. Eventually, this needs to be
-                //     implemented in a way so that other players are pushed away!
+        public void moveForward() {
+            pushPlayer(this.heading);
 
-                //JJ added a loop that cheks if there is a wall infront of the robot in the traveling direction
-                if (space.getWalls().contains(heading))
-                {
-                    isWall=true;
-                }
-                if (isWall!=true && target.getPlayer()!=null)
-                {
-                   isWall = pushPlayer(heading);
-                }
-                if (isWall!=true) {
-                    target.setPlayer(this);
+
+                    // If there's no wall or player blocking, then move forward
+
+
                 }
 
-            }
-            else{ preboot();}
 
-        }
-    }
 
     /**
      * pushPlayer pushes the player infront and pushes x numbers of player who is infront of him
@@ -275,38 +256,28 @@ public class Player extends Subject {
     public boolean pushPlayer(Heading heading) {
         Space space = getSpace();
         Space target = board.getNeighbour(space, heading);
-        Player playerToPush = target.getPlayer();
-        Space nextTarget = board.getNeighbour(target, heading);
-
-        if(target==null) {
-            preboot();
-        }
-
         boolean isWall = false;
 
-        if (target.getWalls().contains(heading)) {
-            isWall = true;
-        }
 
+
+
+        if (space.getWalls().contains(heading)) {
+            return true;
+        }
+        if(target==null) {
+            preboot();
+            return false;
+        }
         // Check if there's a wall or a player in front of the next space
-        if (nextTarget != null && !isWall) {
-            if(nextTarget.getPlayer() != null) {
-                // Recursive call to push the next player
-                isWall = playerToPush.pushPlayer(heading); // change this to playerToPush
-            } else if (nextTarget.getWalls().contains(heading)) {
-                // If there's a wall in front of the next space, stop pushing
-                isWall = true;
-            }
+        if (target.getPlayer()!=null) {
+            isWall = target.getPlayer().pushPlayer(heading);
         }
-
         // Only push the player if there's no wall
         if (!isWall) {
-            if (nextTarget != null) {
-                nextTarget.setPlayer(playerToPush);
-            } else {
-                playerToPush.preboot();
-            }
+            setSpace(target);
         }
 
+
         return isWall;
-    }}
+    }
+}

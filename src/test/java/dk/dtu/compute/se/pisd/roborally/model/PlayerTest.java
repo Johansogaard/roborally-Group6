@@ -101,7 +101,7 @@ class PlayerTest {
         player2.setSpace(board.getSpace(4, 5)); // Set player2 in front of player
 
        player2.getSpace().addWall(Heading.SOUTH);
-        player.moveForward();
+       player.moveForward();
 
         // Since there is a wall, the player and player2 should stay in the same spaces
         assertEquals(board.getSpace(4, 4), player.getSpace());
