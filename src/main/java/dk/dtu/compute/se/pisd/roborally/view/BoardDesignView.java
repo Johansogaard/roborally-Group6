@@ -79,6 +79,7 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Double Directional Conveyor belt");
         this.fieldOptions.add("Gear");
         this.fieldOptions.add("double Conveyor belt");
+        this.fieldOptions.add("Reboot token");
     }
 
     private class SpaceEventHandler implements EventHandler<MouseEvent> {
@@ -149,11 +150,10 @@ public class BoardDesignView extends VBox {
                     case "Gear":
                         addGear(space);
                         break;
-                   /* case "Reboot token":
+                    case "Reboot token":
                         addRebootToken(space);
                         break;
 
-                    */
                     case "Pit":
                         space.addPit();
                         break;
@@ -171,7 +171,14 @@ public class BoardDesignView extends VBox {
             }
 
         }
+        private void addRebootToken(Space space)
+        {
 
+            if (this.board.getRebootToken() == null) {
+                space.addRebootToken();
+            }
+
+        }
         private void addConveyorBelt(Space space) {
 
             for (FieldAction action : space.getActions()) {
