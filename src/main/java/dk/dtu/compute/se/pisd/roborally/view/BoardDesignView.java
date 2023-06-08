@@ -344,7 +344,8 @@ public class BoardDesignView extends VBox {
             directions.add(Direction.RIGHT);
 
             ChoiceDialog dialog = new ChoiceDialog();
-            dialog.setContentText("Vælg hvilken retning, gearet skal vende");
+
+            dialog.setContentText("What direction should the gear turn?");
             dialog.getItems().addAll(directions);
             dialog.showAndWait();
 

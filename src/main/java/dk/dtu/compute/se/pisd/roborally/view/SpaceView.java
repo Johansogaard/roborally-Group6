@@ -150,6 +150,29 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         }
     }
+
+    private void updatePushPanel() {
+        PushPanel pushpanel = space.getPushPanel();
+
+        if (pushpanel != null) {
+            switch (pushpanel.getHeading()) {
+
+                case EAST:
+                    addImage("images/pushpanel.png").setRotate(90);
+                    break;
+
+                case SOUTH:
+                    addImage("images/pushpanel.png").setRotate(180);
+                    break;
+
+                case WEST:
+                    addImage("images/pushpanel.png").setRotate(-90);
+                    break;
+
+                case NORTH:
+                    addImage("images/pushpanel.png");
+
+            }}}
     private void updateWalls(){
 
 
@@ -204,9 +227,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             if (action instanceof Gear) {
                 addImage("images/gear" + (((Gear) action).direction) + ".png");
             }
-            if (action instanceof PushPanel) {
-                addImage("images/pushpanel" + (((PushPanel) action)) + ".png");
-            }
+
 
         }
     }
@@ -255,6 +276,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         {
             addImage("images/startpoint.png");
         }
+            updatePushPanel();
             updateBelt();
             updateActions();
             updatePlayer();

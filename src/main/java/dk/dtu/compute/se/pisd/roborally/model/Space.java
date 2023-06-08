@@ -156,6 +156,18 @@ public class Space extends Subject {
         return belt;
     }
 
+    public PushPanel getPushPanel() {
+        PushPanel panel = null;
+
+        for (FieldAction action : this.actions) {
+            if (action instanceof PushPanel && panel == null) {
+                panel = (PushPanel) action;
+            }
+        }
+
+        return panel;
+    }
+
     public void setStartPlayerNo(int startPlayerNo) {
         this.startPlayerNo = startPlayerNo;
         notifyChange();
