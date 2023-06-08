@@ -23,10 +23,9 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.BoardDesignController;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-
+import javafx.scene.control.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * ...
  *
@@ -34,6 +33,10 @@ import javafx.scene.control.MenuItem;
  *
  */
 public class RoboRallyMenuBar extends MenuBar {
+    private static final Logger logger = LoggerFactory.getLogger(RoboRallyMenuBar.class);
+
+    private MenuItem saveGameToServer;
+    private MenuItem loadGameFromServer;
 
     private AppController appController;
 
@@ -70,6 +73,16 @@ public class RoboRallyMenuBar extends MenuBar {
         saveGame.setOnAction( e -> this.appController.saveGame());
         controlMenu.getItems().add(saveGame);
 
+        saveGameToServer = new MenuItem("Save Game to Server");
+        saveGameToServer.setOnAction(e -> this.appController.saveGameToServer());
+        controlMenu.getItems().add(saveGameToServer);
+
+        loadGameFromServer=new MenuItem("Load Game from Server");
+        loadGameFromServer.setOnAction(e -> this.appController.loadGameFromServer());
+        controlMenu.getItems().add(loadGameFromServer);
+
+
+
         loadGame = new MenuItem("Load Game");
         loadGame.setOnAction( e -> this.appController.loadGame());
         controlMenu.getItems().add(loadGame);
@@ -93,11 +106,18 @@ public class RoboRallyMenuBar extends MenuBar {
             stopGame.setVisible(true);
             saveGame.setVisible(true);
             loadGame.setVisible(false);
+            saveGameToServer.setVisible(true);
+            loadGameFromServer.setVisible(false);
+
         } else {
             newGame.setVisible(true);
             stopGame.setVisible(false);
             saveGame.setVisible(false);
             loadGame.setVisible(true);
+            saveGameToServer.setVisible(false);
+            loadGameFromServer.setVisible(true);
+
+
         }
     }
 

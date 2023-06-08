@@ -21,13 +21,11 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * ...
@@ -182,7 +180,7 @@ public class GameController {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
 
                 //checks if card is something
-                if (card != null) {
+                if (card != null && currentPlayer.reboot==false) {
                     //gets the command
                     Command command = card.command;
 
@@ -243,7 +241,7 @@ public class GameController {
 
             switch (command) {
                 case FORWARD:
-                    this.moveForward(player);
+                    player.moveForward(player);
                     break;
                 case RIGHT:
                     this.turnRight(player);
@@ -266,10 +264,18 @@ public class GameController {
                 case AGAIN:
                     this.again(player, board.getStep());
                     break;
+                case SPAM:
+                    this.spam(player);
+                    break;
                 default:
                     // DO NOTHING (for now)
             }
         }
+    }
+
+    private void spam(Player player) {
+        player.getProgramField(board.getStep()).setCard(player.deck.drawCard());
+        executeCommand(player, player.getProgramField(board.getStep()).getCard().command);
     }
 
     private void again(Player player, int currentStep) {
@@ -288,7 +294,7 @@ public class GameController {
 
     private void Back(Player player) {
         uTurn(player);
-        moveForward(player);
+        player.moveForward(player);
         uTurn(player);
     }
 
@@ -299,93 +305,20 @@ public class GameController {
 
     private void Move3(Player player) {
         for (int i = 0 ; i<3;i++) {
-            moveForward(player);
-        }
-    }
+            if(player.reboot==false){
+                player.moveForward(player);}}}
     private void Move2(Player player) {
         for (int i = 0 ; i<2;i++) {
-            moveForward(player);
+            player.moveForward(player);
         }
-    }
-
-    /**
-     * @author Johan Søgaard Jørgensen(JJ)
-     * This is a method to move the player Forward
-     * It cheks if there is a wall in the heading direction
-     * It cheks if there is a person infront and calls the move pushPlayer to push the player infront
-     * It wait to move until the pushplayer method has returned if there is a wall infront of the players that the robot is going to push
-     * @param player is the current player that is going to move foward
-     */
-    // TODO: V2
-    public void moveForward(@NotNull Player player) {
-        Space space = player.getSpace();
-        if (player != null && player.board == board && space != null) {
-            Heading heading = player.getHeading();
-            Space target = board.getNeighbour(space, heading);
-            if (target != null ) {
-                boolean isWall =false;
-
-                // XXX note that this removes an other player from the space, when there
-                //     is another player on the target. Eventually, this needs to be
-                //     implemented in a way so that other players are pushed away!
-
-                //JJ added a loop that cheks if there is a wall infront of the robot in the traveling direction
-                if (space.getWalls().contains(heading))
-                {
-                    isWall=true;
-                }
-                if (target.getPlayer()!=null&& isWall!=true)
-                {
-                   isWall = pushPlayer(player,heading);
-                }
-                if (isWall!=true) {
-                    target.setPlayer(player);
-                }
-
-            }
-
-        }
-    }
-
-    /**
-     * pushPlayer pushes the player infront and pushes x numbers of player who is infront of him
-     * but always waits to see if the player infront has a wall that way we dont push and stand still if there is a wall infront of x robot
-     *
-     * @param player this is the player that is pushing
-     * @param heading this is the direction of the push
-     */
-    public boolean pushPlayer(@NotNull Player player,Heading heading)
-    {
-        Space space = player.getSpace();
-        Space target = board.getNeighbour(space, heading);
-        Player playerToPush = target.getPlayer();
-        Space nextTarget = board.getNeighbour(target,heading);
-        boolean isWall =false;
-
-        // XXX note that this removes an other player from the space, when there
-        //     is another player on the target. Eventually, this needs to be
-        //     implemented in a way so that other players are pushed away!
-
-        //added a rekursive loop that will always check the player infront before pushing
-        if (target.getWalls().contains(heading))
-        {
-            isWall=true;
-        }
-        if(nextTarget.getPlayer()!=null&&isWall !=true)
-        {
-           isWall= pushPlayer(playerToPush,heading);
-        }
-        if (isWall!=true) {
-            nextTarget.setPlayer(playerToPush);
-        }
-        return isWall;
     }
 
     // TODO: V2
     public void fastForward(@NotNull Player player) {
-        moveForward(player);
-        moveForward(player);
-    }
+        for (int i = 0 ; i<2;i++) {
+            if(player.reboot==false){
+                player.moveForward(player);}}}
+
 
     // TODO: V2
     public void turnRight(@NotNull Player player) {

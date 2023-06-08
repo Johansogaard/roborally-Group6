@@ -244,6 +244,9 @@ public class SpaceView extends StackPane implements ViewObserver {
             if (action instanceof Gear) {
                 addImage("images/gear" + (((Gear) action).direction) + ".png");
             }
+            if (action instanceof PushPanel) {
+                addImage("images/pushpanel" + (((PushPanel) action)) + ".png");
+            }
 
         }
     }
@@ -284,6 +287,10 @@ public class SpaceView extends StackPane implements ViewObserver {
         {
            addImage("images/antenna.png");
         }
+            if (space.board.getRebootToken() !=null && (space.board.getRebootToken().x == space.x&&space.board.getRebootToken().y == space.y))
+            {
+                addImage("images/RebootToken.png");
+            }
         if(space.getStartPlayerNo() !=0)
         {
             addImage("images/startpoint.png");

@@ -70,6 +70,13 @@ public class Space extends Subject {
             board.setAntenna(new Antenna(board,this.x,this.y));
             notifyChange();
         }
+    public void addRebootToken() {
+        board.setRebootToken(new RebootToken(board, x, y));
+        notifyChange();
+    }
+
+
+
     public void addGear(Direction direction) {
         boolean check = false;
 
@@ -79,6 +86,24 @@ public class Space extends Subject {
             }
         }
 
+
+
+        if (!check) {
+            this.actions.add(new Gear(direction));
+            notifyChange();
+        }
+    }
+    public void addPushPanel(Direction direction) {
+        boolean check = false;
+
+        for (FieldAction action : actions) {
+            if (action instanceof Gear) {
+                check = true;
+            }
+        }
+
+
+
         if (!check) {
             this.actions.add(new Gear(direction));
             notifyChange();
@@ -87,6 +112,20 @@ public class Space extends Subject {
     public List<FieldAction> getActions() {
         return actions;
     }
+
+    public void addPit() {
+        boolean check = false;
+
+        for (FieldAction action : actions) {
+            if (action instanceof Pit) {
+                check = true;
+            }
+        }
+        if (!check) {
+            this.actions.add(new Pit());
+            notifyChange();
+
+    }}
     public Player getPlayer() {
         return player;
     }
@@ -153,6 +192,7 @@ public class Space extends Subject {
         notifyChange();
     }
     public void setPlayer(Player player) {
+
         Player oldPlayer = this.player;
         if (player != oldPlayer &&
                 (player == null || board == player.board)) {
@@ -164,6 +204,11 @@ public class Space extends Subject {
             if (player != null) {
                 player.setSpace(this);
             }
+            if(player!=null){
+            for (FieldAction fieldaction : player.getSpace().getActions()) {
+                if (fieldaction instanceof Pit) {
+                    player.preboot(player);
+                }}}
             notifyChange();
         }
     }

@@ -79,7 +79,6 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Double Directional Conveyor belt");
         this.fieldOptions.add("Gear");
         this.fieldOptions.add("double Conveyor belt");
-        this.fieldOptions.add("Single Directional Conveyor belt");
     }
 
     private class SpaceEventHandler implements EventHandler<MouseEvent> {
@@ -131,6 +130,9 @@ public class BoardDesignView extends VBox {
                     case "double Conveyor belt":
                         addConveyorBelt2(space);
                         break;
+                    case "push panel":
+                        addPushPanel(space);
+                        break;
 
                     case "Player start field":
                         addPlayerStart(space);
@@ -147,6 +149,12 @@ public class BoardDesignView extends VBox {
                     case "Gear":
                         addGear(space);
                         break;
+                    case "Reboot token":
+                        addRebootToken(space);
+                        break;
+                    case "Pit":
+                        space.addPit();
+                        break;
                 }
 
             }
@@ -161,6 +169,7 @@ public class BoardDesignView extends VBox {
             }
 
         }
+
         private void addConveyorBelt(Space space) {
 
             for (FieldAction action : space.getActions()) {
@@ -188,6 +197,7 @@ public class BoardDesignView extends VBox {
             }
 
         }
+
         private void addConveyorBelt2(Space space) {
 
             for (FieldAction action : space.getActions()) {
@@ -272,6 +282,33 @@ public class BoardDesignView extends VBox {
 
         }
 
+        private void addPushPanel(Space space) {
+
+            for (FieldAction action : space.getActions()) {
+                if (action instanceof PushPanel) {
+                    // TODO add some explanation to the user that there is already a belt at this space
+                    return;
+                }
+            }
+
+            ChoiceDialog dialog = new ChoiceDialog();
+            dialog.setContentText("Which way should push panel face?");
+            dialog.getItems().add(Heading.NORTH);
+            dialog.getItems().add(Heading.EAST);
+            dialog.getItems().add(Heading.SOUTH);
+            dialog.getItems().add(Heading.WEST);
+
+            dialog.showAndWait();
+
+            if (dialog.getSelectedItem() != null) {
+
+                PushPanel pushPanel = new PushPanel();
+                pushPanel.setHeading((Heading) dialog.getSelectedItem());
+
+                space.addAction(pushPanel);
+            }
+        }
+
         private void addPlayerStart(Space space) {
 
             TextInputDialog dialog = new TextInputDialog();
@@ -283,6 +320,7 @@ public class BoardDesignView extends VBox {
             }
 
         }
+
 
         private void addWalls(Space space) {
 
