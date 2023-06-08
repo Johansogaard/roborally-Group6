@@ -56,6 +56,17 @@ class PlayerTest {
         // Since there is a wall, the player should stay in the same space
         assertEquals(board.getSpace(4, 5), player.getSpace());
     }
+    @Test
+    public void testMoveForwardWithWall2() {
+
+
+        board.getSpace(4, 6).addWall(Heading.NORTH);
+        player.setHeading(SOUTH);
+        player.moveForward();
+
+        // Since there is a wall, the player should stay in the same space
+        assertEquals(board.getSpace(4, 5), player.getSpace());
+    }
 
     @Test
     public void testPushPlayer() {
