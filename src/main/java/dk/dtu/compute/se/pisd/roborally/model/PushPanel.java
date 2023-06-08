@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  *
  */
 public class PushPanel implements FieldAction {
-int a,b;
+
     private Heading heading = Heading.EAST;
 
     public Heading getHeading() { return heading; }
@@ -18,11 +18,11 @@ int a,b;
 
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
-       if((gameController.board.getStep()==a)||(gameController.board.getStep()==b)){
+       if((gameController.board.getStep()==2)||(gameController.board.getStep()==4)){
         Player currentPlayer = space.getPlayer();
         Space neighbourSpace = space.board.getNeighbour(space,heading);
 
-            currentPlayer.setSpace(neighbourSpace);
+            currentPlayer.pushPlayer(this.heading);
 
            for (FieldAction action : neighbourSpace.actions) {
                 if (action instanceof PushPanel && ((PushPanel) action).getHeading() != this.heading.opposite()) {
