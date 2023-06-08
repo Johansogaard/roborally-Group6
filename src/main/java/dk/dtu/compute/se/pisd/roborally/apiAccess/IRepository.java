@@ -18,7 +18,7 @@ public interface IRepository {
 
     void joinGame(int id);
 
-    public Board getGameInstance();
+    public Board getGameInstance(Board oldBoard);
 
 
     void waitForPlayers();

@@ -94,8 +94,9 @@ public class AppController implements Observer {
 
             repository.joinGame(Integer.parseInt(inputDialog.getResult()));
 
-            Board loadedBoard = repository.getGameInstance();
+            Board loadedBoard = repository.getGameInstance(null);
             gameController = new GameController(loadedBoard);
+            gameController.addRepository();
             roboRally.createBoardView(gameController);
 
         }
@@ -132,15 +133,15 @@ public class AppController implements Observer {
                 board.addPlayer(player);
                 player.setSpawn();
             }
+
+            gameController = new GameController(board);
             if (repository != null) {
-                gameController = new GameController(board);
+                gameController.addRepository();
                 repository.createGame(gameController.board.getPlayers().size());
 
             }
-            else
-            {
-                gameController = new GameController(board);
-            }
+
+
 
 
 

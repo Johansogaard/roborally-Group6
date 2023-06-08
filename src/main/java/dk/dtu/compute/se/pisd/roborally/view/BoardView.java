@@ -39,9 +39,18 @@ import org.jetbrains.annotations.NotNull;
  */
 public class BoardView extends VBox implements ViewObserver {
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
     private Board board;
 
     private GridPane mainBoardPane;
+
+    public SpaceView[][] getSpaces() {
+        return spaces;
+    }
+
     private SpaceView[][] spaces;
 
     private PlayersView playersView;

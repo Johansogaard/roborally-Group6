@@ -38,7 +38,12 @@ import java.util.*;
 public class GameController {
 
     public Board board;
-    final public Repository repository;
+
+    public void addRepository() {
+        this.repository = Repository.getInstance();
+    }
+
+    public Repository repository = null;
     public boolean won = false;
     /**
      * GameController is a controller for
@@ -46,7 +51,7 @@ public class GameController {
      */
     public GameController(@NotNull Board board) {
         this.board = board;
-        this.repository = Repository.getInstance();
+
     }
 
     /**
@@ -129,15 +134,19 @@ public class GameController {
         if (repository !=null) {
             mergeCards();
             repository.postGameInstanceProgrammingPhase(board);
-            board =repository.getGameInstance();
-
-
+            board =repository.getGameInstance(board);
         }
 
     }
+    public void waitForAction()
+    {
+        repository.waitForPlayers();
+        board = repository.getGameInstance(board);
+    }
+
     public void mergeCards()
     {
-        Board loadedBoard =repository.getGameInstance();
+        Board loadedBoard =repository.getGameInstance(board);
         for (int i =0;i<board.getPlayers().size();i++)
         {
             if (i != repository.getPlayerNumb())
@@ -196,7 +205,6 @@ public class GameController {
         //gets the curr player
 
         Player currentPlayer = board.getCurrentPlayer();
-        if(repository==null||(repository.getPlayerNumb()-1)==currentPlayer.no) {
             //cheks if the phase is activation and the curr player is not null
             if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
                 //the curr register
@@ -257,18 +265,12 @@ public class GameController {
                 // this should not happen
                 assert false;
             }
-            if (repository !=null)
+            if (repository!=null)
             {
-                repository.postGameInstanceActivationPhase(board);
-                executeNextStep();
+               repository.postGameInstanceActivationPhase(board);
             }
-        }
-        else
-        {
-            repository.waitForPlayers();
-            board = repository.getGameInstance();
-            executeNextStep();
-        }
+
+
 
 
     }

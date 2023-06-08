@@ -104,7 +104,8 @@ public class PlayerView extends Tab implements ViewObserver {
         executeButton.setOnAction(e -> gameController.executePrograms());
 
         stepButton = new Button("Execute Current Register");
-        stepButton.setOnAction(e -> gameController.executeStep());
+
+            stepButton.setOnAction(e -> gameController.executeStep());
 
         buttonPanel = new VBox(finishButton, executeButton, stepButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
@@ -184,11 +185,28 @@ public class PlayerView extends Tab implements ViewObserver {
                         executeButton.setDisable(true);
                         stepButton.setDisable(true);
                         break;
-
+                    //adding so only the player in online mode who turn it is is allowed to see the button
                     case ACTIVATION:
-                        finishButton.setDisable(true);
-                        executeButton.setDisable(false);
-                        stepButton.setDisable(false);
+                        if (gameController.repository == null) {
+                            finishButton.setDisable(true);
+                            executeButton.setDisable(false);
+                            stepButton.setDisable(false);
+                        }
+                        else
+                        {
+                            if ((gameController.repository.getPlayerNumb()-1)==gameController.board.getCurrentPlayer().no)
+                            {
+                                finishButton.setDisable(true);
+                                executeButton.setDisable(true);
+                                stepButton.setDisable(false);
+                            }
+                            else
+                            {
+                                finishButton.setDisable(true);
+                                executeButton.setDisable(true);
+                                stepButton.setDisable(true);
+                            }
+                        }
                         break;
 
                     default:

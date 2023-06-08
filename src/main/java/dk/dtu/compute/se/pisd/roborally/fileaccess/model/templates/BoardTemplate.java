@@ -23,11 +23,11 @@ package dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -48,7 +48,7 @@ public class BoardTemplate {
     public List<PlayerTemplate> getPlayers() {
         return players;
     }
-
+    private Set<Observer> observers = Collections.newSetFromMap(new WeakHashMap<>());
     public List<PlayerTemplate> players = new ArrayList<>();
     public List<SpaceTemplate> spaces = new ArrayList<>();
     public ArrayList<String> playerOrder = new ArrayList<>();
@@ -92,6 +92,7 @@ public class BoardTemplate {
                 }
             }
         }
+
 
         return this;
     }

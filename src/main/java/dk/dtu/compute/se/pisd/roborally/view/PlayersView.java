@@ -36,6 +36,10 @@ import javafx.scene.control.TabPane;
  */
 public class PlayersView extends TabPane implements ViewObserver {
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
     private Board board;
 
     private PlayerView[] playerViews;
@@ -60,6 +64,7 @@ public class PlayersView extends TabPane implements ViewObserver {
         }
 
         board.attach(this);
+
         update(board);
     }
 

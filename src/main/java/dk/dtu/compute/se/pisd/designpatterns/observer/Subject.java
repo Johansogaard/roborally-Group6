@@ -35,7 +35,15 @@ import java.util.WeakHashMap;
  *
  */
 public abstract class Subject {
-	
+
+	public Set<Observer> getObservers() {
+		return observers;
+	}
+
+	public void setObservers(Set<Observer> observers) {
+		this.observers = observers;
+	}
+
 	private Set<Observer> observers =
 			Collections.newSetFromMap(new WeakHashMap<>());
 	// Note: In JavaFX, the views do not have a way to know when they are

@@ -144,6 +144,10 @@ public class Board extends Subject {
             notifyChange();
         }
     }
+    public void notifyBoardChange()
+    {
+        notifyChange();
+    }
 
 
 
