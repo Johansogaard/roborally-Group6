@@ -13,32 +13,62 @@ public class ConveyorBelt2 implements FieldAction {
 
     public Heading getHeading() { return heading; }
 
-    public void setHeading(Heading heading) { this.heading = heading;
-    }
+    private boolean hasMovedOffConveyoerBelt = false;
+
+    public void setHeading(Heading heading) { this.heading = heading;}
 
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
+
 
         Player currentPlayer = space.getPlayer();
         Space neighbourSpace = space.board.getNeighbour(space,heading);
 
         currentPlayer.setHeading(this.heading);
+        Space secondNeighbourSpace = space.board.getNeighbour(neighbourSpace, heading);
 
-        if (neighbourSpace.getPlayer() != null) {
+        if (neighbourSpace.getPlayer() != null || secondNeighbourSpace.getPlayer() != null) {
             return false;
         } else {
 
-            currentPlayer.setSpace(neighbourSpace);
+            //Space secondNeighbourSpace = space.board.getNeighbour(neighbourSpace, heading);
 
             for (FieldAction action : neighbourSpace.actions) {
+
                 if (action instanceof ConveyorBelt2 && ((ConveyorBelt2) action).getHeading() != this.heading.opposite()) {
 
-                        action.doAction(gameController, currentPlayer.getSpace());
+                    hasMovedOffConveyoerBelt = true;
+
+                    for (FieldAction action2 : secondNeighbourSpace.actions) {
+
+                        if(action2 instanceof ConveyorBelt2 || action2 instanceof ConveyorBelt3 && ((ConveyorBelt3) action2).getHeading() != this.heading.opposite()){
+
+                            currentPlayer.setSpace(secondNeighbourSpace);
+                        }
+                        else{
+                            break;
+                        }
+                    }
 
                 }
+                else if (action instanceof ConveyorBelt3 && ((ConveyorBelt3) action).getHeading() != this.heading.opposite()) {
+                    ConveyorBelt3 conveyorBelt = (ConveyorBelt3) action;
+                    currentPlayer.setHeading(conveyorBelt.getHeading());
+                    Space neighbourSpace1 = neighbourSpace.board.getNeighbour(neighbourSpace, conveyorBelt.getHeading());
+                    if (secondNeighbourSpace.getPlayer() != null) {
+                        return false; // Player cannot move forward
+                    }
+                    currentPlayer.setSpace(neighbourSpace1);
+                }
+
             }
-            Space secondNeighbourSpace = space.board.getNeighbour(neighbourSpace, heading);
-            currentPlayer.setSpace(secondNeighbourSpace);
+            //if there is 1 or no adjecent conveyorbelts in the players heading
+            if(!hasMovedOffConveyoerBelt){
+                currentPlayer.setSpace(neighbourSpace);
+            }
+            else{
+                currentPlayer.setSpace(secondNeighbourSpace);
+            }
 
             return true;
         }

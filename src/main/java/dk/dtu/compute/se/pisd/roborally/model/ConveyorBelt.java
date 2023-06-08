@@ -26,11 +26,9 @@ public class ConveyorBelt implements FieldAction {
             return false;
         } else {
 
-            currentPlayer.setSpace(neighbourSpace);
-
            for (FieldAction action : neighbourSpace.actions) {
-                if (action instanceof ConveyorBelt && ((ConveyorBelt) action).getHeading() != this.heading.opposite()) {
-                    action.doAction(gameController, currentPlayer.getSpace());
+                if (action instanceof ConveyorBelt || action instanceof ConveyorBelt4) {
+                    currentPlayer.setSpace(neighbourSpace);
                 }
             }
 

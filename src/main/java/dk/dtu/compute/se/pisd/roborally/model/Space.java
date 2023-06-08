@@ -168,6 +168,37 @@ public class Space extends Subject {
         return panel;
     }
 
+    public ConveyorBelt3 getConveyorBelt3() {
+
+        ConveyorBelt3 belt = null;
+
+
+        for (FieldAction action : this.actions) {
+            if (action instanceof ConveyorBelt3 && belt == null) {
+                belt = (ConveyorBelt3) action;
+            }
+        }
+
+        return belt;
+    }
+
+    public ConveyorBelt4 getConveyorBelt4() {
+
+        ConveyorBelt4 belt = null;
+
+
+        for (FieldAction action : this.actions) {
+            if (action instanceof ConveyorBelt4 && belt == null) {
+                belt = (ConveyorBelt4) action;
+            }
+        }
+
+        return belt;
+    }
+
+
+
+
     public void setStartPlayerNo(int startPlayerNo) {
         this.startPlayerNo = startPlayerNo;
         notifyChange();
