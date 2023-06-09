@@ -112,17 +112,47 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
     private void updateBelt() {
-        updateBeltImage(space.getConveyorBelt(), "images/greencon.png");
-        updateBeltImage(space.getConveyorBelt2(), "images/bluecon.png");
-        updateBeltImage(space.getConveyorBelt3(), "images/DDCB.png");
-        updateBeltImage(space.getConveyorBelt4(), "images/SDCB.png");
-    }
-    /*private Heading checkNeighborbelt(ConveyorBelt belt){
+        updateBeltImage(space.getAction(Belt.class), "images/greencon.png");
+        updateBeltImage(space.getAction(BeltDouble.class), "images/bluecon.png");
 
-        if(board.getNeighbour(belt.getHeading()));
-    }*/
+        BeltRotating beltRotating = space.getAction(BeltRotating.class);
+
+        BeltDoubleRotating beltDoubleRotating = space.getAction(BeltDoubleRotating.class);
+        if(beltRotating!=null){
+        switch (space.checkNeighborBelt(beltRotating)) {
+            case 0:
+                updateBeltImage(beltDoubleRotating, "images/DDCB0.png"); // or use your own path
+                break;
+            case 1:
+                updateBeltImage(beltRotating, "images/SDCB1.png"); // or use your own path
+                break;
+            case 2:
+                updateBeltImage(beltRotating, "images/SDCB2.png"); // or use your own path
+                break;
+            case 3:
+                updateBeltImage(beltRotating, "images/pit.png"); // or use your own path
+                break;
+
+        }}
+        if(beltDoubleRotating!=null){
+    switch (space.checkNeighborBelt(beltDoubleRotating)) {
+        case 0:
+            updateBeltImage(beltDoubleRotating, "images/DDCB0.png"); // or use your own path
+            break;
+        case 1:
+            updateBeltImage(beltDoubleRotating, "images/DDCBmirror.png"); // or use your own path
+            break;
+        case 2:
+            updateBeltImage(beltDoubleRotating, "images/DDCB.png"); // or use your own path
+            break;
+        case 3:
+            updateBeltImage(beltDoubleRotating, "images/DDCB2.png"); // or use your own path
+            break;
+
+    }}}
+
     private void updatePushPanel() {
-        PushPanel pushpanel = space.getPushPanel();
+        PushPanel pushpanel = space.getAction(PushPanel.class);
 
         if (pushpanel != null) {
             switch (pushpanel.getHeading()) {
@@ -246,8 +276,9 @@ public class SpaceView extends StackPane implements ViewObserver {
         {
             addImage("images/startpoint.png");
         }
+            if(space.getAction(ConveyorBelt.class)!=null){updateBelt();};
+
             updatePushPanel();
-            updateBelt();
             updateActions();
             updatePlayer();
             updateWalls();

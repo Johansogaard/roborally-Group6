@@ -78,6 +78,7 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Gear");
         this.fieldOptions.add("Double conveyor belt");
         this.fieldOptions.add("Reboot token");
+        this.fieldOptions.add("Pit");
     }
 
     private class SpaceEventHandler implements EventHandler<MouseEvent> {

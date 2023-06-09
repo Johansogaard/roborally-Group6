@@ -130,75 +130,44 @@ public class Space extends Subject {
         return player;
     }
 
+    public int checkNeighborBelt(ConveyorBelt belt) {
 
-    public Belt getConveyorBelt() {
 
-        Belt belt = null;
+        ConveyorBelt rightBelt = board.getNeighbour(this, belt.getHeading().prev()).getAction(ConveyorBelt.class);
+        ConveyorBelt leftBelt = board.getNeighbour(this, belt.getHeading().next()).getAction(ConveyorBelt.class);
 
-        for (FieldAction action : this.actions) {
-            if (action instanceof Belt && belt == null) {
-                belt = (Belt) action;
-            }
+        boolean leftbelttrue=false;
+        boolean rightbelttrue=false;
+
+if(leftBelt!=null){
+    leftbelttrue = leftBelt.getHeading()==belt.getHeading().prev()||leftBelt.getHeading()==belt.getHeading().next();
+    System.out.println(leftBelt.getHeading());
+    System.out.println(belt.getHeading().prev());
+    System.out.println(belt.getHeading().next());
+}
+
+        if(rightBelt!=null){
+            rightbelttrue = rightBelt.getHeading()==belt.getHeading().next()||leftBelt.getHeading()==belt.getHeading().prev();
         }
 
-        return belt;
+        if (leftbelttrue && rightbelttrue) {
+            return 3; // Both neighbors have conveyor belts
+        } else if (leftbelttrue) {
+            return 1; // Only the previous neighbor has a conveyor belt
+        } else if (rightbelttrue) {
+            return 2; // Only the next neighbor has a conveyor belt
+        } else {
+            return 0; // No neighbors have conveyor belts
+        }
     }
-    public BeltDouble getConveyorBelt2() {
-
-        BeltDouble belt = null;
-
-
+    public <T extends FieldAction> T getAction(Class<T> type) {
         for (FieldAction action : this.actions) {
-            if (action instanceof BeltDouble && belt == null) {
-                belt = (BeltDouble) action;
+            if (type.isInstance(action)) {
+                return type.cast(action);
             }
         }
-
-        return belt;
+        return null;
     }
-
-    public PushPanel getPushPanel() {
-        PushPanel panel = null;
-
-        for (FieldAction action : this.actions) {
-            if (action instanceof PushPanel && panel == null) {
-                panel = (PushPanel) action;
-            }
-        }
-
-        return panel;
-    }
-
-    public BeltDoubleRotating getConveyorBelt3() {
-
-        BeltDoubleRotating belt = null;
-
-
-        for (FieldAction action : this.actions) {
-            if (action instanceof BeltDoubleRotating && belt == null) {
-                belt = (BeltDoubleRotating) action;
-            }
-        }
-
-        return belt;
-    }
-
-    public BeltRotating getConveyorBelt4() {
-
-        BeltRotating belt = null;
-
-
-        for (FieldAction action : this.actions) {
-            if (action instanceof BeltRotating && belt == null) {
-                belt = (BeltRotating) action;
-            }
-        }
-
-        return belt;
-    }
-
-
-
 
     public void setStartPlayerNo(int startPlayerNo) {
         this.startPlayerNo = startPlayerNo;
