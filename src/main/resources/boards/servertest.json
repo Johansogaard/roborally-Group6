@@ -1,0 +1,312 @@
+{
+  "width": 8,
+  "height": 8,
+  "step": 0,
+  "phase": "PROGRAMMING",
+  "players": [
+    {
+      "no": 0,
+      "name": "Player 1",
+      "color": "red",
+      "heading": "SOUTH",
+      "space": [
+        3,
+        0
+      ],
+      "program": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "cards": [
+        {
+          "card": {
+            "command": "LEFT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "BACK",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "FASTFORWARD",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "uTurn",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "FASTFORWARD",
+            "observers": []
+          },
+          "visible": true
+        }
+      ]
+    },
+    {
+      "no": 1,
+      "name": "Player 2",
+      "color": "green",
+      "heading": "SOUTH",
+      "space": [
+        4,
+        0
+      ],
+      "program": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "cards": [
+        {
+          "card": {
+            "command": "FASTFORWARD",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "FASTFORWARD",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "LEFT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          },
+          "visible": true
+        }
+      ]
+    }
+  ],
+  "spaces": [
+    {
+      "startPlayerNo": 1,
+      "x": 2,
+      "y": 0,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "INSTANCE": {
+            "no": 1
+          }
+        }
+      ]
+    },
+    {
+      "player": "Player 1",
+      "startPlayerNo": 1,
+      "x": 3,
+      "y": 0,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 3,
+      "y": 3,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Pit",
+          "INSTANCE": {}
+        }
+      ]
+    },
+    {
+      "player": "Player 2",
+      "startPlayerNo": 2,
+      "x": 4,
+      "y": 0,
+      "walls": [],
+      "actions": []
+    }
+  ],
+  "playerOrder": [],
+  "current": {
+    "no": 0,
+    "name": "Player 1",
+    "color": "red",
+    "heading": "SOUTH",
+    "space": [
+      3,
+      0
+    ],
+    "program": [
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      }
+    ],
+    "cards": [
+      {
+        "card": {
+          "command": "LEFT",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "AGAIN",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "BACK",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "FASTFORWARD",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "FORWARD",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "uTurn",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "RIGHT",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "FASTFORWARD",
+          "observers": []
+        },
+        "visible": true
+      }
+    ]
+  },
+  "rebootToken": {
+    "x": 7,
+    "y": 0
+  }
+}

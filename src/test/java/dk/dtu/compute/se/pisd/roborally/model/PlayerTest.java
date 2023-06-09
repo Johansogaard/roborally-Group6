@@ -1,6 +1,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +42,7 @@ class PlayerTest {
 
 
         player.moveForward();
-
+        Assertions.assertNull(board.getSpace(4, 4).getPlayer());
         assertEquals(board.getSpace(4, 5), player.getSpace());
     }
 
@@ -49,18 +50,30 @@ class PlayerTest {
     public void testMoveForwardWithWall() {
 
 
-        board.getSpace(4, 5).addWall(Heading.SOUTH);
+        board.getSpace(4, 4).addWall(Heading.SOUTH);
 
         player.moveForward();
 
         // Since there is a wall, the player should stay in the same space
-        assertEquals(board.getSpace(4, 5), player.getSpace());
+        assertEquals(board.getSpace(4, 4), player.getSpace());
     }
     @Test
     public void testMoveForwardWithWall2() {
 
 
-        board.getSpace(4, 6).addWall(Heading.NORTH);
+        board.getSpace(4, 5).addWall(Heading.NORTH);
+        player.setHeading(SOUTH);
+        player.moveForward();
+
+        // Since there is a wall, the player should stay in the same space
+        assertEquals(board.getSpace(4, 4), player.getSpace());
+    }
+
+    @Test
+    public void testMoveForwardWithWall3() {
+
+
+        board.getSpace(4, 5).addWall(Heading.WEST);
         player.setHeading(SOUTH);
         player.moveForward();
 
