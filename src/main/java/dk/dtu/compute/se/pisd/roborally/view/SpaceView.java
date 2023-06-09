@@ -271,7 +271,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
             if (action instanceof Lasers) {
                 Lasers laser = (Lasers) action;
-                ImageView laserImageView = addImage("images/SingleLaserON.png");
+                ImageView laserImageView = addImage("images/SingleLasersON.png");
                 rotateImage(laserImageView, laser.getHeading());
             }
             if (action instanceof DoubleLasers) {
