@@ -114,27 +114,21 @@ public class Player extends Subject {
     public Space getSpace() {
         return space;
     }
-    public void setSpawn()
-    {
-        if (spawnPoint == null)
-        {
-            for (int i=0;i<board.height;i++)
-            {
-                for (int f=0;f<board.width;f++)
-                {
-                    if (board.getSpace(i,f).getStartPlayerNo()==this.no+1)
-                    {
-                        spawnPoint = board.getSpace(i,f);
+    public void setSpawn() {
+        if (spawnPoint == null) {
+            for (int i = 0; i < board.height; i++) {
+                for (int f = 0; f < board.width; f++) {
+                    Space space = board.getSpace(i, f);
+                    if (space != null && space.getStartPlayerNo() == this.no + 1) {
+                        spawnPoint = space;
                         setSpace(spawnPoint);
                         break;
                     }
                 }
             }
-        }
-        else{
+        } else {
             setSpace(spawnPoint);
         }
-
     }
     public void setSpace(Space space) {
         Space oldSpace = this.space;

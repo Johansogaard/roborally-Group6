@@ -769,6 +769,11 @@
     }
   ],
   "playerOrder": [],
+  "antenna": {
+    "x": 0,
+    "y": 4
+  },
+  "playerOrder": [],
   "rebootToken": {
     "x": 7,
     "y": 3
