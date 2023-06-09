@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  *
  */
-public class BeltDoubleRotating implements FieldAction {
+public class BeltDoubleRotating implements ConveyorBelt {
 
     private Heading heading = Heading.EAST;
 

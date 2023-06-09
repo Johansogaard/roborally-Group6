@@ -74,7 +74,7 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Walls");
         this.fieldOptions.add("Checkpoint");
         this.fieldOptions.add("Rotating conveyor belt");
-        this.fieldOptions.add("Double Rotating Conveyor belt");
+        this.fieldOptions.add("Double rotating conveyor belt");
         this.fieldOptions.add("Gear");
         this.fieldOptions.add("Double conveyor belt");
         this.fieldOptions.add("Reboot token");
@@ -118,7 +118,7 @@ public class BoardDesignView extends VBox {
                         case "Double conveyor belt":
                             addConveyorBelt(space, "ConveyorBelt2");
                             break;
-                        case "Double rotating belt":
+                        case "Double rotating conveyor belt":
                             addConveyorBelt(space, "ConveyorBelt3");
                             break;
                         case "Rotating conveyor belt":
@@ -211,7 +211,7 @@ public class BoardDesignView extends VBox {
             dialog.showAndWait();
 
             if (dialog.getSelectedItem() != null && actionInstance != null) {
-                Belt belt = (Belt) actionInstance;
+                ConveyorBelt belt = (ConveyorBelt) actionInstance;
                 belt.setHeading((Heading) dialog.getSelectedItem());
 
                 space.addAction(belt);

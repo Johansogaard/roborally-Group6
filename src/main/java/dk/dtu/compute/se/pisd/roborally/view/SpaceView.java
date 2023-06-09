@@ -93,7 +93,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
 
     }
-    private void updateBeltImage(Belt belt, String imagePath) {
+    private void updateBeltImage(ConveyorBelt belt, String imagePath) {
         if (belt != null) {
             switch (belt.getHeading()) {
                 case EAST:

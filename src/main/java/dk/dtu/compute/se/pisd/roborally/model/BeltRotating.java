@@ -3,7 +3,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import org.jetbrains.annotations.NotNull;
 
-public class BeltRotating implements FieldAction {
+public class BeltRotating implements ConveyorBelt {
 
     private Heading heading = Heading.EAST;
 
