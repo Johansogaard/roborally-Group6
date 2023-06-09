@@ -147,7 +147,7 @@ public class GameController {
         }
         else
         {
-            repository.waitForPlayers();
+            repository.waitForPlayersAct();
             board = repository.getGameInstance(board);
             board.notifyBoardChange();
             waitForAction();
@@ -279,6 +279,7 @@ public class GameController {
             {
                repository.postGameInstanceActivationPhase(board);
                 board.notifyBoardChange();
+                waitForAction();
 
             }
 

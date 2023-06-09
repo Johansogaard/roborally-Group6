@@ -116,9 +116,14 @@ public class Client {
         }
         return null;
     }
-    public String getStatus(int id)
+    public String getStatusProg(int id,int playernumb)
     {
-       return getDataFromApi("GET",API_BASE_URL+"/"+id+"/status");
+            return getDataFromApi("GET", API_BASE_URL + "/" + id + "/statpost/"+playernumb);
+
+    }
+    public String getStatusAct(int id,int playernumb)
+    {
+        return getDataFromApi("GET", API_BASE_URL + "/" + id + "/statact/"+playernumb);
     }
     public void postGameInstanceActivationPhase(int id,String jsonData)
     {

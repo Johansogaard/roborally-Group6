@@ -42,6 +42,7 @@ public class BoardTemplate {
     public int height;
     public int step;
     public Phase phase;
+    public boolean stepMode;
 
     //public int antennaX, antennaY;
 
@@ -60,6 +61,7 @@ public class BoardTemplate {
         this.width = board.width;
         this.height = board.height;
         this.step = board.getStep();
+        this.stepMode = board.isStepMode();
         this.phase = board.getPhase();
         if (board.getPlayers().size()>0) {
             for (Player player : board.getPlayerOrder()) {
@@ -102,6 +104,7 @@ public class BoardTemplate {
         Board board = new Board(this.width, this.height);
         board.setStep(this.step);
         board.setPhase(this.phase);
+        board.setStepMode(this.stepMode);
 
         //first adding the players but where they are missing space because they are not istantiated yet
         if (players.size()>0) {

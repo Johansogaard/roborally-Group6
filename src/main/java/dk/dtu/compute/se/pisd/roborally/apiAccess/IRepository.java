@@ -21,5 +21,10 @@ public interface IRepository {
     public Board getGameInstance(Board oldBoard);
 
 
-    void waitForPlayers();
+
+
+
+    void waitForPlayersProg();
+
+    void waitForPlayersAct();
 }

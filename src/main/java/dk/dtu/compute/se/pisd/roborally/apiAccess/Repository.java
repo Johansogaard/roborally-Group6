@@ -2,12 +2,10 @@ package dk.dtu.compute.se.pisd.roborally.apiAccess;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.CommandCardField;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.view.BoardView;
 import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 import dk.dtu.compute.se.pisd.roborally.view.PlayersView;
-import dk.dtu.compute.se.pisd.roborally.view.SpaceView;
 
 import java.util.concurrent.TimeUnit;
 
@@ -49,6 +47,11 @@ public class Repository implements IRepository {
     public void postGameInstanceActivationPhase(Board board) {
         String jsonData = client.getGameInstanceAsString(board);
         client.postGameInstanceActivationPhase(id, jsonData);
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -56,7 +59,7 @@ public class Repository implements IRepository {
     public void postGameInstanceProgrammingPhase(Board board) {
         String jsonData = client.getGameInstanceAsString(board);
         client.postGameInstanceProgrammingPhase(id, jsonData, playerNumb);
-        waitForPlayers();
+        waitForPlayersProg();
     }
 @Override
     public void postGameInstance(Board board) {
@@ -128,10 +131,10 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public void waitForPlayers() {
+    public void waitForPlayersProg() {
         while (true) {
 
-            String status = client.getStatus(id);
+            String status = client.getStatusProg(id,playerNumb);
             if (status.equals("Ready")) {
                 break;
             }
@@ -143,4 +146,24 @@ public class Repository implements IRepository {
 
         }
     }
+    @Override
+    public void waitForPlayersAct()
+    {
+        while (true)
+        {
+        String status = client.getStatusAct(id,playerNumb);
+        if (status.equals("Ready")) {
+            break;
+        }
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+}
+
+
+
 }
