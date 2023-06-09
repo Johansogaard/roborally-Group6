@@ -269,14 +269,14 @@ public class CardFieldView extends GridPane implements ViewObserver {
                         Object object = db.getContent(ROBO_RALLY_CARD);
                         if (object instanceof String) {
                             CommandCardField source = cardFieldFromRepresentation((String) object);
-                            if (source != null && gameController.moveCards(source, cardField)) {
-                                // CommandCard card = source.getCard();
-                                // if (card != null) {
-                                // if (gameController.moveCards(source, cardField)) {
-                                    // cardField.setCard(card);
-                                    success = true;
-                                // }
+                            if (source != null && source.getCard() != null &&
+                                    source.getCard().getName().equals("Again") && CardFieldView.this.field == CardFieldView.this.field.player.getProgramField(0)) {
+                                // Do not perform move if 'Again' card is being placed in first register
+                                // The card will remain in the original field
+                            } else if(gameController.moveCards(source, CardFieldView.this.field)) {
+                                success = true;
                             }
+
                         }
                     }
                 }

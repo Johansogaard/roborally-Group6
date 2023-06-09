@@ -26,6 +26,11 @@ public class BoardDesignView extends VBox {
     private SpaceView[][] spaces;
     private Label statusLabel;
     private SpaceEventHandler spaceEventHandler;
+    private boolean hasLaser;
+
+    public boolean hasLaser() {
+        return hasLaser;
+    }
 
     private List fieldOptions = new ArrayList<String>();
 
@@ -72,6 +77,9 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Conveyor Belt");
         this.fieldOptions.add("Player start field");
         this.fieldOptions.add("Walls");
+        this.fieldOptions.add("Lasers");
+        this.fieldOptions.add("Double Lasers");
+        this.fieldOptions.add("Triple Lasers");
         this.fieldOptions.add("Checkpoint");
         this.fieldOptions.add("Rotating conveyor belt");
         this.fieldOptions.add("Double rotating conveyor belt");
@@ -140,6 +148,17 @@ public class BoardDesignView extends VBox {
 
                     case "Walls":
                         addWalls(space);
+                        break;
+                    case "Lasers":
+                        addLasers(space);
+                        break;
+
+                    case "Double Lasers":
+                        addDoubleLasers(space);
+                        break;
+
+                    case "Triple Lasers":
+                        addTripleLasers(space);
                         break;
 
                     case "Checkpoint":
@@ -289,6 +308,105 @@ public class BoardDesignView extends VBox {
             }
 
 
+        }
+        private void addLasers(Space space) {
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("NORTH", "NORTH", "EAST", "SOUTH", "WEST");
+            dialog.setContentText("Select the laser direction:");
+            dialog.setHeaderText(null);
+            dialog.setTitle("Add Lasers");
+            dialog.showAndWait();
+
+            String selectedDirection = dialog.getSelectedItem();
+            if (selectedDirection != null) {
+                Heading direction;
+
+                switch (selectedDirection) {
+                    case "NORTH":
+                        direction = Heading.NORTH;
+                        break;
+                    case "EAST":
+                        direction = Heading.EAST;
+                        break;
+                    case "SOUTH":
+                        direction = Heading.SOUTH;
+                        break;
+                    case "WEST":
+                        direction = Heading.WEST;
+                        break;
+                    default:
+                        // Invalid direction selected
+                        return;
+                }
+
+                Lasers lasers = new Lasers(direction);
+                space.addAction(lasers);
+            }
+        }
+        private void addDoubleLasers(Space space) {
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("NORTH", "NORTH", "EAST", "SOUTH", "WEST");
+            dialog.setContentText("Select the doulbe laser direction:");
+            dialog.setHeaderText(null);
+            dialog.setTitle("Add Double Lasers");
+            dialog.showAndWait();
+
+            String selectedDirection = dialog.getSelectedItem();
+            if (selectedDirection != null) {
+                Heading direction;
+
+                switch (selectedDirection) {
+                    case "NORTH":
+                        direction = Heading.NORTH;
+                        break;
+                    case "EAST":
+                        direction = Heading.EAST;
+                        break;
+                    case "SOUTH":
+                        direction = Heading.SOUTH;
+                        break;
+                    case "WEST":
+                        direction = Heading.WEST;
+                        break;
+                    default:
+                        // Invalid direction selected
+                        return;
+                }
+
+                DoubleLasers doublelasers = new DoubleLasers(direction);
+                space.addAction(doublelasers);
+            }
+        }
+        private void addTripleLasers(Space space) {
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("NORTH", "NORTH", "EAST", "SOUTH", "WEST");
+            dialog.setContentText("Select the triple laser direction:");
+            dialog.setHeaderText(null);
+            dialog.setTitle("Add triple Lasers");
+            dialog.showAndWait();
+
+            String selectedDirection = dialog.getSelectedItem();
+            if (selectedDirection != null) {
+                Heading direction;
+
+                switch (selectedDirection) {
+                    case "NORTH":
+                        direction = Heading.NORTH;
+                        break;
+                    case "EAST":
+                        direction = Heading.EAST;
+                        break;
+                    case "SOUTH":
+                        direction = Heading.SOUTH;
+                        break;
+                    case "WEST":
+                        direction = Heading.WEST;
+                        break;
+                    default:
+                        // Invalid direction selected
+                        return;
+                }
+
+                TripleLasers triplelasers = new TripleLasers(direction);
+                space.addAction(triplelasers);
+            }
         }
 
         private void addCheckpoint(Space space) {

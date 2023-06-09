@@ -45,6 +45,11 @@ public class Space extends Subject {
     public final int y;
 
     private Player player;
+    private Lasers lasers;
+
+    public Lasers getLasers() {
+        return lasers;
+    }
 
 
     public List<Heading> getWalls() {

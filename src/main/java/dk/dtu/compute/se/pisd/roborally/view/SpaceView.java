@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.beans.binding.DoubleExpression;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -227,10 +228,43 @@ public class SpaceView extends StackPane implements ViewObserver {
             if (action instanceof Gear) {
                 addImage("images/gear" + (((Gear) action).direction) + ".png");
             }
-
-
+            if (action instanceof Lasers) {
+                Lasers laser = (Lasers) action;
+                ImageView laserImageView = addImage("images/SingleLasersON.png");
+                rotateImage(laserImageView, laser.getHeading());
+            }
+            if (action instanceof DoubleLasers) {
+                DoubleLasers doubleLaser = (DoubleLasers) action;
+                ImageView laserImageView = addImage("images/DoubleLasersON.png");
+                rotateImage(laserImageView, doubleLaser.getHeading());
+            }
+            if (action instanceof TripleLasers) {
+                TripleLasers tripleLaser = (TripleLasers) action;
+                ImageView laserImageView = addImage("images/TripleLasersON.png");
+                rotateImage(laserImageView, tripleLaser.getHeading());
+            }
         }
     }
+    private void rotateImage(ImageView imageView, Heading heading) {
+        double rotationAngle = 0;
+        switch (heading) {
+            case NORTH:
+                rotationAngle = 0;
+                break;
+            case EAST:
+                rotationAngle = 90;
+                break;
+            case SOUTH:
+                rotationAngle = 180;
+                break;
+            case WEST:
+                rotationAngle = 270;
+                break;
+        }
+        imageView.setRotate(rotationAngle);
+    }
+
+
     private ImageView addImage(String name) {
         Image img = null;
         try {
