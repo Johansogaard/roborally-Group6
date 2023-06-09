@@ -7,13 +7,14 @@ import org.junit.jupiter.api.Test;
 import static com.sun.javafx.scene.traversal.Direction.LEFT;
 import static com.sun.javafx.scene.traversal.Direction.RIGHT;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.WEST;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Direction;
+
 import dk.dtu.compute.se.pisd.roborally.model.Gear;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
@@ -26,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.*;
         private GameController controller;
         private Board board;
         private Player player;
-        private Space initialSpace;
 
         @BeforeEach
         void setUp() {
@@ -40,19 +40,16 @@ import static org.junit.jupiter.api.Assertions.*;
         @Test
         void doActionTurnsPlayerLeft() {
             Gear gear = new Gear(LEFT);
-            board.getSpace(4,4).addAction(gear);
-            gear.doAction(controller, board.getSpace(4,4));
 
-            assertEquals(Heading.WEST, player.getHeading(), "The player's heading should be WEST after turning LEFT from NORTH");
+            gear.doAction(controller, board.getSpace(4,4));
+            assertEquals(Heading.EAST, player.getHeading(), "The player's heading should be WEST after turning LEFT from NORTH");
         }
 
         @Test
         void doActionTurnsPlayerRight() {
             Gear gear = new Gear(RIGHT);
-            initialSpace.addAction(gear);
+            gear.doAction(controller, board.getSpace(4,4));
 
-
-            assertEquals(Heading.EAST, player.getHeading(), "The player's heading should be EAST after turning RIGHT from NORTH");
+            assertEquals(Heading.WEST, player.getHeading(), "The player's heading should be EAST after turning RIGHT from NORTH");
         }
     }
-
