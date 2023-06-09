@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.apiAccess.Repository;
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import dk.dtu.compute.se.pisd.roborally.view.APIView;
 import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,9 +39,11 @@ import java.util.*;
 public class GameController {
 
     public Board board;
+    public APIObserver apiObserver =null;
 
     public void addRepository() {
         this.repository = Repository.getInstance();
+        this.apiObserver = new APIObserver();
     }
 
     public Repository repository = null;
@@ -51,6 +54,7 @@ public class GameController {
      */
     public GameController(@NotNull Board board) {
         this.board = board;
+
 
     }
 
@@ -147,10 +151,7 @@ public class GameController {
         }
         else
         {
-            repository.waitForPlayersAct();
-            board = repository.getGameInstance(board);
-            board.notifyBoardChange();
-            waitForAction();
+            apiObserver.notifyAPI();
         }
     }
 
@@ -278,7 +279,7 @@ public class GameController {
             if (repository!=null)
             {
                repository.postGameInstanceActivationPhase(board);
-                board.notifyBoardChange();
+               board.notifyBoardChange();
                 waitForAction();
 
             }
