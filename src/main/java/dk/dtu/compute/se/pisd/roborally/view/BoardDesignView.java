@@ -3,8 +3,6 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 
 import com.sun.javafx.scene.traversal.Direction;
-import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.controller.SaveBoardDesignController;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.event.EventHandler;
@@ -13,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,10 +148,9 @@ public class BoardDesignView extends VBox {
                     case "Gear":
                         addGear(space);
                         break;
-                    case "Reboot token":
+                     case "Reboot token":
                         addRebootToken(space);
                         break;
-
                     case "Pit":
                         space.addPit();
                         break;
