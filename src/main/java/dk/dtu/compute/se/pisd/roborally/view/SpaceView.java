@@ -80,20 +80,20 @@ public class SpaceView extends StackPane implements ViewObserver {
         if (player != null) {
             Polygon arrow = new Polygon(0.0, 0.0,
                     10.0, 20.0,
-                    20.0, 0.0 );
+                    20.0, 0.0);
             try {
                 arrow.setFill(Color.valueOf(player.getColor()));
             } catch (Exception e) {
                 arrow.setFill(Color.MEDIUMPURPLE);
             }
 
-            arrow.setRotate((90*player.getHeading().ordinal())%360);
+            arrow.setRotate((90 * player.getHeading().ordinal()) % 360);
             this.getChildren().add(arrow);
         }
 
 
-
     }
+
     private void updateBeltImage(ConveyorBelt belt, String imagePath) {
         if (belt != null) {
             switch (belt.getHeading()) {
@@ -119,38 +119,41 @@ public class SpaceView extends StackPane implements ViewObserver {
         BeltRotating beltRotating = space.getAction(BeltRotating.class);
 
         BeltDoubleRotating beltDoubleRotating = space.getAction(BeltDoubleRotating.class);
-        if(beltRotating!=null){
-        switch (space.checkNeighborBelt(beltRotating)) {
-            case 0:
-                updateBeltImage(beltDoubleRotating, "images/DDCB0.png"); // or use your own path
-                break;
-            case 1:
-                updateBeltImage(beltRotating, "images/SDCB1.png"); // or use your own path
-                break;
-            case 2:
-                updateBeltImage(beltRotating, "images/SDCB2.png"); // or use your own path
-                break;
-            case 3:
-                updateBeltImage(beltRotating, "images/pit.png"); // or use your own path
-                break;
+        if (beltRotating != null) {
+            switch (space.checkNeighborBelt(beltRotating)) {
+                case 0:
+                    updateBeltImage(beltDoubleRotating, "images/DDCB0.png"); // or use your own path
+                    break;
+                case 1:
+                    updateBeltImage(beltRotating, "images/SDCB1.png"); // or use your own path
+                    break;
+                case 2:
+                    updateBeltImage(beltRotating, "images/SDCB2.png"); // or use your own path
+                    break;
+                case 3:
+                    updateBeltImage(beltRotating, "images/pit.png"); // or use your own path
+                    break;
 
-        }}
-        if(beltDoubleRotating!=null){
-    switch (space.checkNeighborBelt(beltDoubleRotating)) {
-        case 0:
-            updateBeltImage(beltDoubleRotating, "images/DDCB0.png"); // or use your own path
-            break;
-        case 1:
-            updateBeltImage(beltDoubleRotating, "images/DDCBmirror.png"); // or use your own path
-            break;
-        case 2:
-            updateBeltImage(beltDoubleRotating, "images/DDCB.png"); // or use your own path
-            break;
-        case 3:
-            updateBeltImage(beltDoubleRotating, "images/DDCB2.png"); // or use your own path
-            break;
+            }
+        }
+        if (beltDoubleRotating != null) {
+            switch (space.checkNeighborBelt(beltDoubleRotating)) {
+                case 0:
+                    updateBeltImage(beltDoubleRotating, "images/DDCB0.png"); // or use your own path
+                    break;
+                case 1:
+                    updateBeltImage(beltDoubleRotating, "images/DDCBmirror.png"); // or use your own path
+                    break;
+                case 2:
+                    updateBeltImage(beltDoubleRotating, "images/DDCB.png"); // or use your own path
+                    break;
+                case 3:
+                    updateBeltImage(beltDoubleRotating, "images/DDCB2.png"); // or use your own path
+                    break;
 
-    }}}
+            }
+        }
+    }
 
     private void updatePushPanel() {
         PushPanel pushpanel = space.getAction(PushPanel.class);
@@ -173,36 +176,39 @@ public class SpaceView extends StackPane implements ViewObserver {
                 case SOUTH:
                     addImage("images/pushpanel.png");
 
-            }}}
-    private void updateWalls(){
+            }
+        }
+    }
+
+    private void updateWalls() {
 
 
         Space space = this.space;
         if (space != null && !space.getWalls().isEmpty()) {
             for (Heading wall : space.getWalls()) {
 
-                Polygon fig = new Polygon(0.0,0.0,
-                        60.0,0.0,
-                        60.0,10.0,
-                        0.0,10.0);
+                Polygon fig = new Polygon(0.0, 0.0,
+                        60.0, 0.0,
+                        60.0, 10.0,
+                        0.0, 10.0);
 
                 switch (wall) {
                     case EAST:
-                        fig.setTranslateX((this.SPACE_HEIGHT/2)-1);
-                        fig.setRotate((90*wall.ordinal()) % 360);
+                        fig.setTranslateX((this.SPACE_HEIGHT / 2) - 1);
+                        fig.setRotate((90 * wall.ordinal()) % 360);
                         break;
 
                     case SOUTH:
-                        fig.setTranslateY((this.SPACE_HEIGHT/2)-1);
+                        fig.setTranslateY((this.SPACE_HEIGHT / 2) - 1);
                         break;
 
                     case WEST:
-                        fig.setTranslateX(-(this.SPACE_HEIGHT/2)+1);
-                        fig.setRotate((90*wall.ordinal()) % 360);
+                        fig.setTranslateX(-(this.SPACE_HEIGHT / 2) + 1);
+                        fig.setRotate((90 * wall.ordinal()) % 360);
                         break;
 
                     case NORTH:
-                        fig.setTranslateY(-(this.SPACE_HEIGHT/2)-1);
+                        fig.setTranslateY(-(this.SPACE_HEIGHT / 2) - 1);
                         break;
                 }
 
@@ -214,8 +220,8 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         }
     }
-    private void updateActions()
-    {
+
+    private void updateActions() {
         for (FieldAction action : space.actions) {
             if (action instanceof Checkpoint) {
                 addImage("images/checkpoint" + ((Checkpoint) action).no + ".png", -90);
@@ -228,23 +234,28 @@ public class SpaceView extends StackPane implements ViewObserver {
             if (action instanceof Gear) {
                 addImage("images/gear" + (((Gear) action).direction) + ".png");
             }
-            if (action instanceof Lasers) {
-                Lasers laser = (Lasers) action;
-                ImageView laserImageView = addImage("images/SingleLasersON.png");
+            ImageView laserImageView = null;
+            if (action instanceof Laser) {
+                Laser laser = (Laser) action;
+                switch (laser.power) {
+                    case 1:
+                        laserImageView = addImage("images/SingleLasersON.png");
+                        break;
+
+                    case 2:
+                        laserImageView = addImage("images/DoubleLasersON.png");
+                        break;
+
+                    case 3:
+                        laserImageView = addImage("images/TripleLasersON.png");
+                        break;
+                }
                 rotateImage(laserImageView, laser.getHeading());
-            }
-            if (action instanceof DoubleLasers) {
-                DoubleLasers doubleLaser = (DoubleLasers) action;
-                ImageView laserImageView = addImage("images/DoubleLasersON.png");
-                rotateImage(laserImageView, doubleLaser.getHeading());
-            }
-            if (action instanceof TripleLasers) {
-                TripleLasers tripleLaser = (TripleLasers) action;
-                ImageView laserImageView = addImage("images/TripleLasersON.png");
-                rotateImage(laserImageView, tripleLaser.getHeading());
             }
         }
     }
+
+
     private void rotateImage(ImageView imageView, Heading heading) {
         double rotationAngle = 0;
         switch (heading) {

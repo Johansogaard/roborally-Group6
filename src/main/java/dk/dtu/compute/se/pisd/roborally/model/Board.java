@@ -54,14 +54,14 @@ public class Board extends Subject {
         this.antenna = antenna;
 
     }
-    public Lasers getLasers(Lasers lasers) {
+    /*public Lasers getLasers(Lasers lasers) {
         return lasers;
     }
     public void setLasers(Lasers lasers) {
         this.lasers = lasers;
         notifyChange();
     }
-    private Lasers lasers;
+    private Lasers lasers;*/
 
     private Antenna antenna;
     private RebootToken rebootToken;

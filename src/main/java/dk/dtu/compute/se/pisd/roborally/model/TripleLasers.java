@@ -24,7 +24,7 @@ public class TripleLasers implements FieldAction {
 
         for (FieldAction action : space.actions) {
             for (int i = 0; i < 2; i++) {
-                if(action instanceof Lasers){
+                if(action instanceof Laser){
                     currentPlayer.deck.addCard(new CommandCard(Command.SPAM));
                 }
             }
