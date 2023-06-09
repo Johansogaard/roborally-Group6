@@ -46,6 +46,18 @@ class ConveyorbeltTest {
         assertEquals(board.getSpace(4,4), player.getSpace());
     }
 
+    @Test
+    void doubleConveyorBeltMove(){
+        Belt BeltDouble = new Belt();
+        BeltDouble.setHeading(SOUTH);
+        board.getSpace(4,4).addAction(BeltDouble);
+        board.getSpace(4,5).addAction(BeltDouble);
+        BeltDouble.doAction(controller, board.getSpace(4,4));
+
+        assertEquals(board.getSpace(4,6), player.getSpace());
+    }
+
+
     /*@Test
     void conveyerbeltIntersect(){
         ConveyorBelt conveyorBelt = new ConveyorBelt();
