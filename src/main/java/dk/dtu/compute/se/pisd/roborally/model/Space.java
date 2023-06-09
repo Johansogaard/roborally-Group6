@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import com.sun.javafx.scene.traversal.Direction;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,7 +133,10 @@ public class Space extends Subject {
 
         notifyChange();
     }
-
+    public void notifySpace()
+    {
+        notifyChange();
+    }
     void playerChanged() {
         // This is a minor hack; since some views that are registered with the space
         // also need to update when some player attributes change, the player can

@@ -135,13 +135,23 @@ public class GameController {
             mergeCards();
             repository.postGameInstanceProgrammingPhase(board);
             board =repository.getGameInstance(board);
+            waitForAction();
         }
 
     }
     public void waitForAction()
     {
-        repository.waitForPlayers();
-        board = repository.getGameInstance(board);
+        if (repository.getPlayerNumb()-1 ==board.getCurrentPlayer().no)
+        {
+
+        }
+        else
+        {
+            repository.waitForPlayers();
+            board = repository.getGameInstance(board);
+            board.notifyBoardChange();
+            waitForAction();
+        }
     }
 
     public void mergeCards()
@@ -268,6 +278,8 @@ public class GameController {
             if (repository!=null)
             {
                repository.postGameInstanceActivationPhase(board);
+                board.notifyBoardChange();
+
             }
 
 

@@ -97,6 +97,10 @@ public class Player extends Subject {
             }
         }
     }
+    public void notifyPlayer()
+    {
+        notifyChange();
+    }
 
     public String getColor() {
         return color;

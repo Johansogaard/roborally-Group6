@@ -67,8 +67,6 @@ public class Repository implements IRepository {
     public void joinGame(int id) {
         this.id = id;
         playerNumb = client.joinGame(id);
-
-        getGameInstance(null);
     }
 
     @Override
@@ -97,6 +95,17 @@ public class Repository implements IRepository {
                  ((PlayersView) observer).setBoard(newBoard);
 
              }
+             else if(observer instanceof PlayerView)
+             {
+                 for (Player player : newBoard.getPlayers()) {
+                     if (player.no ==((PlayerView) observer).getPlayer().no)
+                     {
+                         ((PlayerView) observer).setPlayer(player);
+                     }
+
+                 }
+
+             }
 
 
             }
@@ -107,7 +116,7 @@ public class Repository implements IRepository {
             newBoard.getPlayers().get(f).setObservers(newBoard.getObservers());
             for(int i =0;i<newBoard.getPlayers().get(f).getCards().length;i++)
             {
-                newBoard.getPlayers().get(f).getCards()[i].setObservers(oldBoard.getPlayers().get(f).getProgram()[i].getObservers());
+                newBoard.getPlayers().get(f).getCards()[i].setObservers(oldBoard.getPlayers().get(f).getCards()[i].getObservers());
             }
             for(int i =0;i<newBoard.getPlayers().get(f).getProgram().length;i++)
             {

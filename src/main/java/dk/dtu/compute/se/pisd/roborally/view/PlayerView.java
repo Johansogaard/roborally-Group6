@@ -42,6 +42,14 @@ import java.util.List;
  */
 public class PlayerView extends Tab implements ViewObserver {
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     private Player player;
 
     private VBox top;
