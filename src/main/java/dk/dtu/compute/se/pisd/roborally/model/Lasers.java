@@ -18,6 +18,15 @@ public class Lasers implements FieldAction {
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
         // Implement the action of the laser here
         // ...
+        Player currentPlayer = space.getPlayer();
+        space = currentPlayer.getSpace();
+
+
+        for(FieldAction action : space.actions){
+            if(action instanceof Lasers){
+
+            }
+        }
         return true;
     }
 }
