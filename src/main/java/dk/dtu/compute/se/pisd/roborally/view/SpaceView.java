@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.beans.binding.DoubleExpression;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -272,6 +273,16 @@ public class SpaceView extends StackPane implements ViewObserver {
                 Lasers laser = (Lasers) action;
                 ImageView laserImageView = addImage("images/SingleLaserON.png");
                 rotateImage(laserImageView, laser.getHeading());
+            }
+            if (action instanceof DoubleLasers) {
+                DoubleLasers doubleLaser = (DoubleLasers) action;
+                ImageView laserImageView = addImage("images/DoubleLasersON.png");
+                rotateImage(laserImageView, doubleLaser.getHeading());
+            }
+            if (action instanceof TripleLasers) {
+                TripleLasers tripleLaser = (TripleLasers) action;
+                ImageView laserImageView = addImage("images/TripleLasersON.png");
+                rotateImage(laserImageView, tripleLaser.getHeading());
             }
         }
     }

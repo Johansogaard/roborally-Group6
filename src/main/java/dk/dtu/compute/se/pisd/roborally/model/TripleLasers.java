@@ -3,13 +3,13 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import org.jetbrains.annotations.NotNull;
 
-public class Lasers implements FieldAction {
+public class TripleLasers implements FieldAction {
     private Heading heading;
 
     public FieldAction action;
 
 
-    public Lasers(Heading heading) {
+    public TripleLasers(Heading heading) {
         this.heading = heading;
     }
 
@@ -23,8 +23,10 @@ public class Lasers implements FieldAction {
         space = currentPlayer.getSpace();
 
         for (FieldAction action : space.actions) {
-            if(action instanceof Lasers){
-                currentPlayer.deck.addCard(new CommandCard(Command.SPAM));
+            for (int i = 0; i < 2; i++) {
+                if(action instanceof Lasers){
+                    currentPlayer.deck.addCard(new CommandCard(Command.SPAM));
+                }
             }
         }
         return true;
