@@ -18,6 +18,7 @@ class LaserTest {
         player1 = new Player(board, "Blue", "John");
         player2 = new Player(board, "Red", "Mike");
         controller = new GameController(board);
+        board.getSpace(0,0).addAntenna();
         player1.setSpace(board.getSpace(4, 4)); // Set the player at the center of the board
 
          // Set player2 one space east of player1
