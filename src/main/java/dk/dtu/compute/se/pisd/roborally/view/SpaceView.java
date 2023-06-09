@@ -94,102 +94,29 @@ public class SpaceView extends StackPane implements ViewObserver {
 
 
     }
-    private void updateBelt() {
-        ConveyorBelt belt = space.getConveyorBelt();
-        ConveyorBelt2 belt2 = space.getConveyorBelt2();
-        ConveyorBelt3 belt3 = space.getConveyorBelt3();
-        ConveyorBelt4 belt4 = space.getConveyorBelt4();
-
+    private void updateBeltImage(ConveyorBelt belt, String imagePath) {
         if (belt != null) {
             switch (belt.getHeading()) {
-
                 case EAST:
-                    addImage("images/greencon.png").setRotate(90);
+                    addImage(imagePath).setRotate(90);
                     break;
-
                 case SOUTH:
-                    addImage("images/greencon.png").setRotate(180);
+                    addImage(imagePath).setRotate(180);
                     break;
-
                 case WEST:
-                    addImage("images/greencon.png").setRotate(-90);
-                    break;
-
-                case NORTH:
-                    addImage("images/greencon.png");
-
-            }
-
-
-            /*
-            Polygon fig = new Polygon(0.0, 0.0,
-                    60.0, 0.0,
-                    30.0, 60.0);
-
-            fig.setFill(Color.LIGHTGRAY);
-
-            fig.setRotate((90*belt.getHeading().ordinal())%360);
-            this.getChildren().add(fig);
-
-             */
-        }
-        if (belt2 != null) {
-            switch (belt2.getHeading()) {
-
-                case EAST:
-                    addImage("images/bluecon.png").setRotate(90);
-                    break;
-
-                case SOUTH:
-                    addImage("images/bluecon.png").setRotate(180);
-                    break;
-
-                case WEST:
-                    addImage("images/bluecon.png").setRotate(-90);
+                    addImage(imagePath).setRotate(-90);
                     break;
                 case NORTH:
-                    addImage("images/bluecon.png");
-
-            }
-
-        }
-        if(belt3 != null){
-            switch(belt3.getHeading()){
-
-                case EAST:
-                    addImage("images/DDCB.png").setRotate(90);
-                    break;
-
-                case SOUTH:
-                    addImage("images/DDCB.png").setRotate(180);
-                    break;
-
-                case WEST:
-                    addImage("images/DDCB.png").setRotate(-90);
-                    break;
-                case NORTH:
-                    addImage("images/DDCB.png");
+                    addImage(imagePath);
             }
         }
-        if(belt4 != null) {
-            switch (belt4.getHeading()) {
+    }
 
-                case NORTH:
-                    addImage("images/SDCB.png").setRotate(90);
-                    break;
-
-                case SOUTH:
-                    addImage("images/SDCB.png").setRotate(180);
-                    break;
-
-                case WEST:
-                    addImage("images/SDCB.png").setRotate(-90);
-                    break;
-                case EAST:
-                    addImage("images/SDCB.png");
-            }
-        }
-
+    private void updateBelt() {
+        updateBeltImage(space.getConveyorBelt(), "images/greencon.png");
+        updateBeltImage(space.getConveyorBelt2(), "images/bluecon.png");
+        updateBeltImage(space.getConveyorBelt3(), "images/DDCB.png");
+        updateBeltImage(space.getConveyorBelt4(), "images/SDCB.png");
     }
 
     private void updatePushPanel() {
