@@ -7,9 +7,11 @@
   "spaces": [
     {
       "startPlayerNo": 0,
-      "x": 3,
-      "y": 2,
-      "walls": [],
+      "x": 4,
+      "y": 1,
+      "walls": [
+        "SOUTH"
+      ],
       "actions": [
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Laser",
@@ -22,18 +24,31 @@
     },
     {
       "startPlayerNo": 0,
-      "x": 5,
+      "x": 4,
       "y": 2,
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Laser",
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Belt",
           "INSTANCE": {
-            "heading": "SOUTH",
-            "power": 1
+            "heading": "NORTH"
           }
         }
       ]
+    },
+    {
+      "startPlayerNo": 2,
+      "x": 4,
+      "y": 4,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 1,
+      "x": 5,
+      "y": 4,
+      "walls": [],
+      "actions": []
     }
   ],
   "playerOrder": []

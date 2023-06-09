@@ -29,6 +29,7 @@ import com.google.gson.stream.JsonWriter;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates.BoardTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
 
 import java.io.*;
@@ -75,9 +76,11 @@ try {
 
 
 		// In simple cases, we can create a Gson object with new Gson():
-        GsonBuilder simpleBuilder = new GsonBuilder().
-                registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
-        Gson gson = simpleBuilder.create();
+    GsonBuilder simpleBuilder = new GsonBuilder()
+            .registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>())
+            .registerTypeAdapter(ConveyorBelt.class, new Adapter<ConveyorBelt>());
+
+    Gson gson = simpleBuilder.create();
 
 		Board result;
 		// FileReader fileReader = null;
