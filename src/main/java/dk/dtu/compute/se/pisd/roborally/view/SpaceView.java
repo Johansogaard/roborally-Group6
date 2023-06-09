@@ -268,10 +268,33 @@ public class SpaceView extends StackPane implements ViewObserver {
             if (action instanceof Gear) {
                 addImage("images/gear" + (((Gear) action).direction) + ".png");
             }
-
-
+            if (action instanceof Lasers) {
+                Lasers laser = (Lasers) action;
+                ImageView laserImageView = addImage("images/SingleLaserON.png");
+                rotateImage(laserImageView, laser.getHeading());
+            }
         }
     }
+    private void rotateImage(ImageView imageView, Heading heading) {
+        double rotationAngle = 0;
+        switch (heading) {
+            case NORTH:
+                rotationAngle = 0;
+                break;
+            case EAST:
+                rotationAngle = 90;
+                break;
+            case SOUTH:
+                rotationAngle = 180;
+                break;
+            case WEST:
+                rotationAngle = 270;
+                break;
+        }
+        imageView.setRotate(rotationAngle);
+    }
+
+
     private ImageView addImage(String name) {
         Image img = null;
         try {

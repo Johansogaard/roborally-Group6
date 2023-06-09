@@ -3,8 +3,6 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 
 import com.sun.javafx.scene.traversal.Direction;
-import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.controller.SaveBoardDesignController;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.event.EventHandler;
@@ -13,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +26,11 @@ public class BoardDesignView extends VBox {
     private SpaceView[][] spaces;
     private Label statusLabel;
     private SpaceEventHandler spaceEventHandler;
+    private boolean hasLaser;
+
+    public boolean hasLaser() {
+        return hasLaser;
+    }
 
     private List fieldOptions = new ArrayList<String>();
 
@@ -75,6 +77,7 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Conveyor Belt");
         this.fieldOptions.add("Player start field");
         this.fieldOptions.add("Walls");
+        this.fieldOptions.add("Lasers");
         this.fieldOptions.add("Checkpoint");
         this.fieldOptions.add("Double Directional Conveyor belt");
         this.fieldOptions.add("Gear");
@@ -142,7 +145,9 @@ public class BoardDesignView extends VBox {
                     case "Walls":
                         addWalls(space);
                         break;
-
+                    case "Lasers":
+                        addLasers(space);
+                        break;
                     case "Checkpoint":
                         addCheckpoint(space);
                         break;
@@ -179,6 +184,7 @@ public class BoardDesignView extends VBox {
             }
 
         }
+
         private void addConveyorBelt(Space space) {
 
             for (FieldAction action : space.getActions()) {
@@ -361,6 +367,39 @@ public class BoardDesignView extends VBox {
             }
 
 
+        }
+        private void addLasers(Space space) {
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("NORTH", "NORTH", "EAST", "SOUTH", "WEST");
+            dialog.setContentText("Select the laser direction:");
+            dialog.setHeaderText(null);
+            dialog.setTitle("Add Lasers");
+            dialog.showAndWait();
+
+            String selectedDirection = dialog.getSelectedItem();
+            if (selectedDirection != null) {
+                Heading direction;
+
+                switch (selectedDirection) {
+                    case "NORTH":
+                        direction = Heading.NORTH;
+                        break;
+                    case "EAST":
+                        direction = Heading.EAST;
+                        break;
+                    case "SOUTH":
+                        direction = Heading.SOUTH;
+                        break;
+                    case "WEST":
+                        direction = Heading.WEST;
+                        break;
+                    default:
+                        // Invalid direction selected
+                        return;
+                }
+
+                Lasers lasers = new Lasers(direction);
+                space.addAction(lasers);
+            }
         }
 
         private void addCheckpoint(Space space) {
