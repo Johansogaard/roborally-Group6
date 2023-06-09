@@ -116,8 +116,6 @@ public class BoardDesignView extends VBox {
                     return;
                 }
 
-
-
                     switch ((String) dialog.getSelectedItem()) {
                         case "Conveyor Belt":
                             addConveyorBelt(space, "ConveyorBelt");
@@ -160,6 +158,9 @@ public class BoardDesignView extends VBox {
                     case "Pit":
                         space.addPit();
                         break;
+                        case "Checkpoint":
+                            addCheckpoint(space);
+                            break;
                 }
 
             }
