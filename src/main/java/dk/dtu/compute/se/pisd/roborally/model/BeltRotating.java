@@ -3,7 +3,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import org.jetbrains.annotations.NotNull;
 
-public class ConveyorBelt4 implements FieldAction {
+public class BeltRotating implements FieldAction {
 
     private Heading heading = Heading.EAST;
 
@@ -32,7 +32,7 @@ public class ConveyorBelt4 implements FieldAction {
         } else {
 
             for (FieldAction action : neighbourSpace.actions) {
-                if (action instanceof ConveyorBelt5 && ((ConveyorBelt5) action).getHeading() != this.heading.opposite()) {
+                if (action instanceof Belt && ((Belt) action).getHeading() != this.heading.opposite()) {
                     currentPlayer.setSpace(neighbourSpace);
                 }
             }

@@ -181,16 +181,16 @@ public class BoardDesignView extends VBox {
 
             switch (beltType) {
                 case "ConveyorBelt":
-                    actionInstance = new ConveyorBelt();
+                    actionInstance = new Belt();
                     break;
                 case "ConveyorBelt2":
-                    actionInstance = new ConveyorBelt2();
+                    actionInstance = new BeltDouble();
                     break;
                 case "ConveyorBelt3":
-                    actionInstance = new ConveyorBelt3();
+                    actionInstance = new BeltDoubleRotating();
                     break;
                 case "ConveyorBelt4":
-                    actionInstance = new ConveyorBelt4();
+                    actionInstance = new BeltRotating();
                     break;
             }
 
@@ -211,7 +211,7 @@ public class BoardDesignView extends VBox {
             dialog.showAndWait();
 
             if (dialog.getSelectedItem() != null && actionInstance != null) {
-                ConveyorBelt belt = (ConveyorBelt) actionInstance;
+                Belt belt = (Belt) actionInstance;
                 belt.setHeading((Heading) dialog.getSelectedItem());
 
                 space.addAction(belt);

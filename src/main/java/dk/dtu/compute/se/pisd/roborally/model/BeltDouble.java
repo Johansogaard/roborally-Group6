@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  *
  */
-public class ConveyorBelt2 implements FieldAction {
+public class BeltDouble implements FieldAction {
 
     private Heading heading = Heading.EAST;
 
@@ -35,13 +35,13 @@ public class ConveyorBelt2 implements FieldAction {
 
             for (FieldAction action : neighbourSpace.actions) {
 
-                if (action instanceof ConveyorBelt2 && ((ConveyorBelt2) action).getHeading() != this.heading.opposite()) {
+                if (action instanceof BeltDouble && ((BeltDouble) action).getHeading() != this.heading.opposite()) {
 
                     hasMovedOffConveyoerBelt = true;
 
                     for (FieldAction action2 : secondNeighbourSpace.actions) {
 
-                        if(action2 instanceof ConveyorBelt2 || action2 instanceof ConveyorBelt3 && ((ConveyorBelt3) action2).getHeading() != this.heading.opposite()){
+                        if(action2 instanceof BeltDouble || action2 instanceof BeltDoubleRotating && ((BeltDoubleRotating) action2).getHeading() != this.heading.opposite()){
 
                             currentPlayer.setSpace(secondNeighbourSpace);
                         }
@@ -51,8 +51,8 @@ public class ConveyorBelt2 implements FieldAction {
                     }
 
                 }
-                else if (action instanceof ConveyorBelt3 && ((ConveyorBelt3) action).getHeading() != this.heading.opposite()) {
-                    ConveyorBelt3 conveyorBelt = (ConveyorBelt3) action;
+                else if (action instanceof BeltDoubleRotating && ((BeltDoubleRotating) action).getHeading() != this.heading.opposite()) {
+                    BeltDoubleRotating conveyorBelt = (BeltDoubleRotating) action;
                     currentPlayer.setHeading(conveyorBelt.getHeading());
                     Space neighbourSpace1 = neighbourSpace.board.getNeighbour(neighbourSpace, conveyorBelt.getHeading());
                     if (secondNeighbourSpace.getPlayer() != null) {

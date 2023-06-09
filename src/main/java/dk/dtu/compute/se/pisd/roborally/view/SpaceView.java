@@ -31,7 +31,6 @@ import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.net.URISyntaxException;
 
 /**
  * ...
@@ -94,7 +93,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
 
     }
-    private void updateBeltImage(ConveyorBelt belt, String imagePath) {
+    private void updateBeltImage(Belt belt, String imagePath) {
         if (belt != null) {
             switch (belt.getHeading()) {
                 case EAST:

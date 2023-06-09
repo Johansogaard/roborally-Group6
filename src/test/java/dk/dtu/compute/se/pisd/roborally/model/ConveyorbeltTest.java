@@ -1,15 +1,9 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.view.SpaceView;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.sun.javafx.scene.traversal.Direction.LEFT;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,7 +26,7 @@ class ConveyorbeltTest {
 
     @Test
     void conveyerbeltmove1() {
-        ConveyorBelt conveyorBelt = new ConveyorBelt();
+        Belt conveyorBelt = new Belt();
         conveyorBelt.setHeading(SOUTH);
         board.getSpace(4,4).addAction(conveyorBelt);
         board.getSpace(4,5).addAction(conveyorBelt);
@@ -42,7 +36,7 @@ class ConveyorbeltTest {
     }
     @Test
    void conveyerbeltTroughWall(){
-        ConveyorBelt conveyorBelt = new ConveyorBelt();
+        Belt conveyorBelt = new Belt();
         conveyorBelt.setHeading(SOUTH);
         board.getSpace(4,4).addWall(SOUTH);
         board.getSpace(4,4).addAction(conveyorBelt);

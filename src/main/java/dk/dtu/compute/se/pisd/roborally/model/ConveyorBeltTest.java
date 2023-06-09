@@ -2,7 +2,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 
-public class ConveyorBelt implements ConveyorBeltAction {
+/*public class ConveyorBeltTest implements ConveyorBeltAction {
 
     private Heading heading = Heading.EAST;
 
@@ -13,7 +13,7 @@ public class ConveyorBelt implements ConveyorBeltAction {
     public void setHeading(Heading heading) { this.heading = heading;}
     private int conveyorBeltNumber; // Represents the different conveyor belt logic
 
-    public ConveyorBelt(int conveyorBeltNumber) {
+    public ConveyorBeltTest(int conveyorBeltNumber) {
         this.conveyorBeltNumber = conveyorBeltNumber;
     }
 
@@ -31,7 +31,7 @@ public class ConveyorBelt implements ConveyorBeltAction {
                 } else {
 
                     for (FieldAction action : neighbourSpace.actions) {
-                        if (action instanceof ConveyorBelt5 || action instanceof ConveyorBelt4) {
+                        if (action instanceof Belt || action instanceof BeltRotating) {
                             currentPlayer.setSpace(neighbourSpace);
                         }
                     }
@@ -51,13 +51,13 @@ public class ConveyorBelt implements ConveyorBeltAction {
 
                     for (FieldAction action : neighbourSpace.actions) {
 
-                        if (action instanceof ConveyorBelt2 && ((ConveyorBelt2) action).getHeading() != this.heading.opposite()) {
+                        if (action instanceof BeltDouble && ((BeltDouble) action).getHeading() != this.heading.opposite()) {
 
                             hasMovedOffConveyoerBelt = true;
 
                             for (FieldAction action2 : secondNeighbourSpace.actions) {
 
-                                if(action2 instanceof ConveyorBelt2 || action2 instanceof ConveyorBelt3 && ((ConveyorBelt3) action2).getHeading() != this.heading.opposite()){
+                                if(action2 instanceof BeltDouble || action2 instanceof BeltDoubleRotating && ((BeltDoubleRotating) action2).getHeading() != this.heading.opposite()){
 
                                     currentPlayer.setSpace(secondNeighbourSpace);
                                 }
@@ -67,8 +67,8 @@ public class ConveyorBelt implements ConveyorBeltAction {
                             }
 
                         }
-                        else if (action instanceof ConveyorBelt3 && ((ConveyorBelt3) action).getHeading() != this.heading.opposite()) {
-                            ConveyorBelt3 conveyorBelt = (ConveyorBelt3) action;
+                        else if (action instanceof BeltDoubleRotating && ((BeltDoubleRotating) action).getHeading() != this.heading.opposite()) {
+                            BeltDoubleRotating conveyorBelt = (BeltDoubleRotating) action;
                             currentPlayer.setHeading(conveyorBelt.getHeading());
                             Space neighbourSpace1 = neighbourSpace.board.getNeighbour(neighbourSpace, conveyorBelt.getHeading());
                             if (secondNeighbourSpace.getPlayer() != null) {
@@ -99,22 +99,22 @@ public class ConveyorBelt implements ConveyorBeltAction {
 
                 // Move the player further if there are more directional conveyor belts
                 for (FieldAction action : neighbourSpace.getActions()) {
-                    if(action instanceof ConveyorBelt3){
+                    if(action instanceof BeltDoubleRotating){
                         currentPlayer.setSpace(neighbourSpace);
-                        currentPlayer.setHeading(((ConveyorBelt3) action).getHeading());
+                        currentPlayer.setHeading(((BeltDoubleRotating) action).getHeading());
 
                         for(FieldAction action2 : secondNeighbourSpace.getActions()){
 
-                            if(action2 instanceof ConveyorBelt3){
+                            if(action2 instanceof BeltDoubleRotating){
                                 currentPlayer.setSpace(neighbourSpace);
-                                currentPlayer.setHeading(((ConveyorBelt3) action).getHeading());
+                                currentPlayer.setHeading(((BeltDoubleRotating) action).getHeading());
                                 break;
                             }
                         }
                     }
 
-                    if (action instanceof ConveyorBelt2) {
-                        ConveyorBelt2 conveyorBelt = (ConveyorBelt2) action;
+                    if (action instanceof BeltDouble) {
+                        BeltDouble conveyorBelt = (BeltDouble) action;
                         currentPlayer.setHeading(conveyorBelt.getHeading());
                         if (secondNeighbourSpace.getPlayer() != null) {
                             return false; // Player reached the final destination
@@ -139,7 +139,7 @@ public class ConveyorBelt implements ConveyorBeltAction {
                 } else {
 
                     for (FieldAction action : neighbourSpace.actions) {
-                        if (action instanceof ConveyorBelt5 && ((ConveyorBelt5) action).getHeading() != this.heading.opposite()) {
+                        if (action instanceof Belt && ((Belt) action).getHeading() != this.heading.opposite()) {
                             currentPlayer.setSpace(neighbourSpace);
                         }
                     }
@@ -155,5 +155,5 @@ public class ConveyorBelt implements ConveyorBeltAction {
         }
         return true;
     }
-}
+}*/
 

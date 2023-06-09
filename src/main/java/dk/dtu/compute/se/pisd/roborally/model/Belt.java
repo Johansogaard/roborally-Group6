@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  *
  */
-public class ConveyorBelt5 implements FieldAction {
+public class Belt implements FieldAction {
 
     private Heading heading = Heading.EAST;
 
@@ -27,7 +27,7 @@ public class ConveyorBelt5 implements FieldAction {
         } else {
 
            for (FieldAction action : neighbourSpace.actions) {
-                if (action instanceof ConveyorBelt5 || action instanceof ConveyorBelt4) {
+                if (action instanceof Belt || action instanceof BeltRotating) {
                     currentPlayer.setSpace(neighbourSpace);
                 }
             }
