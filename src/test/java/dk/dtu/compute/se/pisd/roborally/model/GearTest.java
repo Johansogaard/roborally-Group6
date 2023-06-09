@@ -4,6 +4,8 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.sun.javafx.scene.traversal.Direction.LEFT;
+import static com.sun.javafx.scene.traversal.Direction.RIGHT;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,16 +39,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
         @Test
         void doActionTurnsPlayerLeft() {
-            Gear gear = new Gear(Direction.LEFT);
-            space.getspace.addAction(gear);
-
+            Gear gear = new Gear(LEFT);
+            board.getSpace(4,4).addAction(gear);
+            gear.doAction(controller, board.getSpace(4,4));
 
             assertEquals(Heading.WEST, player.getHeading(), "The player's heading should be WEST after turning LEFT from NORTH");
         }
 
         @Test
         void doActionTurnsPlayerRight() {
-            Gear gear = new Gear(Direction.RIGHT);
+            Gear gear = new Gear(RIGHT);
             initialSpace.addAction(gear);
 
 
