@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  *
  */
-public class ConveyorBelt3 implements FieldAction {
+public class BeltDoubleRotating implements FieldAction {
 
     private Heading heading = Heading.EAST;
 
@@ -34,22 +34,22 @@ public class ConveyorBelt3 implements FieldAction {
 
         // Move the player further if there are more directional conveyor belts
         for (FieldAction action : neighbourSpace.getActions()) {
-            if(action instanceof ConveyorBelt3){
+            if(action instanceof BeltDoubleRotating){
                 currentPlayer.setSpace(neighbourSpace);
-                currentPlayer.setHeading(((ConveyorBelt3) action).getHeading());
+                currentPlayer.setHeading(((BeltDoubleRotating) action).getHeading());
 
                 for(FieldAction action2 : secondNeighbourSpace.getActions()){
 
-                    if(action2 instanceof ConveyorBelt3){
+                    if(action2 instanceof BeltDoubleRotating){
                         currentPlayer.setSpace(neighbourSpace);
-                        currentPlayer.setHeading(((ConveyorBelt3) action).getHeading());
+                        currentPlayer.setHeading(((BeltDoubleRotating) action).getHeading());
                         break;
                     }
                 }
             }
 
-            if (action instanceof ConveyorBelt2) {
-                ConveyorBelt2 conveyorBelt = (ConveyorBelt2) action;
+            if (action instanceof BeltDouble) {
+                BeltDouble conveyorBelt = (BeltDouble) action;
                 currentPlayer.setHeading(conveyorBelt.getHeading());
                 if (secondNeighbourSpace.getPlayer() != null) {
                     return false; // Player reached the final destination

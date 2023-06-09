@@ -258,13 +258,12 @@ public class Player extends Subject {
         Space target = board.getNeighbour(space, heading);
         boolean isWall = false;
 
-        if (space.getWalls().contains(heading)) {
-            return true;
-        }
+        if (space.getWalls().contains(heading)) {return true;}
         if(target==null) {
             preboot();
             return false;
         }
+        if (target.getWalls().contains(heading.opposite())){return true;}
         // Check if there's a wall or a player in front of the next space
         if (target.getPlayer()!=null) {
             isWall = target.getPlayer().pushPlayer(heading);

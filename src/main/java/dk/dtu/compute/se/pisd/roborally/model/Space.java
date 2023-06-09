@@ -130,26 +130,27 @@ public class Space extends Subject {
         return player;
     }
 
-    public ConveyorBelt getConveyorBelt() {
 
-        ConveyorBelt belt = null;
+    public Belt getConveyorBelt() {
+
+        Belt belt = null;
 
         for (FieldAction action : this.actions) {
-            if (action instanceof ConveyorBelt && belt == null) {
-                belt = (ConveyorBelt) action;
+            if (action instanceof Belt && belt == null) {
+                belt = (Belt) action;
             }
         }
 
         return belt;
     }
-    public ConveyorBelt2 getConveyorBelt2() {
+    public BeltDouble getConveyorBelt2() {
 
-        ConveyorBelt2 belt = null;
+        BeltDouble belt = null;
 
 
         for (FieldAction action : this.actions) {
-            if (action instanceof ConveyorBelt2 && belt == null) {
-                belt = (ConveyorBelt2) action;
+            if (action instanceof BeltDouble && belt == null) {
+                belt = (BeltDouble) action;
             }
         }
 
@@ -168,28 +169,28 @@ public class Space extends Subject {
         return panel;
     }
 
-    public ConveyorBelt3 getConveyorBelt3() {
+    public BeltDoubleRotating getConveyorBelt3() {
 
-        ConveyorBelt3 belt = null;
+        BeltDoubleRotating belt = null;
 
 
         for (FieldAction action : this.actions) {
-            if (action instanceof ConveyorBelt3 && belt == null) {
-                belt = (ConveyorBelt3) action;
+            if (action instanceof BeltDoubleRotating && belt == null) {
+                belt = (BeltDoubleRotating) action;
             }
         }
 
         return belt;
     }
 
-    public ConveyorBelt4 getConveyorBelt4() {
+    public BeltRotating getConveyorBelt4() {
 
-        ConveyorBelt4 belt = null;
+        BeltRotating belt = null;
 
 
         for (FieldAction action : this.actions) {
-            if (action instanceof ConveyorBelt4 && belt == null) {
-                belt = (ConveyorBelt4) action;
+            if (action instanceof BeltRotating && belt == null) {
+                belt = (BeltRotating) action;
             }
         }
 

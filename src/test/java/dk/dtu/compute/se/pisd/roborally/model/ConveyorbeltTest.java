@@ -1,63 +1,68 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.view.SpaceView;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ConveyorbeltTest {
 
-    private final int TEST_WIDTH = 8;
+        private GameController controller;
+        private Board board;
+        private Player player;
 
-    private final int TEST_HEIGHT = 8;
-
-    private GameController gameController;
-
-    private List<FieldAction> actions = new ArrayList<>();
-
-    private List<FieldAction> getActions() {
-        return actions;
-    }
-
-    private ConveyorBelt2 conveyorBelt2;
-    private ConveyorBelt conveyorBelt;
-
-    private Player player;
-
-    private SpaceView spaceView;
-
-
-    @BeforeEach
-    void setUp() {
-        Board board = new Board(TEST_WIDTH, TEST_HEIGHT);
-        gameController = new GameController(board);
-        conveyorBelt2 = new ConveyorBelt2();
-
-        for (int i = 0; i < 6; i++) {
-            Player player = new Player(board, null,"Player " + i);
-            board.addPlayer(player);
-            player.setSpace(board.getSpace(i, i));
-            player.setHeading(Heading.values()[i % Heading.values().length]);
+        private Player player2;
+        @BeforeEach
+        void setUp() {
+            board = new Board(10, 10, "testboard");
+            player = new Player(board, "Blue", "John");
+            player2 = new Player(board, "Red", "Anders");
+            controller = new GameController(board);
+            player.setSpace(board.getSpace(4, 4)); // Set the player at the center of the board
+            player.setHeading(SOUTH);
         }
-        board.setCurrentPlayer(board.getPlayer(0));
-    }
-
-    @AfterEach
-    void tearDown() {
-        gameController = null;
-    }
-
 
     @Test
+    void conveyerbeltmove1() {
+        Belt conveyorBelt = new Belt();
+        conveyorBelt.setHeading(SOUTH);
+        board.getSpace(4,4).addAction(conveyorBelt);
+        board.getSpace(4,5).addAction(conveyorBelt);
+        conveyorBelt.doAction(controller, board.getSpace(4,4));
+
+        assertEquals(board.getSpace(4,5), player.getSpace());
+    }
+    @Test
+   void conveyerbeltTroughWall(){
+        Belt conveyorBelt = new Belt();
+        conveyorBelt.setHeading(SOUTH);
+        board.getSpace(4,4).addWall(SOUTH);
+        board.getSpace(4,4).addAction(conveyorBelt);
+        board.getSpace(4,5).addAction(conveyorBelt);
+        conveyorBelt.doAction(controller, board.getSpace(4,4));
+
+        assertEquals(board.getSpace(4,4), player.getSpace());
+    }
+
+    /*@Test
+    void conveyerbeltIntersect(){
+        ConveyorBelt conveyorBelt = new ConveyorBelt();
+        board.getSpace(4,4).addAction(conveyorBelt);
+        board.getSpace(3,4).addAction(conveyorBelt);
+        board.getSpace(4,5).addAction(conveyorBelt);
+        conveyorBelt.doAction(controller, board.getSpace(4,4));
+
+        assertEquals(board.getSpace(4,4), player.getSpace());
+    }*/
+
+
+
+    /*@Test
     public void testConveyorBelt2() {
         // Get the current player and space
-        Board board = gameController.board;
+
         Player currentPlayer = board.getCurrentPlayer();
         Space currentSpace = currentPlayer.getSpace();
 
@@ -121,7 +126,7 @@ class ConveyorbeltTest {
         assertNull(currentSpace.getPlayer());  // Player should have moved from the current space
 
 
-    }
+    }*/
 
 
 

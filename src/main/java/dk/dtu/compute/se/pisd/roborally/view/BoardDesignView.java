@@ -3,8 +3,6 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 
 import com.sun.javafx.scene.traversal.Direction;
-import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.controller.SaveBoardDesignController;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.event.EventHandler;
@@ -13,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,9 +73,10 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Player start field");
         this.fieldOptions.add("Walls");
         this.fieldOptions.add("Checkpoint");
-        this.fieldOptions.add("Double Directional Conveyor belt");
+        this.fieldOptions.add("Rotating conveyor belt");
+        this.fieldOptions.add("Double Rotating Conveyor belt");
         this.fieldOptions.add("Gear");
-        this.fieldOptions.add("double Conveyor belt");
+        this.fieldOptions.add("Double conveyor belt");
         this.fieldOptions.add("Reboot token");
     }
 
@@ -111,26 +109,26 @@ public class BoardDesignView extends VBox {
                     return;
                 }
 
-                switch ((String) dialog.getSelectedItem()) {
 
-                    case "Double Directional Conveyor belt":
-                        addConveyorBelt3(space);
-                        break;
-                    case "Single Directional Conveyor belt":
-                        addConveyorBelt4(space);
-                        break;
+
+                    switch ((String) dialog.getSelectedItem()) {
+                        case "Conveyor Belt":
+                            addConveyorBelt(space, "ConveyorBelt");
+                            break;
+                        case "Double conveyor belt":
+                            addConveyorBelt(space, "ConveyorBelt2");
+                            break;
+                        case "Double rotating belt":
+                            addConveyorBelt(space, "ConveyorBelt3");
+                            break;
+                        case "Rotating conveyor belt":
+                            addConveyorBelt(space, "ConveyorBelt4");
+                            break;
 
                     case "Antenna":
                        addAntenna(space);
                         break;
 
-                    case "Conveyor Belt":
-                        addConveyorBelt(space);
-                        break;
-
-                    case "double Conveyor belt":
-                        addConveyorBelt2(space);
-                        break;
                     case "Push panel":
                         addPushPanel(space);
                         break;
@@ -150,10 +148,9 @@ public class BoardDesignView extends VBox {
                     case "Gear":
                         addGear(space);
                         break;
-                    case "Reboot token":
+                     case "Reboot token":
                         addRebootToken(space);
                         break;
-
                     case "Pit":
                         space.addPit();
                         break;
@@ -179,11 +176,27 @@ public class BoardDesignView extends VBox {
             }
 
         }
-        private void addConveyorBelt(Space space) {
+        private void addConveyorBelt(Space space, String beltType) {
+            FieldAction actionInstance = null;
+
+            switch (beltType) {
+                case "ConveyorBelt":
+                    actionInstance = new Belt();
+                    break;
+                case "ConveyorBelt2":
+                    actionInstance = new BeltDouble();
+                    break;
+                case "ConveyorBelt3":
+                    actionInstance = new BeltDoubleRotating();
+                    break;
+                case "ConveyorBelt4":
+                    actionInstance = new BeltRotating();
+                    break;
+            }
 
             for (FieldAction action : space.getActions()) {
-                if (action instanceof ConveyorBelt) {
-                    // TODO add some explanation to the user that there is already a belt at this space
+                if (action.getClass() == actionInstance.getClass()) {
+                    // TODO: add some explanation to the user that there is already a belt at this space
                     return;
                 }
             }
@@ -197,98 +210,12 @@ public class BoardDesignView extends VBox {
 
             dialog.showAndWait();
 
-            if (dialog.getSelectedItem() != null) {
-
-                ConveyorBelt belt = new ConveyorBelt();
+            if (dialog.getSelectedItem() != null && actionInstance != null) {
+                Belt belt = (Belt) actionInstance;
                 belt.setHeading((Heading) dialog.getSelectedItem());
 
                 space.addAction(belt);
             }
-
-        }
-
-        private void addConveyorBelt2(Space space) {
-
-            for (FieldAction action : space.getActions()) {
-                if (action instanceof ConveyorBelt2) {
-                    // TODO add some explanation to the user that there is already a belt at this space
-                    return;
-                }
-            }
-
-            ChoiceDialog dialog = new ChoiceDialog();
-            dialog.setContentText("Which way should the belt move the player?");
-            dialog.getItems().add(Heading.NORTH);
-            dialog.getItems().add(Heading.EAST);
-            dialog.getItems().add(Heading.SOUTH);
-            dialog.getItems().add(Heading.WEST);
-
-            dialog.showAndWait();
-
-            if (dialog.getSelectedItem() != null) {
-
-                ConveyorBelt2 belt = new ConveyorBelt2();
-                belt.setHeading((Heading) dialog.getSelectedItem());
-
-                space.addAction(belt);
-            }
-
-        }
-
-        private void addConveyorBelt3(Space space) {
-
-            for (FieldAction action : space.getActions()) {
-                if (action instanceof ConveyorBelt3) {
-                    // TODO add some explanation to the user that there is already a belt at this space
-                    return;
-                }
-            }
-
-            ChoiceDialog dialog = new ChoiceDialog();
-            dialog.setContentText("Which way should the belt move the player?");
-            dialog.getItems().add(Heading.NORTH);
-            dialog.getItems().add(Heading.EAST);
-            dialog.getItems().add(Heading.SOUTH);
-            dialog.getItems().add(Heading.WEST);
-
-            dialog.showAndWait();
-
-            if (dialog.getSelectedItem() != null) {
-
-                ConveyorBelt3 belt = new ConveyorBelt3();
-                belt.setHeading((Heading) dialog.getSelectedItem());
-
-                space.addAction(belt);
-            }
-
-        }
-
-        private void addConveyorBelt4(Space space) {
-
-            for (FieldAction action : space.getActions()) {
-                if (action instanceof ConveyorBelt4) {
-                    // TODO add some explanation to the user that there is already a belt at this space
-                    return;
-                }
-            }
-
-            ChoiceDialog dialog = new ChoiceDialog();
-            dialog.setContentText("Which way should the belt move the player?");
-            dialog.getItems().add(Heading.NORTH);
-            dialog.getItems().add(Heading.EAST);
-            dialog.getItems().add(Heading.SOUTH);
-            dialog.getItems().add(Heading.WEST);
-
-            dialog.showAndWait();
-
-            if (dialog.getSelectedItem() != null) {
-
-                ConveyorBelt4 belt = new ConveyorBelt4();
-                belt.setHeading((Heading) dialog.getSelectedItem());
-
-                space.addAction(belt);
-            }
-
         }
 
         private void addPushPanel(Space space) {

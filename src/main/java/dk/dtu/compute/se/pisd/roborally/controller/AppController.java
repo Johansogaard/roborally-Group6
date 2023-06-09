@@ -90,7 +90,7 @@ public class AppController implements Observer {
     final private String gamesPath = "src/main/resources/savedGames";
     private GameController gameController;
 
-    private static final String GAMES_FOLDER = "/Users/andersjefsen/Desktop/testingRoboRally/SAVED GAMES";
+    private static final String GAMES_FOLDER = "/Users/victor/Desktop/testingRoboRally/SAVED GAMES";
     private static final String JSON_EXT = "json";
     private final RestTemplate restTemplate = new RestTemplate();
 
