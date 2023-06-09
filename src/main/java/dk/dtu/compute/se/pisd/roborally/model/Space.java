@@ -146,9 +146,6 @@ public class Space extends Subject {
 
 if(leftBelt!=null){
     leftbelttrue = leftBelt.getHeading()==belt.getHeading().prev()||leftBelt.getHeading()==belt.getHeading().next();
-    System.out.println(leftBelt.getHeading());
-    System.out.println(belt.getHeading().prev());
-    System.out.println(belt.getHeading().next());
 }
 
         if(rightBelt!=null){

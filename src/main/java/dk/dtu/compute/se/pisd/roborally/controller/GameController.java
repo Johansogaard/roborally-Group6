@@ -372,12 +372,15 @@ public class GameController {
                     startProgrammingPhase();
                 }
 
-        }
-    }    public void initiateWin(Player player) {
+        }}
+
+
+
+
+       public void initiateWin(Player player) {
         Alert winMsg = new Alert(Alert.AlertType.INFORMATION, "Spiller \"" + player.getName() + "\" har vundet spillet.");
         this.won = true;
         winMsg.showAndWait();
     }
-
 
 }

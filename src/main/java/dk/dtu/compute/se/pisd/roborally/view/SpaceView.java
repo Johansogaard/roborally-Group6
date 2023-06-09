@@ -112,7 +112,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
-    private void updateBelt() {
+    private void updateBelt(Space space) {
         updateBeltImage(space.getAction(Belt.class), "images/greencon.png");
         updateBeltImage(space.getAction(BeltDouble.class), "images/bluecon.png");
 
@@ -153,7 +153,10 @@ public class SpaceView extends StackPane implements ViewObserver {
 
             }
         }
+
     }
+
+
 
     private void updatePushPanel() {
         PushPanel pushpanel = space.getAction(PushPanel.class);
@@ -321,7 +324,17 @@ public class SpaceView extends StackPane implements ViewObserver {
         {
             addImage("images/startpoint.png");
         }
-            if(space.getAction(ConveyorBelt.class)!=null){updateBelt();};
+            if (space.getAction(ConveyorBelt.class) != null) {
+                updateBelt(space);
+                for (Heading heading : Heading.values()) {
+                    // Get the neighboring space in that direction.
+                    Space neighbor = space.board.getNeighbour(space, heading);
+                    // If the neighbor exists and has a ConveyorBelt, update it.
+                    if (neighbor != null && neighbor.getAction(ConveyorBelt.class) != null) {
+                        updateBelt(neighbor);
+                    }
+                }
+            }
 
             updatePushPanel();
             updateActions();
