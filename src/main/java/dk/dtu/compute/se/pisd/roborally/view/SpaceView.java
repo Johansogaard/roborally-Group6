@@ -117,7 +117,10 @@ public class SpaceView extends StackPane implements ViewObserver {
         updateBeltImage(space.getConveyorBelt3(), "images/DDCB.png");
         updateBeltImage(space.getConveyorBelt4(), "images/SDCB.png");
     }
+    /*private Heading checkNeighborbelt(ConveyorBelt belt){
 
+        if(board.getNeighbour(belt.getHeading()));
+    }*/
     private void updatePushPanel() {
         PushPanel pushpanel = space.getPushPanel();
 
