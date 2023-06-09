@@ -42,10 +42,11 @@ public class Player extends Subject {
     private Space spawnPoint;
     private String name;
     private String color;
-
+    public Deck deck;
+    public Deck discardpile;
     private Space space;
     private Heading heading = SOUTH;
-
+    public boolean reboot=false;
     public CommandCardField[] getProgram() {
         return program;
     }
@@ -70,7 +71,7 @@ public class Player extends Subject {
         this.board = board;
         this.name = name;
         this.color = color;
-
+        this.deck= new Deck();
         this.space = null;
 
         program = new CommandCardField[NO_REGISTERS];
@@ -187,17 +188,92 @@ public class Player extends Subject {
         return lastCheckpoint;
     }
 
-    public void reboot() {
-        // Reset the program cards to null
-        for (int i = 0; i < program.length; i++) {
-            program[i].setCard(null);
+    /*public void preboot(Player player) {
+        ChoiceDialog dialog = new ChoiceDialog();
+        dialog.setContentText("Which way should the player point");
+        dialog.getItems().add(Heading.NORTH);
+        dialog.getItems().add(Heading.EAST);
+        dialog.getItems().add(Heading.SOUTH);
+        dialog.getItems().add(Heading.WEST);
+
+        dialog.showAndWait();
+
+        if (dialog.getSelectedItem() != null) {
+            reboot( (Heading) dialog.getSelectedItem());
+
         }
 
-        // Reset the player's space and heading
-        setSpace(null);
-        setHeading(SOUTH);
+    }*/
+
+    public void preboot() {
+        // Reset the program cards to null
+
+        Space tokenLokation =board.getSpace((board.getRebootToken().x),(board.getRebootToken().y));
+        reboot=true;
+        deck.addCard( new CommandCard(Command.SPAM));
+
+        setHeading(heading.WEST);
+
+        if((tokenLokation.getPlayer()!=null)){
+            tokenLokation.getPlayer().moveForward();}
+
+        this.setSpace(tokenLokation);
+
 
         // Notify observers of the change
         notifyChange();
+    }
+
+    /**
+     *
+     * @author Johan Søgaard Jørgensen(JJ)
+     * This is a method to move the player Forward
+     * It cheks if there is a wall in the heading direction
+     * It cheks if there is a person infront and calls the move pushPlayer to push the player infront
+     * It wait to move until the pushplayer method has returned if there is a wall infront of the players that the robot is going to push
+     */
+    // TODO: V2
+
+
+        public void moveForward() {
+            pushPlayer(this.heading);
+
+
+                    // If there's no wall or player blocking, then move forward
+
+
+                }
+
+
+
+    /**
+     * pushPlayer pushes the player infront and pushes x numbers of player who is infront of him
+     * but always waits to see if the player infront has a wall that way we dont push and stand still if there is a wall infront of x robot
+     *
+     * @param heading        this is the direction of the push
+     * @param
+     */
+    public boolean pushPlayer(Heading heading) {
+        Space space = getSpace();
+        Space target = board.getNeighbour(space, heading);
+        boolean isWall = false;
+
+        if (space.getWalls().contains(heading)) {
+            return true;
+        }
+        if(target==null) {
+            preboot();
+            return false;
+        }
+        // Check if there's a wall or a player in front of the next space
+        if (target.getPlayer()!=null) {
+            isWall = target.getPlayer().pushPlayer(heading);
+        }
+        // Only push the player if there's no wall
+        if (!isWall) {
+            setSpace(target);
+        }
+
+        return isWall;
     }
 }

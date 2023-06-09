@@ -71,13 +71,15 @@ public class BoardDesignView extends VBox {
     }
 
     private void addOptions() {
-        this.fieldOptions.add("Laser");
         this.fieldOptions.add("Antenna");
         this.fieldOptions.add("Conveyor Belt");
         this.fieldOptions.add("Player start field");
         this.fieldOptions.add("Walls");
         this.fieldOptions.add("Checkpoint");
+        this.fieldOptions.add("Double Directional Conveyor belt");
         this.fieldOptions.add("Gear");
+        this.fieldOptions.add("double Conveyor belt");
+        this.fieldOptions.add("Reboot token");
     }
 
     private class SpaceEventHandler implements EventHandler<MouseEvent> {
@@ -110,8 +112,12 @@ public class BoardDesignView extends VBox {
                 }
 
                 switch ((String) dialog.getSelectedItem()) {
-                    case "Laser":
-                        addLasers(space);
+
+                    case "Double Directional Conveyor belt":
+                        addConveyorBelt3(space);
+                        break;
+                    case "Single Directional Conveyor belt":
+                        addConveyorBelt4(space);
                         break;
 
                     case "Antenna":
@@ -120,6 +126,13 @@ public class BoardDesignView extends VBox {
 
                     case "Conveyor Belt":
                         addConveyorBelt(space);
+                        break;
+
+                    case "double Conveyor belt":
+                        addConveyorBelt2(space);
+                        break;
+                    case "Push panel":
+                        addPushPanel(space);
                         break;
 
                     case "Player start field":
@@ -137,7 +150,13 @@ public class BoardDesignView extends VBox {
                     case "Gear":
                         addGear(space);
                         break;
+                    case "Reboot token":
+                        addRebootToken(space);
+                        break;
 
+                    case "Pit":
+                        space.addPit();
+                        break;
                 }
 
             }
@@ -149,6 +168,14 @@ public class BoardDesignView extends VBox {
 
             if (this.board.getAntenna() == null) {
                 space.addAntenna();
+            }
+
+        }
+        private void addRebootToken(Space space)
+        {
+
+            if (this.board.getRebootToken() == null) {
+                space.addRebootToken();
             }
 
         }
@@ -180,6 +207,117 @@ public class BoardDesignView extends VBox {
 
         }
 
+        private void addConveyorBelt2(Space space) {
+
+            for (FieldAction action : space.getActions()) {
+                if (action instanceof ConveyorBelt2) {
+                    // TODO add some explanation to the user that there is already a belt at this space
+                    return;
+                }
+            }
+
+            ChoiceDialog dialog = new ChoiceDialog();
+            dialog.setContentText("Which way should the belt move the player?");
+            dialog.getItems().add(Heading.NORTH);
+            dialog.getItems().add(Heading.EAST);
+            dialog.getItems().add(Heading.SOUTH);
+            dialog.getItems().add(Heading.WEST);
+
+            dialog.showAndWait();
+
+            if (dialog.getSelectedItem() != null) {
+
+                ConveyorBelt2 belt = new ConveyorBelt2();
+                belt.setHeading((Heading) dialog.getSelectedItem());
+
+                space.addAction(belt);
+            }
+
+        }
+
+        private void addConveyorBelt3(Space space) {
+
+            for (FieldAction action : space.getActions()) {
+                if (action instanceof ConveyorBelt3) {
+                    // TODO add some explanation to the user that there is already a belt at this space
+                    return;
+                }
+            }
+
+            ChoiceDialog dialog = new ChoiceDialog();
+            dialog.setContentText("Which way should the belt move the player?");
+            dialog.getItems().add(Heading.NORTH);
+            dialog.getItems().add(Heading.EAST);
+            dialog.getItems().add(Heading.SOUTH);
+            dialog.getItems().add(Heading.WEST);
+
+            dialog.showAndWait();
+
+            if (dialog.getSelectedItem() != null) {
+
+                ConveyorBelt3 belt = new ConveyorBelt3();
+                belt.setHeading((Heading) dialog.getSelectedItem());
+
+                space.addAction(belt);
+            }
+
+        }
+
+        private void addConveyorBelt4(Space space) {
+
+            for (FieldAction action : space.getActions()) {
+                if (action instanceof ConveyorBelt4) {
+                    // TODO add some explanation to the user that there is already a belt at this space
+                    return;
+                }
+            }
+
+            ChoiceDialog dialog = new ChoiceDialog();
+            dialog.setContentText("Which way should the belt move the player?");
+            dialog.getItems().add(Heading.NORTH);
+            dialog.getItems().add(Heading.EAST);
+            dialog.getItems().add(Heading.SOUTH);
+            dialog.getItems().add(Heading.WEST);
+
+            dialog.showAndWait();
+
+            if (dialog.getSelectedItem() != null) {
+
+                ConveyorBelt4 belt = new ConveyorBelt4();
+                belt.setHeading((Heading) dialog.getSelectedItem());
+
+                space.addAction(belt);
+            }
+
+        }
+
+        private void addPushPanel(Space space) {
+
+            for (FieldAction action : space.getActions()) {
+                if (action instanceof PushPanel) {
+                    // TODO add some explanation to the user that there is already a belt at this space
+                    return;
+                }
+            }
+
+            ChoiceDialog dialog = new ChoiceDialog();
+            dialog.setContentText("Which way should push panel face?");
+            dialog.getItems().add(Heading.NORTH);
+            dialog.getItems().add(Heading.EAST);
+            dialog.getItems().add(Heading.SOUTH);
+            dialog.getItems().add(Heading.WEST);
+
+            dialog.showAndWait();
+
+            if (dialog.getSelectedItem() != null) {
+
+                PushPanel pushPanel = new PushPanel();
+                pushPanel.setHeading((Heading) dialog.getSelectedItem());
+
+                space.addAction(pushPanel);
+            }
+        }
+
         private void addPlayerStart(Space space) {
 
             TextInputDialog dialog = new TextInputDialog();
@@ -191,6 +329,8 @@ public class BoardDesignView extends VBox {
             }
 
         }
+
+
         private void addWalls(Space space) {
 
             List<Heading> currentWalls = space.getWalls();
@@ -267,7 +407,8 @@ public class BoardDesignView extends VBox {
             directions.add(Direction.RIGHT);
 
             ChoiceDialog dialog = new ChoiceDialog();
-            dialog.setContentText("Vælg hvilken retning, gearet skal vende");
+
+            dialog.setContentText("What direction should the gear turn?");
             dialog.getItems().addAll(directions);
             dialog.showAndWait();
 
@@ -275,37 +416,6 @@ public class BoardDesignView extends VBox {
                 space.addGear((Direction) dialog.getSelectedItem());
             }
 
-        }
-        private void addLasers(Space space) {
-            TextInputDialog dialog = new TextInputDialog();
-            dialog.setContentText("Enter the laser direction (N, E, S, W):");
-            dialog.showAndWait();
-
-            if (dialog.getResult() != null) {
-                String directionStr = dialog.getResult();
-                Heading direction;
-
-                switch (directionStr.toUpperCase()) {
-                    case "N":
-                        direction = Heading.NORTH;
-                        break;
-                    case "E":
-                        direction = Heading.EAST;
-                        break;
-                    case "S":
-                        direction = Heading.SOUTH;
-                        break;
-                    case "W":
-                        direction = Heading.WEST;
-                        break;
-                    default:
-                        // Invalid direction entered
-                        return;
-                }
-
-                Lasers lasers = new Lasers(direction);
-                space.addAction(lasers);
-            }
         }
 
     }

@@ -30,6 +30,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.net.URISyntaxException;
 
 /**
@@ -93,13 +94,17 @@ public class SpaceView extends StackPane implements ViewObserver {
 
 
     }
-    private void updateBelt(){
+    private void updateBelt() {
         ConveyorBelt belt = space.getConveyorBelt();
+        ConveyorBelt2 belt2 = space.getConveyorBelt2();
+        ConveyorBelt3 belt3 = space.getConveyorBelt3();
+        ConveyorBelt4 belt4 = space.getConveyorBelt4();
+
         if (belt != null) {
             switch (belt.getHeading()) {
+
                 case EAST:
                     addImage("images/greencon.png").setRotate(90);
-
                     break;
 
                 case SOUTH:
@@ -112,7 +117,10 @@ public class SpaceView extends StackPane implements ViewObserver {
 
                 case NORTH:
                     addImage("images/greencon.png");
+
             }
+
+
             /*
             Polygon fig = new Polygon(0.0, 0.0,
                     60.0, 0.0,
@@ -125,8 +133,87 @@ public class SpaceView extends StackPane implements ViewObserver {
 
              */
         }
+        if (belt2 != null) {
+            switch (belt2.getHeading()) {
+
+                case EAST:
+                    addImage("images/bluecon.png").setRotate(90);
+                    break;
+
+                case SOUTH:
+                    addImage("images/bluecon.png").setRotate(180);
+                    break;
+
+                case WEST:
+                    addImage("images/bluecon.png").setRotate(-90);
+                    break;
+                case NORTH:
+                    addImage("images/bluecon.png");
+
+            }
+
+        }
+        if(belt3 != null){
+            switch(belt3.getHeading()){
+
+                case EAST:
+                    addImage("images/DDCB.png").setRotate(90);
+                    break;
+
+                case SOUTH:
+                    addImage("images/DDCB.png").setRotate(180);
+                    break;
+
+                case WEST:
+                    addImage("images/DDCB.png").setRotate(-90);
+                    break;
+                case NORTH:
+                    addImage("images/DDCB.png");
+            }
+        }
+        if(belt4 != null) {
+            switch (belt4.getHeading()) {
+
+                case NORTH:
+                    addImage("images/SDCB.png").setRotate(90);
+                    break;
+
+                case SOUTH:
+                    addImage("images/SDCB.png").setRotate(180);
+                    break;
+
+                case WEST:
+                    addImage("images/SDCB.png").setRotate(-90);
+                    break;
+                case EAST:
+                    addImage("images/SDCB.png");
+            }
+        }
 
     }
+
+    private void updatePushPanel() {
+        PushPanel pushpanel = space.getPushPanel();
+
+        if (pushpanel != null) {
+            switch (pushpanel.getHeading()) {
+
+                case WEST:
+                    addImage("images/pushpanel.png").setRotate(90);
+                    break;
+
+                case NORTH:
+                    addImage("images/pushpanel.png").setRotate(180);
+                    break;
+
+                case EAST:
+                    addImage("images/pushpanel.png").setRotate(-90);
+                    break;
+
+                case SOUTH:
+                    addImage("images/pushpanel.png");
+
+            }}}
     private void updateWalls(){
 
 
@@ -181,23 +268,17 @@ public class SpaceView extends StackPane implements ViewObserver {
             if (action instanceof Gear) {
                 addImage("images/gear" + (((Gear) action).direction) + ".png");
             }
-            if (action instanceof Lasers) {
-                Lasers laser = (Lasers) action;
-                if (laser.isOn()) {
-                    addImage("images/SingleLaserON.png");
-                } else {
-                    addImage("images/SingleLaserOFF.png");
-                }
-            }
+
+
         }
     }
     private ImageView addImage(String name) {
         Image img = null;
         try {
-            img = new Image(SpaceView.class.getClassLoader().getResource(name).toURI().toString());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+            File file = new File("./src/main/resources/" + name);
+            img = new Image(file.toURI().toString());
+        } catch (Exception e) {
+            e.printStackTrace();}
         ImageView imgView = new ImageView(img);
         imgView.setImage(img);
         imgView.setFitHeight(SPACE_HEIGHT);
@@ -228,10 +309,15 @@ public class SpaceView extends StackPane implements ViewObserver {
         {
            addImage("images/antenna.png");
         }
+            if (space.board.getRebootToken() !=null && (space.board.getRebootToken().x == space.x&&space.board.getRebootToken().y == space.y))
+            {
+                addImage("images/RebootToken.png");
+            }
         if(space.getStartPlayerNo() !=0)
         {
             addImage("images/startpoint.png");
         }
+            updatePushPanel();
             updateBelt();
             updateActions();
             updatePlayer();

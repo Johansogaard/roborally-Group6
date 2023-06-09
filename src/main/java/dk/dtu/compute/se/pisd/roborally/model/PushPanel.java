@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  *
  */
-public class ConveyorBelt implements FieldAction {
+public class PushPanel implements FieldAction {
 
     private Heading heading = Heading.EAST;
 
@@ -18,23 +18,21 @@ public class ConveyorBelt implements FieldAction {
 
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
-
+       if((gameController.board.getStep()==1)||(gameController.board.getStep()==3)){
         Player currentPlayer = space.getPlayer();
         Space neighbourSpace = space.board.getNeighbour(space,heading);
 
-        if (neighbourSpace.getPlayer() != null) {
-            return false;
-        } else {
+            currentPlayer.pushPlayer(this.heading);
 
            for (FieldAction action : neighbourSpace.actions) {
-                if (action instanceof ConveyorBelt || action instanceof ConveyorBelt4) {
-                    currentPlayer.setSpace(neighbourSpace);
+                if (action instanceof PushPanel && ((PushPanel) action).getHeading() != this.heading.opposite()) {
+                    action.doAction(gameController, currentPlayer.getSpace());
                 }
             }
 
-            return true;
-        }
 
+        }
+        return true;
     }
 
 }

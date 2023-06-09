@@ -21,13 +21,11 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * ...
@@ -86,16 +84,18 @@ public class GameController {
                     CommandCardField field = player.getProgramField(j);
                     field.setCard(null);
                     field.setVisible(true);
+
                 }
                 for (int j = 0; j < Player.NO_CARDS; j++) {
                     CommandCardField field = player.getCardField(j);
-                    field.setCard(generateRandomCommandCard());
+                    field.setCard(player.deck.drawCard());
+
                     field.setVisible(true);
                 }
             }
         }
     }
-    public void fillEmptyRegister() {
+    /*public void fillEmptyRegister() {
         List<Player> players=board.getPlayers();
         for (int i = 0; i < players.size(); i++) {
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
@@ -113,8 +113,7 @@ public class GameController {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
-    }
-
+    }*/
     // XXX: V2
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
@@ -122,7 +121,6 @@ public class GameController {
         board.setPhase(Phase.ACTIVATION);
         board.setPlayerOrder();
         board.setStep(0);
-        fillEmptyRegister();
     }
 
     // XXX: V2
@@ -131,7 +129,9 @@ public class GameController {
             for (int i = 0; i < board.getPlayersNumber(); i++) {
                 Player player = board.getPlayer(i);
                 CommandCardField field = player.getProgramField(register);
-                field.setVisible(true);
+                field.setVisible(true);if(player.getProgramField(register).getCard()==null){
+                    player.getProgramField(register).setCard(player.deck.drawCard());;
+                }
             }
         }
     }
@@ -178,11 +178,11 @@ public class GameController {
             int step = board.getStep();
             //checks if the step in correct and not a unusable value
             if (step >= 0 && step < Player.NO_REGISTERS) {
-                //gets the curr card
+
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
 
                 //checks if card is something
-                if (card != null) {
+                if (!currentPlayer.reboot) {
                     //gets the command
                     Command command = card.command;
 
@@ -194,8 +194,7 @@ public class GameController {
                         executeCommand(currentPlayer, command);
 
                         //setting the next player;
-                        //sout i used for debugging remove later
-                        System.out.println(board.getOrderNumber(currentPlayer) +" "+ board.getPlayersNumber());
+                    }}
                         if (board.getOrderNumber(currentPlayer)+1 < board.getPlayersNumber()) {
                             board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
                         } else {
@@ -224,15 +223,11 @@ public class GameController {
                         }
                     }
                 }
-            }else {
-                // this should not happen
-                assert false;
+
             }
-        } else {
-            // this should not happen
-            assert false;
-        }
-    }
+
+
+
 
     // XXX: V2
     public void executeCommand(@NotNull Player player, Command command) {
@@ -243,7 +238,7 @@ public class GameController {
 
             switch (command) {
                 case FORWARD:
-                    this.moveForward(player);
+                    player.moveForward();
                     break;
                 case RIGHT:
                     this.turnRight(player);
@@ -266,10 +261,18 @@ public class GameController {
                 case AGAIN:
                     this.again(player, board.getStep());
                     break;
+                case SPAM:
+                    this.spam(player);
+                    break;
                 default:
                     // DO NOTHING (for now)
             }
         }
+    }
+
+    private void spam(Player player) {
+        player.getProgramField(board.getStep()).setCard(player.deck.drawCard());
+        executeCommand(player, player.getProgramField(board.getStep()).getCard().command);
     }
 
     private void again(Player player, int currentStep) {
@@ -288,7 +291,7 @@ public class GameController {
 
     private void Back(Player player) {
         uTurn(player);
-        moveForward(player);
+        player.moveForward();
         uTurn(player);
     }
 
@@ -299,88 +302,20 @@ public class GameController {
 
     private void Move3(Player player) {
         for (int i = 0 ; i<3;i++) {
-            moveForward(player);
+            if(player.reboot==false){
+                player.moveForward();}}}
+    private void Move2(Player player) {
+        for (int i = 0 ; i<2;i++) {
+            player.moveForward();
         }
-    }
-
-    /**
-     * @author Johan Søgaard Jørgensen(JJ)
-     * This is a method to move the player Forward
-     * It cheks if there is a wall in the heading direction
-     * It cheks if there is a person infront and calls the move pushPlayer to push the player infront
-     * It wait to move until the pushplayer method has returned if there is a wall infront of the players that the robot is going to push
-     * @param player is the current player that is going to move foward
-     */
-    // TODO: V2
-    public void moveForward(@NotNull Player player) {
-        Space space = player.getSpace();
-        if (player != null && player.board == board && space != null) {
-            Heading heading = player.getHeading();
-            Space target = board.getNeighbour(space, heading);
-            if (target != null ) {
-                boolean isWall =false;
-
-                // XXX note that this removes an other player from the space, when there
-                //     is another player on the target. Eventually, this needs to be
-                //     implemented in a way so that other players are pushed away!
-
-                //JJ added a loop that cheks if there is a wall infront of the robot in the traveling direction
-                if (space.getWalls().contains(heading))
-                {
-                    isWall=true;
-                }
-                if (target.getPlayer()!=null&& isWall!=true)
-                {
-                   isWall = pushPlayer(player,heading);
-                }
-                if (isWall!=true) {
-                    target.setPlayer(player);
-                }
-
-            }
-
-        }
-    }
-
-    /**
-     * pushPlayer pushes the player infront and pushes x numbers of player who is infront of him
-     * but always waits to see if the player infront has a wall that way we dont push and stand still if there is a wall infront of x robot
-     *
-     * @param player this is the player that is pushing
-     * @param heading this is the direction of the push
-     */
-    public boolean pushPlayer(@NotNull Player player,Heading heading)
-    {
-        Space space = player.getSpace();
-        Space target = board.getNeighbour(space, heading);
-        Player playerToPush = target.getPlayer();
-        Space nextTarget = board.getNeighbour(target,heading);
-        boolean isWall =false;
-
-        // XXX note that this removes an other player from the space, when there
-        //     is another player on the target. Eventually, this needs to be
-        //     implemented in a way so that other players are pushed away!
-
-        //added a rekursive loop that will always check the player infront before pushing
-        if (target.getWalls().contains(heading))
-        {
-            isWall=true;
-        }
-        if(nextTarget.getPlayer()!=null&&isWall !=true)
-        {
-           isWall= pushPlayer(playerToPush,heading);
-        }
-        if (isWall!=true) {
-            nextTarget.setPlayer(playerToPush);
-        }
-        return isWall;
     }
 
     // TODO: V2
     public void fastForward(@NotNull Player player) {
-        moveForward(player);
-        moveForward(player);
-    }
+        for (int i = 0 ; i<2;i++) {
+            if(player.reboot==false){
+                player.moveForward();}}}
+
 
     // TODO: V2
     public void turnRight(@NotNull Player player) {

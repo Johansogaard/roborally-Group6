@@ -45,7 +45,6 @@ public class Space extends Subject {
     public final int y;
 
     private Player player;
-    private Lasers lasers;
 
 
     public List<Heading> getWalls() {
@@ -71,6 +70,13 @@ public class Space extends Subject {
             board.setAntenna(new Antenna(board,this.x,this.y));
             notifyChange();
         }
+    public void addRebootToken() {
+        board.setRebootToken(new RebootToken(board, x, y));
+        notifyChange();
+    }
+
+
+
     public void addGear(Direction direction) {
         boolean check = false;
 
@@ -80,19 +86,46 @@ public class Space extends Subject {
             }
         }
 
+
+
         if (!check) {
             this.actions.add(new Gear(direction));
             notifyChange();
         }
     }
-    public void addLasers(){
-        board.setLasers(new Lasers(Heading.NORTH));
-        notifyChange();
+    public void addPushPanel(Direction direction) {
+        boolean check = false;
 
+        for (FieldAction action : actions) {
+            if (action instanceof Gear) {
+                check = true;
+            }
+        }
+
+
+
+        if (!check) {
+            this.actions.add(new Gear(direction));
+            notifyChange();
+        }
     }
     public List<FieldAction> getActions() {
         return actions;
     }
+
+    public void addPit() {
+        boolean check = false;
+
+        for (FieldAction action : actions) {
+            if (action instanceof Pit) {
+                check = true;
+            }
+        }
+        if (!check) {
+            this.actions.add(new Pit());
+            notifyChange();
+
+    }}
     public Player getPlayer() {
         return player;
     }
@@ -108,8 +141,62 @@ public class Space extends Subject {
         }
 
         return belt;
-
     }
+    public ConveyorBelt2 getConveyorBelt2() {
+
+        ConveyorBelt2 belt = null;
+
+
+        for (FieldAction action : this.actions) {
+            if (action instanceof ConveyorBelt2 && belt == null) {
+                belt = (ConveyorBelt2) action;
+            }
+        }
+
+        return belt;
+    }
+
+    public PushPanel getPushPanel() {
+        PushPanel panel = null;
+
+        for (FieldAction action : this.actions) {
+            if (action instanceof PushPanel && panel == null) {
+                panel = (PushPanel) action;
+            }
+        }
+
+        return panel;
+    }
+
+    public ConveyorBelt3 getConveyorBelt3() {
+
+        ConveyorBelt3 belt = null;
+
+
+        for (FieldAction action : this.actions) {
+            if (action instanceof ConveyorBelt3 && belt == null) {
+                belt = (ConveyorBelt3) action;
+            }
+        }
+
+        return belt;
+    }
+
+    public ConveyorBelt4 getConveyorBelt4() {
+
+        ConveyorBelt4 belt = null;
+
+
+        for (FieldAction action : this.actions) {
+            if (action instanceof ConveyorBelt4 && belt == null) {
+                belt = (ConveyorBelt4) action;
+            }
+        }
+
+        return belt;
+    }
+
+
 
 
     public void setStartPlayerNo(int startPlayerNo) {
@@ -117,6 +204,7 @@ public class Space extends Subject {
         notifyChange();
     }
     public void setPlayer(Player player) {
+
         Player oldPlayer = this.player;
         if (player != oldPlayer &&
                 (player == null || board == player.board)) {
@@ -128,6 +216,11 @@ public class Space extends Subject {
             if (player != null) {
                 player.setSpace(this);
             }
+            if(player!=null){
+            for (FieldAction fieldaction : player.getSpace().getActions()) {
+                if (fieldaction instanceof Pit) {
+                    player.preboot();
+                }}}
             notifyChange();
         }
     }
