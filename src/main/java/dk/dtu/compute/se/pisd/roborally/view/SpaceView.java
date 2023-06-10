@@ -326,14 +326,13 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
             if (space.getAction(ConveyorBelt.class) != null) {
                 updateBelt(space);
-                for (Heading heading : Heading.values()) {
-                    // Get the neighboring space in that direction.
-                    Space neighbor = space.board.getNeighbour(space, heading);
+
+                    Space neighbor = space.board.getNeighbour(space, space.getAction(ConveyorBelt.class).getHeading());
                     // If the neighbor exists and has a ConveyorBelt, update it.
                     if (neighbor != null && neighbor.getAction(ConveyorBelt.class) != null) {
                         updateBelt(neighbor);
                     }
-                }
+
             }
 
             updatePushPanel();
