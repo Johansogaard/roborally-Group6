@@ -354,7 +354,7 @@ public class AppController implements Observer {
     }
     public void loadGame() {
 
-            showFilesToChoseFrom(gamesPath);
+                showFilesToChoseFrom(gamesPath);
                 Board loadedBoard = LoadSaveGame.loadBoard(gamesPath,fileToOpen);
 
                 gameController = new GameController(loadedBoard);
