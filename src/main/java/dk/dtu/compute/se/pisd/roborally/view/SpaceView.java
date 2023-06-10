@@ -259,12 +259,27 @@ public class SpaceView extends StackPane implements ViewObserver {
                 }
                 rotateImage(laserImageView, laser.getHeading());
             }
+            if (action instanceof LaserBeam) {
+                LaserBeam laserbeam= (LaserBeam) action;
+                switch (laserbeam.power) {
+                    case 1:
+                        laserImageView = addImage("images/Laserbeam1.png");
+                        break;
+
+                    case 2:
+                        laserImageView = addImage("images/Laserbeam2.png");
+                        break;
+
+                    case 3:
+                        laserImageView = addImage("images/Laserbeam3.png");
+                        break;
+                }
+                rotateImage(laserImageView, laserbeam.getHeading());
+            }
         }
     }
 
-    private void addLaserBeams(String image){
 
-    }
 
     private void rotateImage(ImageView imageView, Heading heading) {
         double rotationAngle = 0;

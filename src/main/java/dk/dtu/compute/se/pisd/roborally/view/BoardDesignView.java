@@ -82,6 +82,7 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Antenna");
         this.fieldOptions.add("Gear");
         this.fieldOptions.add("Empty field");
+        this.fieldOptions.add("Laser beam");
     }
 
     private class SpaceEventHandler implements EventHandler<MouseEvent> {
@@ -166,6 +167,9 @@ public class BoardDesignView extends VBox {
                         break;
                     case "Void":
                         space.addPit(true);
+                        break;
+                    case "Laser beam":
+                        addLaserBeam(space);
                         break;
                 }
 
@@ -369,6 +373,65 @@ public class BoardDesignView extends VBox {
                 space.addAction(laser);
             }
         }}
+
+        private void addLaserBeam(Space space) {
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("NORTH", "NORTH", "EAST", "SOUTH", "WEST");
+            dialog.setContentText("Select the laser direction:");
+            dialog.setHeaderText(null);
+            dialog.setTitle("Add Lasers");
+            dialog.showAndWait();
+
+            String selectedDirection = dialog.getSelectedItem();
+            if (selectedDirection != null) {
+                Heading direction;
+
+                switch (selectedDirection) {
+                    case "NORTH":
+                        direction = Heading.NORTH;
+                        break;
+                    case "EAST":
+                        direction = Heading.EAST;
+                        break;
+                    case "SOUTH":
+                        direction = Heading.SOUTH;
+                        break;
+                    case "WEST":
+                        direction = Heading.WEST;
+                        break;
+                    default:
+                        // Invalid direction selected
+                        return;
+                }
+
+                ChoiceDialog<String> dialog2 = new ChoiceDialog<>("1","1", "2", "3");
+                dialog2.setContentText("Select the laser direction:");
+                dialog2.setHeaderText(null);
+                dialog2.setTitle("Add Lasers");
+                dialog2.showAndWait();
+
+                String selectedDirection2 = dialog2.getSelectedItem();
+                if (selectedDirection != null) {
+                    int type = 0;
+
+                    switch (selectedDirection2) {
+                        case "1":
+                            type = 1;
+                            break;
+                        case "2":
+                            type = 2;
+                            break;
+                        case "3":
+                            type = 3;
+                            break;
+                        default:
+                            // Invalid direction selected
+                            return;
+                    }
+
+                    LaserBeam laserbeam = new LaserBeam(direction, type);
+                    space.addAction(laserbeam);
+                }
+            }}
 
 
         private void addCheckpoint(Space space) {
