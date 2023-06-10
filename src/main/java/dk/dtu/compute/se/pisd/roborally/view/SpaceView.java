@@ -258,6 +258,9 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+    private void addLaserBeams(String image){
+
+    }
 
     private void rotateImage(ImageView imageView, Heading heading) {
         double rotationAngle = 0;

@@ -85,6 +85,7 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Double conveyor belt");
         this.fieldOptions.add("Reboot token");
         this.fieldOptions.add("Pit");
+        this.fieldOptions.add("Empty field");
     }
 
     private class SpaceEventHandler implements EventHandler<MouseEvent> {
@@ -161,11 +162,25 @@ public class BoardDesignView extends VBox {
                         case "Checkpoint":
                             addCheckpoint(space);
                             break;
+                        case "Empty field":
+                            deleteField(space);
+                            break;
                 }
 
             }
 
             event.consume();
+        }
+
+        private void deleteField(Space space) {
+            space.actions=new ArrayList<>();
+            space.setStartPlayerNo(0);
+            if (board.getAntenna() != null && board.getAntenna().equals(space)) {
+                board.setAntenna(null);
+            }
+            if (board.getRebootToken() != null && board.getRebootToken().equals(space)) {
+                board.setRebootToken(null);
+            }
         }
         private void addAntenna(Space space)
         {
@@ -413,6 +428,8 @@ public class BoardDesignView extends VBox {
 
     }
 
+    private void deleteField(Space space) {
+    }
 
 
 }
