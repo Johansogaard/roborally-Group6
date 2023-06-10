@@ -116,7 +116,7 @@ public class Repository implements IRepository {
 
         for (int f=0;f<newBoard.getPlayers().size();f++)
         {
-            newBoard.getPlayers().get(f).setObservers(newBoard.getObservers());
+            newBoard.getPlayers().get(f).setObservers(newBoard.getPlayers().get(f).getObservers());
             for(int i =0;i<newBoard.getPlayers().get(f).getCards().length;i++)
             {
                 newBoard.getPlayers().get(f).getCards()[i].setObservers(oldBoard.getPlayers().get(f).getCards()[i].getObservers());

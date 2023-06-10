@@ -172,9 +172,16 @@ public class GameController {
         Board loadedBoard =repository.getGameInstance(board);
         for (int i =0;i<board.getPlayers().size();i++)
         {
+
             if (i != repository.getPlayerNumb()-1)
             {
-                board.getPlayers().get(i).setCards(loadedBoard.getPlayers().get(i).getCards());
+                for (int f=0;f<board.getPlayers().get(i).getCards().length;f++) {
+                    board.getPlayers().get(i).getCards()[f].setCard(loadedBoard.getPlayers().get(i).getCards()[f].getCard());
+                }
+                for (int f=0;f<board.getPlayers().get(i).getProgram().length;f++)
+                {
+                    board.getPlayers().get(i).getProgram()[f].setCard(loadedBoard.getPlayers().get(i).getCards()[f].getCard());
+                }
             }
         }
     }
