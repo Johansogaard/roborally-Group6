@@ -13,6 +13,10 @@ public class BoardDesignController {
         this.height = height;
     }
 
+    public BoardDesignController(Board board) {
+        this.board = board;
+    }
+
     public BoardDesignView createView() {
 
         if (this.board == null) {

@@ -345,7 +345,15 @@
       "walls": [
         "NORTH"
       ],
-      "actions": []
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.LaserBeam",
+          "INSTANCE": {
+            "heading": "NORTH",
+            "power": 1
+          }
+        }
+      ]
     },
     {
       "startPlayerNo": 0,
@@ -373,9 +381,9 @@
       ],
       "actions": [
         {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Laser",
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.LaserBeam",
           "INSTANCE": {
-            "heading": "EAST",
+            "heading": "WEST",
             "power": 1
           }
         }
@@ -418,7 +426,22 @@
       "walls": [
         "EAST"
       ],
-      "actions": []
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.LaserBeam",
+          "INSTANCE": {
+            "heading": "WEST",
+            "power": 1
+          }
+        },
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Laser",
+          "INSTANCE": {
+            "heading": "WEST",
+            "power": 1
+          }
+        }
+      ]
     },
     {
       "startPlayerNo": 0,
@@ -504,7 +527,15 @@
       "walls": [
         "EAST"
       ],
-      "actions": []
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.LaserBeam",
+          "INSTANCE": {
+            "heading": "EAST",
+            "power": 1
+          }
+        }
+      ]
     },
     {
       "startPlayerNo": 0,
@@ -530,7 +561,15 @@
       "walls": [
         "SOUTH"
       ],
-      "actions": []
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.LaserBeam",
+          "INSTANCE": {
+            "heading": "SOUTH",
+            "power": 1
+          }
+        }
+      ]
     },
     {
       "startPlayerNo": 0,
@@ -773,7 +812,6 @@
     "x": 0,
     "y": 4
   },
-  "playerOrder": [],
   "rebootToken": {
     "x": 7,
     "y": 3

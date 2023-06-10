@@ -33,6 +33,7 @@ import dk.dtu.compute.se.pisd.roborally.fileaccess.*;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates.BoardTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import javafx.application.Platform;
@@ -236,22 +237,45 @@ public class AppController implements Observer {
 
     public void designBoard(
     ){
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setContentText("Vælg bredden af spillepladen");
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("Edit/Create", "Edit", "Create");
+        dialog.setContentText("Would you like to create a new board or edit a already existing one");
+        dialog.setHeaderText(null);
+        dialog.setTitle("Edit/Create");
         dialog.showAndWait();
 
-        int width = Integer.parseInt(dialog.getResult());
+        String selectedDirection = dialog.getSelectedItem();
+        if (selectedDirection != null) {
+            Heading direction;
 
-        dialog.setContentText("Vælg højden af spillepladen");
-        dialog.showAndWait();
+            switch (selectedDirection) {
+                case "Edit":
 
-        int height = Integer.parseInt(dialog.getResult());
+                    roboRally.createDesignView(new BoardDesignController(loadBoard()));
+                    break;
+                case "Create":
+                    TextInputDialog dialog1 = new TextInputDialog();
+                    dialog1.setContentText("Vælg bredden af spillepladen");
+                    dialog1.showAndWait();
 
-        BoardDesignController controller = new BoardDesignController(width, height);
 
-        roboRally.createDesignView(controller);
+                    int width = Integer.parseInt(dialog.getResult());
 
-    }
+                    dialog.setContentText("Vælg højden af spillepladen");
+                    dialog.showAndWait();
+
+                    int height = Integer.parseInt(dialog.getResult());
+
+                    BoardDesignController controller = new BoardDesignController(width, height);
+
+                    roboRally.createDesignView(controller);
+
+                    break;
+                default:
+                    // Invalid direction selected
+                    return;
+            }
+        }}
     public void saveGame() {
         TextInputDialog td = new TextInputDialog("NewGameSave");
         td.setHeaderText("Enter a name for the saved game");
