@@ -118,7 +118,7 @@ public class Space extends Subject {
         return actions;
     }
 
-    public void addPit() {
+    public void addPit(Boolean Void) {
         boolean check = false;
 
         for (FieldAction action : actions) {
@@ -127,7 +127,7 @@ public class Space extends Subject {
             }
         }
         if (!check) {
-            this.actions.add(new Pit());
+            this.actions.add(new Pit(Void));
             notifyChange();
 
     }}

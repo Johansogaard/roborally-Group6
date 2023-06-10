@@ -24,14 +24,9 @@ public class BoardDesignView extends VBox {
     private Board board;
     private GridPane mainBoardPane;
     private SpaceView[][] spaces;
+
     private Label statusLabel;
     private SpaceEventHandler spaceEventHandler;
-    private boolean hasLaser;
-
-    public boolean hasLaser() {
-        return hasLaser;
-    }
-
     private List fieldOptions = new ArrayList<String>();
 
     public BoardDesignView(Board board) {
@@ -73,7 +68,6 @@ public class BoardDesignView extends VBox {
     }
 
     private void addOptions() {
-        this.fieldOptions.add("Antenna");
         this.fieldOptions.add("Conveyor Belt");
         this.fieldOptions.add("Player start field");
         this.fieldOptions.add("Walls");
@@ -81,10 +75,12 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Checkpoint");
         this.fieldOptions.add("Rotating conveyor belt");
         this.fieldOptions.add("Double rotating conveyor belt");
-        this.fieldOptions.add("Gear");
         this.fieldOptions.add("Double conveyor belt");
-        this.fieldOptions.add("Reboot token");
         this.fieldOptions.add("Pit");
+        this.fieldOptions.add("Void");
+        this.fieldOptions.add("Reboot token");
+        this.fieldOptions.add("Antenna");
+        this.fieldOptions.add("Gear");
         this.fieldOptions.add("Empty field");
     }
 
@@ -117,19 +113,22 @@ public class BoardDesignView extends VBox {
                     return;
                 }
 
-                    switch ((String) dialog.getSelectedItem()) {
-                        case "Conveyor Belt":
-                            addConveyorBelt(space, "ConveyorBelt");
-                            break;
-                        case "Double conveyor belt":
-                            addConveyorBelt(space, "ConveyorBelt2");
-                            break;
-                        case "Double rotating conveyor belt":
-                            addConveyorBelt(space, "ConveyorBelt3");
-                            break;
-                        case "Rotating conveyor belt":
-                            addConveyorBelt(space, "ConveyorBelt4");
-                            break;
+                switch ((String) dialog.getSelectedItem()) {
+                    case "Conveyor Belt":
+                        addConveyorBelt(space, "ConveyorBelt");
+                        break;
+
+                    case "Double conveyor belt":
+                        addConveyorBelt(space, "ConveyorBelt2");
+                        break;
+
+                    case "Double rotating conveyor belt":
+                        addConveyorBelt(space, "ConveyorBelt3");
+                        break;
+
+                    case "Rotating conveyor belt":
+                        addConveyorBelt(space, "ConveyorBelt4");
+                        break;
 
                     case "Antenna":
                        addAntenna(space);
@@ -157,30 +156,35 @@ public class BoardDesignView extends VBox {
                         addRebootToken(space);
                         break;
                     case "Pit":
-                        space.addPit();
+                        space.addPit(false);
                         break;
-                        case "Checkpoint":
-                            addCheckpoint(space);
-                            break;
-                        case "Empty field":
-                            deleteField(space);
-                            break;
+                    case "Checkpoint":
+                        addCheckpoint(space);
+                        break;
+                    case "Empty field":
+                        deleteField(space);
+                        break;
+                    case "Void":
+                        space.addPit(true);
+                        break;
                 }
 
             }
-
             event.consume();
         }
 
         private void deleteField(Space space) {
+            //you need to delete antenna twice
             space.actions=new ArrayList<>();
             space.setStartPlayerNo(0);
-            if (board.getAntenna() != null && board.getAntenna().equals(space)) {
+            if (board.getAntenna() != null && board.getSpace(board.getAntenna().x,board.getAntenna().y)==space) {
                 board.setAntenna(null);
+
             }
-            if (board.getRebootToken() != null && board.getRebootToken().equals(space)) {
+            if (board.getRebootToken() != null && board.getSpace(board.getRebootToken().x, board.getRebootToken().y)==space) {
                 board.setRebootToken(null);
             }
+
         }
         private void addAntenna(Space space)
         {
@@ -244,7 +248,7 @@ public class BoardDesignView extends VBox {
 
             for (FieldAction action : space.getActions()) {
                 if (action instanceof PushPanel) {
-                    // TODO add some explanation to the user that there is already a belt at this space
+
                     return;
                 }
             }
@@ -276,7 +280,6 @@ public class BoardDesignView extends VBox {
             if (dialog.getResult() != null) {
                 space.setStartPlayerNo(Integer.parseInt(dialog.getResult()));
             }
-
         }
 
 
@@ -306,10 +309,7 @@ public class BoardDesignView extends VBox {
                 if (dialog.getSelectedItem() != null) {
                     space.addWall((Heading) dialog.getSelectedItem());
                 }
-
             }
-
-
         }
         private void addLaser(Space space) {
             ChoiceDialog<String> dialog = new ChoiceDialog<>("NORTH", "NORTH", "EAST", "SOUTH", "WEST");
@@ -396,9 +396,7 @@ public class BoardDesignView extends VBox {
 
                 Checkpoint checkpoint = new Checkpoint(no);
                 space.addAction(checkpoint);
-
             }
-
         }
 
         private void addGear(Space space) {
@@ -423,14 +421,7 @@ public class BoardDesignView extends VBox {
             if (dialog.getSelectedItem() != null) {
                 space.addGear((Direction) dialog.getSelectedItem());
             }
-
         }
-
     }
-
-    private void deleteField(Space space) {
-    }
-
-
 }
 

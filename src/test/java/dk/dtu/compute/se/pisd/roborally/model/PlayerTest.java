@@ -135,7 +135,7 @@ class PlayerTest {
     @Test
     void goInPit() {
         board.getSpace(6,9).addRebootToken();
-        board.getSpace(0,0).addPit();
+        board.getSpace(0,0).addPit(true);
         board.getSpace(0,0).setPlayer(player);
         assertEquals(player.getSpace(),board.getSpace(6,9));
     }
