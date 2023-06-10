@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -106,15 +107,46 @@ public class PlayerView extends Tab implements ViewObserver {
         //      refactored.
 
         finishButton = new Button("Finish Programming");
-        finishButton.setOnAction(e -> gameController.finishProgrammingPhase());
+
+
 
         executeButton = new Button("Execute Program");
         executeButton.setOnAction(e -> gameController.executePrograms());
 
         stepButton = new Button("Execute Current Register");
+        if (gameController.repository!=null) {
+            finishButton.setOnAction(e ->  {
+                Thread thread = new Thread(() -> {
+                    // Lengthy operation
+                    gameController.finishProgrammingPhase();
 
+                    // Update the UI after completing the lengthy operation
+                    Platform.runLater(() -> {
+                        // Update UI components here
+
+                    });
+                });
+                thread.start();
+            });
+
+            stepButton.setOnAction(e -> {
+                Thread thread = new Thread(() -> {
+                    // Lengthy operation
+                    gameController.executeStep();
+
+                    // Update the UI after completing the lengthy operation
+                    Platform.runLater(() -> {
+                        // Update UI components here
+
+                    });
+                });
+                thread.start();
+            });
+        }
+        else {
+            finishButton.setOnAction(e -> gameController.finishProgrammingPhase());
             stepButton.setOnAction(e -> gameController.executeStep());
-
+        }
         buttonPanel = new VBox(finishButton, executeButton, stepButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
