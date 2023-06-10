@@ -147,18 +147,17 @@ public class Board extends Subject {
    public void notifyBoardChange()
     {
         notifyChange();
-       /* for (int i =0;i<width;i++)
+       for (int i =0;i<width;i++)
         {
             for (int f=0;f<height;f++)
             {
                 spaces[i][f].notifySpace();
             }
-        } */
+        }
         for (Player player: players)
         {
             player.notifyPlayer();
         }
-
     }
 
 

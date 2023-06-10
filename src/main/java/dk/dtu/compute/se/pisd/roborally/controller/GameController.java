@@ -25,6 +25,7 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.apiAccess.Repository;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.APIView;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
 
@@ -108,11 +109,10 @@ public class GameController {
         }
     }
     public void fillEmptyRegister() {
-        List<Player> players=board.getPlayers();
-        for (int i = 0; i < players.size(); i++) {
+        for (int i = 0; i < board.getPlayers().size(); i++) {
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                    if (players.get(i).getProgramField(j).getCard() == null) {
-                        players.get(i).getProgramField(j).setCard(generateRandomCommandCard());
+                    if (board.getPlayers().get(i).getProgramField(j).getCard() == null) {
+                        board.getPlayers().get(i).getProgramField(j).setCard(generateRandomCommandCard());
                     }
                 }
             }
@@ -151,8 +151,20 @@ public class GameController {
         }
         else
         {
-            apiObserver.notifyAPI();
+            Thread thread = new Thread(() -> {
+                // Lengthy operation
+                apiObserver.notifyAPI();
+
+                // Update the UI after completing the lengthy operation
+                Platform.runLater(() -> {
+                    // Update UI components here
+
+                });
+            });
+            thread.start();
         }
+
+
     }
 
     public void mergeCards()
@@ -160,7 +172,7 @@ public class GameController {
         Board loadedBoard =repository.getGameInstance(board);
         for (int i =0;i<board.getPlayers().size();i++)
         {
-            if (i != repository.getPlayerNumb())
+            if (i != repository.getPlayerNumb()-1)
             {
                 board.getPlayers().get(i).setCards(loadedBoard.getPlayers().get(i).getCards());
             }
@@ -278,8 +290,9 @@ public class GameController {
             }
             if (repository!=null)
             {
+
                repository.postGameInstanceActivationPhase(board);
-               board.notifyBoardChange();
+
                 waitForAction();
 
             }
@@ -288,7 +301,10 @@ public class GameController {
 
 
     }
-
+    public static void executeInNewThread(Runnable method) {
+        Thread thread = new Thread(method);
+        thread.start();
+    }
     // XXX: V2
     public void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {

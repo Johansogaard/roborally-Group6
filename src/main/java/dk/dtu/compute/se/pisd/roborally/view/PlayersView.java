@@ -48,20 +48,18 @@ public class PlayersView extends TabPane implements ViewObserver {
         board = gameController.board;
 //not sure this works
         this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-        if (gameController.repository ==null || gameController.board.getPhase() == Phase.ACTIVATION) {
+
             playerViews = new PlayerView[board.getPlayersNumber()];
             for (int i = 0; i < board.getPlayersNumber(); i++) {
                 playerViews[i] = new PlayerView(gameController, board.getPlayers().get(i));
                 this.getTabs().add(playerViews[i]);
+                if (gameController.repository !=null && board.getPlayers().get(i).no != gameController.repository.getPlayerNumb()-1)
+                {
+                 playerViews[i].setDisable(true);
+                }
+
             }
-        }
-        else
-        {
-            //if the mode is online the player should only see his own programming field
-            playerViews = new PlayerView[1];
-            playerViews[0] = new PlayerView(gameController,board.getPlayers().get(gameController.repository.getPlayerNumb()-1));
-            this.getTabs().add(playerViews[0]);
-        }
+
 
         board.attach(this);
 
