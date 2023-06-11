@@ -117,43 +117,17 @@ public class SpaceView extends StackPane implements ViewObserver {
         updateBeltImage(space.getAction(BeltDouble.class), "images/bluecon.png");
 
         BeltRotating beltRotating = space.getAction(BeltRotating.class);
-
         BeltDoubleRotating beltDoubleRotating = space.getAction(BeltDoubleRotating.class);
+
         if (beltRotating != null) {
-            switch (space.checkNeighborBelt(beltRotating)) {
-                case 0:
-                    updateBeltImage(beltDoubleRotating, "images/DDCB0.png"); // or use your own path
-                    break;
-                case 1:
-                    updateBeltImage(beltRotating, "images/SDCB1.png"); // or use your own path
-                    break;
-                case 2:
-                    updateBeltImage(beltRotating, "images/SDCB2.png"); // or use your own path
-                    break;
-                case 3:
-                    updateBeltImage(beltRotating, "images/pit.png"); // or use your own path
-                    break;
-
-            }
+            String imagePath = "images/SDCB" + space.checkNeighborBelt(beltRotating) + ".png";
+            updateBeltImage(beltRotating, imagePath);
         }
+
         if (beltDoubleRotating != null) {
-            switch (space.checkNeighborBelt(beltDoubleRotating)) {
-                case 0:
-                    updateBeltImage(beltDoubleRotating, "images/DDCB0.png"); // or use your own path
-                    break;
-                case 1:
-                    updateBeltImage(beltDoubleRotating, "images/DDCBmirror.png"); // or use your own path
-                    break;
-                case 2:
-                    updateBeltImage(beltDoubleRotating, "images/DDCB.png"); // or use your own path
-                    break;
-                case 3:
-                    updateBeltImage(beltDoubleRotating, "images/DDCB2.png"); // or use your own path
-                    break;
-
-            }
+            String imagePath = "images/DDCB" + space.checkNeighborBelt(beltDoubleRotating) + ".png";
+            updateBeltImage(beltDoubleRotating, imagePath);
         }
-
     }
 
 

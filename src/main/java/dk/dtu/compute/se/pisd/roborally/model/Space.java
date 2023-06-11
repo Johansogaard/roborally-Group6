@@ -140,24 +140,38 @@ public class Space extends Subject {
 
         ConveyorBelt rightBelt = board.getNeighbour(this, belt.getHeading().prev()).getAction(ConveyorBelt.class);
         ConveyorBelt leftBelt = board.getNeighbour(this, belt.getHeading().next()).getAction(ConveyorBelt.class);
+        ConveyorBelt behindbelt =board.getNeighbour(this, belt.getHeading().opposite()).getAction(ConveyorBelt.class);
 
-        boolean leftbelttrue=false;
-        boolean rightbelttrue=false;
+        boolean leftBeltTrue=false;
+        boolean rightBeltTrue=false;
+        boolean behindBeltTrue=false;
 
-if(leftBelt!=null){
-    leftbelttrue = leftBelt.getHeading()==belt.getHeading().prev()||leftBelt.getHeading()==belt.getHeading().next();
+        if(leftBelt!=null){
+            leftBeltTrue = leftBelt.getHeading()==belt.getHeading().prev();
 }
 
         if(rightBelt!=null){
-            rightbelttrue = rightBelt.getHeading()==belt.getHeading().next()||leftBelt.getHeading()==belt.getHeading().prev();
+            rightBeltTrue = rightBelt.getHeading()==belt.getHeading().next();
         }
 
-        if (leftbelttrue && rightbelttrue) {
-            return 3; // Both neighbors have conveyor belts
-        } else if (leftbelttrue) {
-            return 1; // Only the previous neighbor has a conveyor belt
-        } else if (rightbelttrue) {
-            return 2; // Only the next neighbor has a conveyor belt
+        if(behindbelt!=null){
+            behindBeltTrue = leftBelt.getHeading()==belt.getHeading();
+        }
+
+        if (leftBeltTrue && rightBeltTrue && behindBeltTrue) {
+            return 7; // All neighbors have conveyor belts
+        } else if (leftBeltTrue && rightBeltTrue) {
+            return 6; // Both left and right neighbors have conveyor belts
+        } else if (leftBeltTrue && behindBeltTrue) {
+            return 5; // Both left and behind neighbors have conveyor belts
+        } else if (rightBeltTrue && behindBeltTrue) {
+            return 4; // Both right and behind neighbors have conveyor belts
+        } else if (leftBeltTrue) {
+            return 3; // Only the left neighbor has a conveyor belt
+        } else if (rightBeltTrue) {
+            return 2; // Only the right neighbor has a conveyor belt
+        } else if (behindBeltTrue) {
+            return 1; // Only the behind neighbor has a conveyor belt
         } else {
             return 0; // No neighbors have conveyor belts
         }
