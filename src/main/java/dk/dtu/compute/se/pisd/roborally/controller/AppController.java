@@ -259,12 +259,12 @@ public class AppController implements Observer {
                     dialog1.showAndWait();
 
 
-                    int width = Integer.parseInt(dialog.getResult());
+                    int width = Integer.parseInt(dialog1.getResult());
 
-                    dialog.setContentText("Vælg højden af spillepladen");
-                    dialog.showAndWait();
+                    dialog1.setContentText("Vælg højden af spillepladen");
+                    dialog1.showAndWait();
 
-                    int height = Integer.parseInt(dialog.getResult());
+                    int height = Integer.parseInt(dialog1.getResult());
 
                     BoardDesignController controller = new BoardDesignController(width, height);
 
