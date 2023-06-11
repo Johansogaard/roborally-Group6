@@ -4,6 +4,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.view.BoardView;
+import dk.dtu.compute.se.pisd.roborally.view.CardFieldView;
 import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 import dk.dtu.compute.se.pisd.roborally.view.PlayersView;
 
@@ -120,10 +121,24 @@ public class Repository implements IRepository {
             for(int i =0;i<newBoard.getPlayers().get(f).getCards().length;i++)
             {
                 newBoard.getPlayers().get(f).getCards()[i].setObservers(oldBoard.getPlayers().get(f).getCards()[i].getObservers());
+                for (Observer observer:newBoard.getPlayers().get(f).getCards()[i].getObservers())
+                {
+                    if (observer instanceof CardFieldView)
+                    {
+                        ((CardFieldView) observer).setField(newBoard.getPlayers().get(f).getCards()[i]);
+                    }
+                }
             }
             for(int i =0;i<newBoard.getPlayers().get(f).getProgram().length;i++)
             {
                 newBoard.getPlayers().get(f).getProgram()[i].setObservers(oldBoard.getPlayers().get(f).getProgram()[i].getObservers());
+                for (Observer observer:newBoard.getPlayers().get(f).getProgram()[i].getObservers())
+                {
+                    if (observer instanceof CardFieldView)
+                    {
+                        ((CardFieldView) observer).setField(newBoard.getPlayers().get(f).getProgram()[i]);
+                    }
+                }
             }
         }
         }
