@@ -99,6 +99,20 @@ public class AppController implements Observer {
         this.roboRally = roboRally;
     }
 
+    /**
+
+     Saves the game locally and sends it to the server.
+
+     This method prompts the user to enter a name for the saved game,
+
+     converts the current game board to a template, and saves the template as a JSON file locally.
+
+     The saved game is then sent to the server using the sendToServer method.
+
+     If any error occurs during the saving or sending process, a RuntimeException is thrown.
+
+     @throws RuntimeException if there is an error saving the game locally or sending it to the server.
+     */
     public void saveGameToServer() {
         // Creating a dialog box for user input
         TextInputDialog td = new TextInputDialog("NewGameSave");
@@ -135,6 +149,21 @@ public class AppController implements Observer {
         }
     }
 
+    /**
+
+     Sends the game data to the server.
+     This method reads the local game file identified by the given fileName,
+     prepares the game data for sending, and performs an HTTP POST request to the server.
+     The game data is sent as a JSON payload in the request body.
+     @param fileName the name of the game file to send to the server.
+     markdown
+     Copy code
+     The file should be located in the designated game folder.
+     @throws RuntimeException if there is an error reading the game data locally,
+     vbnet
+     Copy code
+     sending it to the server, or if the server responds with an error.
+     */
     private void sendToServer(String fileName) {
         // Remove the extension from the filename to get the game ID
         String gameId = fileName.substring(0, fileName.lastIndexOf('.'));
@@ -346,6 +375,8 @@ public class AppController implements Observer {
 
 
     }
+
+
     public Board loadBoard()
     {
 
