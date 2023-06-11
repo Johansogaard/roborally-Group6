@@ -176,7 +176,8 @@ public class Board extends Subject {
     public Player getCurrentPlayer() {
         if (current == null)
         {
-            return playerOrder.get(0);
+            setPlayerOrder();
+
         }
         return current;
     }

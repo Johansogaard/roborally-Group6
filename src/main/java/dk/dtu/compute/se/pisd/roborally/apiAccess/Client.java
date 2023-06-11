@@ -125,13 +125,13 @@ public class Client {
     {
         return getDataFromApi("GET", API_BASE_URL + "/" + id + "/statact/"+playernumb);
     }
-    public void postGameInstanceActivationPhase(int id,String jsonData)
+    public void postGameInstanceActivationPhase(int id,int playerNumb,String jsonData)
     {
-        postDataToApi(API_BASE_URL+"/"+id+"/step",jsonData);
+        postDataToApi(API_BASE_URL+"/"+id+"/step/"+playerNumb,jsonData);
     }
     public void postGameInstanceProgrammingPhase(int id,String jsonData,int playerNumb)
     {
-        postDataToApi(API_BASE_URL+"/"+id+"/"+playerNumb,jsonData);
+        postDataToApi(API_BASE_URL+"/"+id+"/prog/"+playerNumb,jsonData);
     }
     public void postGameInstance(int id,String jsonData)
     {

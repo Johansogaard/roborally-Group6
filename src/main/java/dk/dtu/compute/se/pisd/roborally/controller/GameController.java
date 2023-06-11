@@ -139,6 +139,7 @@ public class GameController {
             mergeCards();
             repository.postGameInstanceProgrammingPhase(board);
             board =repository.getGameInstance(board);
+            board.notifyBoardChange();
             waitForAction();
         }
 
@@ -169,21 +170,24 @@ public class GameController {
 
     public void mergeCards()
     {
-        Board loadedBoard =repository.getGameInstance(board);
-        for (int i =0;i<board.getPlayers().size();i++)
-        {
+       /* CommandCardField[] cards =board.getPlayers().get(repository.getPlayerNumb()-1).getCards();
+        CommandCardField[] program =board.getPlayers().get(repository.getPlayerNumb()-1).getCards();*/
+         Board loadedBoard=repository.getGameInstance(null);
 
-            if (i != repository.getPlayerNumb()-1)
-            {
-                for (int f=0;f<board.getPlayers().get(i).getCards().length;f++) {
-                    board.getPlayers().get(i).getCards()[f].setCard(loadedBoard.getPlayers().get(i).getCards()[f].getCard());
+
+        for (Player player : loadedBoard.getPlayers()) {
+            if (player.no!=repository.getPlayerNumb()-1) {
+                for (int f = 0; f < board.getPlayers().get(player.no).getCards().length; f++) {
+                    board.getPlayers().get(player.no).getCards()[f].setCard(player.getCards()[f].getCard());
                 }
-                for (int f=0;f<board.getPlayers().get(i).getProgram().length;f++)
-                {
-                    board.getPlayers().get(i).getProgram()[f].setCard(loadedBoard.getPlayers().get(i).getCards()[f].getCard());
+                for (int f = 0; f < board.getPlayers().get(player.no).getProgram().length; f++) {
+                    board.getPlayers().get(player.no).getProgram()[f].setCard(player.getProgram()[f].getCard());
                 }
             }
         }
+       /* board.setPlayerOrder();
+        makeProgramFieldsInvisible();
+        makeProgramFieldsVisible(0);*/
     }
 
     // XXX: V2
@@ -299,8 +303,9 @@ public class GameController {
             {
 
                repository.postGameInstanceActivationPhase(board);
-
-                waitForAction();
+                if (board.getPhase() != Phase.PROGRAMMING) {
+                    waitForAction();
+                }
 
             }
 
@@ -308,10 +313,7 @@ public class GameController {
 
 
     }
-    public static void executeInNewThread(Runnable method) {
-        Thread thread = new Thread(method);
-        thread.start();
-    }
+
     // XXX: V2
     public void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {

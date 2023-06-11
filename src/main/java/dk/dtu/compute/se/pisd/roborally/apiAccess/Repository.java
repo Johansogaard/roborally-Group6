@@ -47,7 +47,7 @@ public class Repository implements IRepository {
     @Override
     public void postGameInstanceActivationPhase(Board board) {
         String jsonData = client.getGameInstanceAsString(board);
-        client.postGameInstanceActivationPhase(id, jsonData);
+        client.postGameInstanceActivationPhase(id, playerNumb,jsonData);
         try {
             TimeUnit.SECONDS.sleep(3);
         } catch (InterruptedException e) {
@@ -117,7 +117,7 @@ public class Repository implements IRepository {
 
         for (int f=0;f<newBoard.getPlayers().size();f++)
         {
-            newBoard.getPlayers().get(f).setObservers(newBoard.getPlayers().get(f).getObservers());
+            newBoard.getPlayers().get(f).setObservers(oldBoard.getPlayers().get(f).getObservers());
             for(int i =0;i<newBoard.getPlayers().get(f).getCards().length;i++)
             {
                 newBoard.getPlayers().get(f).getCards()[i].setObservers(oldBoard.getPlayers().get(f).getCards()[i].getObservers());

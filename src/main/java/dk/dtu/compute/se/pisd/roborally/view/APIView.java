@@ -5,6 +5,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.APIObserver;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import org.jetbrains.annotations.NotNull;
 
 public class APIView  implements  ViewObserver{
@@ -20,6 +21,8 @@ public class APIView  implements  ViewObserver{
         gameController.repository.waitForPlayersAct();
         gameController.board = gameController.repository.getGameInstance(gameController.board);
         gameController.board.notifyBoardChange();
-        gameController.waitForAction();
+        if (gameController.board.getPhase() != Phase.PROGRAMMING) {
+            gameController.waitForAction();
+        }
     }
 }
