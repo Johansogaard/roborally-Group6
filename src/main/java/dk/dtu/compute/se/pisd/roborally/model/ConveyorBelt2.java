@@ -27,7 +27,7 @@ public class ConveyorBelt2 implements FieldAction {
         currentPlayer.setHeading(this.heading);
         Space secondNeighbourSpace = space.board.getNeighbour(neighbourSpace, heading);
 
-        if (neighbourSpace.getPlayer() != null || secondNeighbourSpace.getPlayer() != null) {
+        if (neighbourSpace.getPlayer() != null || secondNeighbourSpace.getPlayer() != null && currentPlayer.getSpace().getWalls().contains(heading)) {
             return false;
         } else {
 
@@ -43,7 +43,9 @@ public class ConveyorBelt2 implements FieldAction {
 
                         if(action2 instanceof ConveyorBelt2 || action2 instanceof ConveyorBelt3 && ((ConveyorBelt3) action2).getHeading() != this.heading.opposite()){
 
-                            currentPlayer.setSpace(secondNeighbourSpace);
+                            //currentPlayer.setSpace(secondNeighbourSpace);
+                            currentPlayer.pushPlayer(this.heading);
+                            currentPlayer.pushPlayer(this.heading);
                         }
                         else{
                             break;
@@ -58,16 +60,19 @@ public class ConveyorBelt2 implements FieldAction {
                     if (secondNeighbourSpace.getPlayer() != null) {
                         return false; // Player cannot move forward
                     }
-                    currentPlayer.setSpace(neighbourSpace1);
+                    //currentPlayer.setSpace(neighbourSpace1);
+                    currentPlayer.pushPlayer(this.heading);
                 }
 
             }
             //if there is 1 or no adjecent conveyorbelts in the players heading
             if(!hasMovedOffConveyoerBelt){
-                currentPlayer.setSpace(neighbourSpace);
+                //currentPlayer.setSpace(neighbourSpace);
+                currentPlayer.pushPlayer(this.heading);
             }
             else{
-                currentPlayer.setSpace(secondNeighbourSpace);
+                //currentPlayer.setSpace(secondNeighbourSpace);
+                currentPlayer.pushPlayer(this.heading);
             }
 
             return true;
