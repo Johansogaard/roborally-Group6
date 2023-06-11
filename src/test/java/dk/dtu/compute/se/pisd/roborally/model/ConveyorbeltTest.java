@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.WEST;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ConveyorbeltTest {
@@ -25,7 +26,7 @@ class ConveyorbeltTest {
         }
 
     @Test
-    void conveyerbeltmove1() {
+    void conveyerBeltmove1() {
         Belt conveyorBelt = new Belt();
         conveyorBelt.setHeading(SOUTH);
         board.getSpace(4,4).addAction(conveyorBelt);
@@ -35,7 +36,7 @@ class ConveyorbeltTest {
         assertEquals(board.getSpace(4,5), player.getSpace());
     }
     @Test
-   void conveyerbeltTroughWall(){
+   void conveyerBeltTroughWall(){
         Belt conveyorBelt = new Belt();
         conveyorBelt.setHeading(SOUTH);
         board.getSpace(4,4).addWall(SOUTH);
@@ -44,6 +45,32 @@ class ConveyorbeltTest {
         conveyorBelt.doAction(controller, board.getSpace(4,4));
 
         assertEquals(board.getSpace(4,4), player.getSpace());
+    }
+
+    @Test
+    void conveyerBeltKeepOrientation() {
+        Belt conveyorBelt = new Belt();
+        conveyorBelt.setHeading(SOUTH);
+
+        board.getSpace(4,4).addAction(conveyorBelt);
+        board.getSpace(4,5).addAction(conveyorBelt);
+        player.setHeading(WEST);
+        conveyorBelt.doAction(controller, board.getSpace(4,4));
+        assertEquals(player.getHeading(),WEST);
+
+    }
+
+    @Test
+    void DoubleBeltKeepOrientation() {
+            BeltDouble conveyorBelt = new BeltDouble();
+        conveyorBelt.setHeading(SOUTH);
+
+        board.getSpace(4,4).addAction(conveyorBelt);
+        board.getSpace(4,5).addAction(conveyorBelt);
+        player.setHeading(WEST);
+        conveyorBelt.doAction(controller, board.getSpace(4,4));
+        assertEquals(player.getHeading(),WEST);
+
     }
 
     /*@Test
