@@ -44,7 +44,7 @@ public class InteractionCardTest {
 
 
     @BeforeEach
-    public void setUpAgain() throws NoSuchMethodException {
+    public void setUp() throws NoSuchMethodException {
         board = new Board(10, 10, "testboard");
         player = new Player(board, "Blue", "John");
         controller = new GameController(board);

@@ -257,7 +257,7 @@ public class Player extends Subject {
             preboot();
             return false;
         }
-        if (target.getWalls().contains(heading.opposite())){return true;}
+        if (target.getWalls().contains(heading.opposite())|| target==board.getSpace(board.getAntenna().x,board.getAntenna().y)){return true;}
         // Check if there's a wall or a player in front of the next space
         if (target.getPlayer()!=null) {
             isWall = target.getPlayer().pushPlayer(heading);

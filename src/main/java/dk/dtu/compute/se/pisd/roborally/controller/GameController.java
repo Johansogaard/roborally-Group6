@@ -380,9 +380,13 @@ public class GameController {
 
 
        public void initiateWin(Player player) {
+        try{
         Alert winMsg = new Alert(Alert.AlertType.INFORMATION, "Spiller \"" + player.getName() + "\" har vundet spillet.");
-        this.won = true;
-        winMsg.showAndWait();
+            this.won = true;
+            winMsg.showAndWait();}
+        catch(ExceptionInInitializerError e){
+        this.won = true;}
+
     }
 
 }
