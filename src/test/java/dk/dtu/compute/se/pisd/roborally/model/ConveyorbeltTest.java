@@ -4,8 +4,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
-import static dk.dtu.compute.se.pisd.roborally.model.Heading.WEST;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ConveyorbeltTest {
@@ -41,7 +40,19 @@ class ConveyorbeltTest {
         conveyorBelt.setHeading(SOUTH);
         board.getSpace(4,4).addWall(SOUTH);
         board.getSpace(4,4).addAction(conveyorBelt);
-        board.getSpace(4,5).addAction(conveyorBelt);
+        board.getSpace(5,4).addAction(conveyorBelt);
+        conveyorBelt.doAction(controller, board.getSpace(4,4));
+
+        assertEquals(board.getSpace(4,4), player.getSpace());
+    }
+
+    @Test
+    void doubleConveyerBeltTroughWall(){
+        BeltDouble conveyorBelt = new BeltDouble();
+        conveyorBelt.setHeading(EAST);
+        board.getSpace(4,4).addWall(EAST);
+        board.getSpace(4,4).addAction(conveyorBelt);
+        board.getSpace(5,4).addAction(conveyorBelt);
         conveyorBelt.doAction(controller, board.getSpace(4,4));
 
         assertEquals(board.getSpace(4,4), player.getSpace());
