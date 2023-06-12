@@ -64,12 +64,13 @@ public class BeltDouble implements ConveyorBelt {
 
                 }
                 else if (action instanceof BeltDoubleRotating && ((BeltDoubleRotating) action).getHeading() != this.heading.opposite()) {
-                    if(neighbourSpace.getWalls().contains(this.heading) && neighbourSpace.getWalls().contains(this.heading.opposite())){
+                    BeltDoubleRotating conveyorBelt = (BeltDoubleRotating) action;
+                    currentPlayer.setHeading(conveyorBelt.getHeading());
+                    if(neighbourSpace.getWalls().contains(conveyorBelt.getHeading()) || secondNeighbourSpace.getWalls().contains(conveyorBelt.getHeading().opposite())){
+                        currentPlayer.setSpace(neighbourSpace);
                         return false;
                     }
                     else{
-                        BeltDoubleRotating conveyorBelt = (BeltDoubleRotating) action;
-                        currentPlayer.setHeading(conveyorBelt.getHeading());
                         Space neighbourSpace1 = neighbourSpace.board.getNeighbour(neighbourSpace, conveyorBelt.getHeading());
                         if (secondNeighbourSpace.getPlayer() != null) {
                             return false; // Player cannot move forward

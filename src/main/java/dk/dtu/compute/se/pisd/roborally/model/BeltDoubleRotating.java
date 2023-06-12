@@ -44,8 +44,7 @@ public class BeltDoubleRotating implements ConveyorBelt {
                     currentPlayer.setHeading(((BeltDoubleRotating) action).getHeading());
 
                     for(FieldAction action2 : secondNeighbourSpace.getActions()){
-                        if(secondNeighbourSpace.getWalls().contains(this.heading.opposite())){
-                            currentPlayer.setSpace(neighbourSpace);
+                        if(currentPlayer.getSpace().getWalls().contains(this.heading) || secondNeighbourSpace.getWalls().contains(this.heading.opposite())){
                             return true;
                         }
 
