@@ -28,17 +28,26 @@ public class ConveyorBelt3 implements FieldAction {
         Space neighbourSpace = space.board.getNeighbour(space, heading);
         Space secondNeighbourSpace = space.board.getNeighbour(neighbourSpace, heading);
 
-        if (neighbourSpace.getPlayer() != null || secondNeighbourSpace.getPlayer() != null) {
+        if (neighbourSpace.getPlayer() != null || secondNeighbourSpace.getPlayer() != null
+                || neighbourSpace.getWalls().contains(this.heading.opposite())) {
             return false; // Player cannot move forward
         }
 
         // Move the player further if there are more directional conveyor belts
         for (FieldAction action : neighbourSpace.getActions()) {
-            if(action instanceof ConveyorBelt3){
+            if(neighbourSpace.getWalls().contains(this.heading) || secondNeighbourSpace.getWalls().contains(this.heading.opposite())){
+                currentPlayer.setSpace(neighbourSpace);
+                return true;
+            }
+            else if(action instanceof ConveyorBelt3){
                 currentPlayer.setSpace(neighbourSpace);
                 currentPlayer.setHeading(((ConveyorBelt3) action).getHeading());
 
                 for(FieldAction action2 : secondNeighbourSpace.getActions()){
+                    if(secondNeighbourSpace.getWalls().contains(this.heading.opposite())){
+                        currentPlayer.setSpace(neighbourSpace);
+                        return true;
+                    }
 
                     if(action2 instanceof ConveyorBelt3){
                         currentPlayer.setSpace(neighbourSpace);
@@ -48,7 +57,7 @@ public class ConveyorBelt3 implements FieldAction {
                 }
             }
 
-            if (action instanceof ConveyorBelt2) {
+            else if (action instanceof ConveyorBelt2) {
                 ConveyorBelt2 conveyorBelt = (ConveyorBelt2) action;
                 currentPlayer.setHeading(conveyorBelt.getHeading());
                 if (secondNeighbourSpace.getPlayer() != null) {
