@@ -35,6 +35,18 @@ class ConveyorbeltTest {
 
         assertEquals(board.getSpace(4,5), player.getSpace());
     }
+
+    @Test
+    void DoubleBeltMoveTwoSpaces() {
+        BeltDouble conveyorBelt = new BeltDouble();
+        conveyorBelt.setHeading(SOUTH);
+
+        board.getSpace(4,4).addAction(conveyorBelt);
+        board.getSpace(4,5).addAction(conveyorBelt);
+        board.getSpace(4,6).addAction(conveyorBelt);
+        conveyorBelt.doAction(controller, board.getSpace(4,4));
+        assertEquals(board.getSpace(4,6), player.getSpace());
+    }
     @Test
    void conveyerBeltTroughWall(){
         Belt conveyorBelt = new Belt();
@@ -73,16 +85,75 @@ class ConveyorbeltTest {
 
     }
 
-    /*@Test
-    void conveyerbeltIntersect(){
-        ConveyorBelt conveyorBelt = new ConveyorBelt();
+    @Test
+    void BeltRotatingChangeOrientation() {
+        BeltRotating conveyorBelt = new BeltRotating();
+        conveyorBelt.setHeading(SOUTH);
+
         board.getSpace(4,4).addAction(conveyorBelt);
-        board.getSpace(3,4).addAction(conveyorBelt);
+        board.getSpace(4,5).addAction(conveyorBelt);
+        player.setHeading(WEST);
+        conveyorBelt.doAction(controller, board.getSpace(4,4));
+        assertEquals(player.getHeading(),SOUTH);
+
+    }
+
+    @Test
+    void BeltDoubleRotatingChangeOrientation() {
+        BeltDoubleRotating conveyorBelt = new BeltDoubleRotating();
+        conveyorBelt.setHeading(SOUTH);
+
+        board.getSpace(4,4).addAction(conveyorBelt);
+        board.getSpace(4,5).addAction(conveyorBelt);
+        player.setHeading(WEST);
+        conveyorBelt.doAction(controller, board.getSpace(4,4));
+        assertEquals(player.getHeading(),SOUTH);
+    }
+
+    @Test
+    void conveyerbeltIntersect(){
+            player2.setSpace(board.getSpace(3,3));
+        Belt conveyorBelt = new Belt();
+        conveyorBelt.setHeading(SOUTH);
+        Belt conveyorBelt2 = new Belt();
+        conveyorBelt.setHeading(WEST);
+        board.getSpace(4,4).addAction(conveyorBelt);
+        board.getSpace(3,3).addAction(conveyorBelt2);
         board.getSpace(4,5).addAction(conveyorBelt);
         conveyorBelt.doAction(controller, board.getSpace(4,4));
 
         assertEquals(board.getSpace(4,4), player.getSpace());
-    }*/
+        assertEquals(board.getSpace(3,3), player2.getSpace());
+    }
+
+
+
+
+    @Test
+    void PlayerPushedOffConveyerBelt() {
+
+        Belt conveyorBelt = new Belt();
+        conveyorBelt.setHeading(SOUTH);
+        board.getSpace(4,4).addAction(conveyorBelt);
+        board.getSpace(4,5).addAction(conveyorBelt);
+        conveyorBelt.doAction(controller, board.getSpace(4,4));
+
+        assertEquals(board.getSpace(4,5), player.getSpace());
+
+    }
+    @Test
+    void PlayerNotPushedOffConveyerBelt() {
+        player2.setSpace(board.getSpace(4,5));
+        Belt conveyorBelt = new Belt();
+        conveyorBelt.setHeading(SOUTH);
+        board.getSpace(4,4).addAction(conveyorBelt);
+        board.getSpace(4,5).addAction(conveyorBelt);
+        conveyorBelt.doAction(controller, board.getSpace(4,4));
+
+        assertEquals(board.getSpace(4,4), player.getSpace());
+        assertEquals(board.getSpace(4,5), player2.getSpace());
+    }
+
 
 
 
