@@ -58,36 +58,36 @@ public class RoboRallyMenuBar extends MenuBar {
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;
 
-        controlMenu = new Menu("File");
+        controlMenu = new Menu("Menu");
         this.getMenus().add(controlMenu);
 
-        newGame = new MenuItem("New Game");
+        newGame = new MenuItem("New game");
         newGame.setOnAction( e -> this.appController.newGame());
         controlMenu.getItems().add(newGame);
 
-        stopGame = new MenuItem("Stop Game");
+        stopGame = new MenuItem("Stop game");
         stopGame.setOnAction( e -> this.appController.stopGame());
         controlMenu.getItems().add(stopGame);
 
-        saveGame = new MenuItem("Save Game");
+        saveGame = new MenuItem("Save game");
         saveGame.setOnAction( e -> this.appController.saveGame());
         controlMenu.getItems().add(saveGame);
 
-        saveGameToServer = new MenuItem("Save Game to Server");
+        saveGameToServer = new MenuItem("Save game to server");
         saveGameToServer.setOnAction(e -> this.appController.saveGameToServer());
         controlMenu.getItems().add(saveGameToServer);
 
-        loadGameFromServer=new MenuItem("Load Game from Server");
+        loadGameFromServer=new MenuItem("Load game from server");
         loadGameFromServer.setOnAction(e -> this.appController.loadGameFromServer());
         controlMenu.getItems().add(loadGameFromServer);
 
 
 
-        loadGame = new MenuItem("Load Game");
+        loadGame = new MenuItem("Load game");
         loadGame.setOnAction( e -> this.appController.loadGame());
         controlMenu.getItems().add(loadGame);
 
-        createABoard = new MenuItem("Create New Board");
+        createABoard = new MenuItem("Create board");
         createABoard.setOnAction(event -> this.appController.designBoard());
         controlMenu.getItems().add(createABoard);
 
