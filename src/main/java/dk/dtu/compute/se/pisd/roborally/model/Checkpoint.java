@@ -2,6 +2,9 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
+import dk.dtu.compute.se.pisd.roborally.model.Space;
 
 /**
  * This class is used to hold information about the Checkpoints

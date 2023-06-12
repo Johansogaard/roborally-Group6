@@ -7,23 +7,9 @@ import org.junit.jupiter.api.Test;
 import static com.sun.javafx.scene.traversal.Direction.LEFT;
 import static com.sun.javafx.scene.traversal.Direction.RIGHT;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
-import static dk.dtu.compute.se.pisd.roborally.model.Heading.WEST;
 import static org.junit.jupiter.api.Assertions.*;
 
-
-
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-
-import dk.dtu.compute.se.pisd.roborally.model.Gear;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-    public class GearTest {
+public class GearTest {
         private GameController controller;
         private Board board;
         private Player player;

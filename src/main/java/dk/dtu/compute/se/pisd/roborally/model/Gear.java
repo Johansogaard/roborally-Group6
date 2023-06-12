@@ -3,6 +3,9 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import com.sun.javafx.scene.traversal.Direction;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
+import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.scene.control.skin.TextInputControlSkin;
 
 

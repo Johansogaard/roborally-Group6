@@ -164,19 +164,17 @@ public class Space extends Subject {
         if(behindBelt!=null){behindBeltTrue = behindBelt.getHeading()==belt.getHeading();}
 
         if (leftBeltTrue && rightBeltTrue && behindBeltTrue) {
-            return 7; // All neighbors have conveyor belts
+            return 6; // All neighbors have conveyor belts
         } else if (leftBeltTrue && rightBeltTrue) {
-            return 6; // Both left and right neighbors have conveyor belts
+            return 5; // Both left and right neighbors have conveyor belts
         } else if (leftBeltTrue && behindBeltTrue) {
-            return 5; // Both left and behind neighbors have conveyor belts
+            return 4; // Both left and behind neighbors have conveyor belts
         } else if (rightBeltTrue && behindBeltTrue) {
-            return 4; // Both right and behind neighbors have conveyor belts
+            return 3; // Both right and behind neighbors have conveyor belts
         } else if (leftBeltTrue) {
-            return 3; // Only the left neighbor has a conveyor belt
+            return 2; // Only the left neighbor has a conveyor belt
         } else if (rightBeltTrue) {
-            return 2; // Only the right neighbor has a conveyor belt
-        } else if (behindBeltTrue) {
-            return 1; // Only the behind neighbor has a conveyor belt
+            return 1; // Only the right neighbor has a conveyor belt
         } else {
             return 0; // No neighbors have conveyor belts
         }
@@ -231,5 +229,6 @@ public class Space extends Subject {
         // notify the space of these changes by calling this method.
         notifyChange();
     }
+
 
 }

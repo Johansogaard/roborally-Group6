@@ -21,6 +21,8 @@
  */
 package dk.dtu.compute.se.pisd.designpatterns.observer;
 
+import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
+
 import java.util.Collections;
 import java.util.Set;
 import java.util.WeakHashMap;

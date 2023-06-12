@@ -23,7 +23,6 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.*;
-import javafx.beans.binding.DoubleExpression;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -120,12 +119,12 @@ public class SpaceView extends StackPane implements ViewObserver {
         BeltDoubleRotating beltDoubleRotating = space.getAction(BeltDoubleRotating.class);
 
         if (beltRotating != null) {
-            String imagePath = "images/SDCB" + space.checkNeighborBelt(beltRotating) + ".png";
+            String imagePath = "images/RotatingConeyirBelt/S" + space.checkNeighborBelt(beltRotating) + ".png";
             updateBeltImage(beltRotating, imagePath);
         }
 
         if (beltDoubleRotating != null) {
-            String imagePath = "images/DDCB" + space.checkNeighborBelt(beltDoubleRotating) + ".png";
+            String imagePath = "images/RotatingConeyirBelt/D" + space.checkNeighborBelt(beltDoubleRotating) + ".png";
             updateBeltImage(beltDoubleRotating, imagePath);
         }
     }

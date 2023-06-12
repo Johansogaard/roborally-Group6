@@ -1,4 +1,5 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
+import dk.dtu.compute.se.pisd.roborally.model.Antenna;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

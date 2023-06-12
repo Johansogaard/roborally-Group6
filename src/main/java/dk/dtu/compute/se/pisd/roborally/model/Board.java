@@ -21,10 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.model;
 
-import com.sun.javafx.scene.traversal.Direction;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import javafx.scene.control.skin.TextInputControlSkin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
