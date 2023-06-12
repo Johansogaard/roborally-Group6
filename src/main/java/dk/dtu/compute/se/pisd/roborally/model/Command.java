@@ -45,7 +45,8 @@ public enum Command {
     BACK("Move back"),
 
     AGAIN("Again"),
-    uTurn("U-turn");
+    uTurn("U-turn"),
+    SPAM("Spam");
 
 
 

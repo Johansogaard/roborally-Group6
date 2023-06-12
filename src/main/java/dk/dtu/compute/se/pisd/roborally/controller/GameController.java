@@ -94,22 +94,27 @@ public class GameController {
 
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
+
             if (player != null) {
+                player.reboot=false;
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
                     CommandCardField field = player.getProgramField(j);
                     field.setCard(null);
                     field.setVisible(true);
+
                 }
                 for (int j = 0; j < Player.NO_CARDS; j++) {
                     CommandCardField field = player.getCardField(j);
-                    field.setCard(generateRandomCommandCard());
+                    field.setCard(player.deck.drawCard());
+
                     field.setVisible(true);
                 }
             }
         }
     }
     public void fillEmptyRegister() {
-        for (int i = 0; i < board.getPlayers().size(); i++) {
+        List<Player> players=board.getPlayers();
+        for (int i = 0; i < players.size(); i++) {
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
                     if (board.getPlayers().get(i).getProgramField(j).getCard() == null) {
                         board.getPlayers().get(i).getProgramField(j).setCard(generateRandomCommandCard());
@@ -125,8 +130,7 @@ public class GameController {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
-    }
-
+    }*/
     // XXX: V2
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
@@ -189,6 +193,16 @@ public class GameController {
 
     // XXX: V2
     private void makeProgramFieldsVisible(int register) {
+        if (register >= 0 && register < Player.NO_REGISTERS) {
+            for (int i = 0; i < board.getPlayersNumber(); i++) {
+                Player player = board.getPlayer(i);
+                CommandCardField field = player.getProgramField(register);
+                field.setVisible(true);if(player.getProgramField(register).getCard()==null){
+                    player.getProgramField(register).setCard(player.deck.drawCard());;
+                }
+            }
+        }
+    }
 
             if (register >= 0 && register < Player.NO_REGISTERS) {
                 for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -245,10 +259,23 @@ public class GameController {
                     //gets the curr card
                     CommandCard card = currentPlayer.getProgramField(step).getCard();
 
+        //cheks if the phase is activation and the curr player is not null
+        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
+            //the curr register
+            int step = board.getStep();
+            //checks if the step in correct and not a unusable value
+            if (step >= 0 && step < Player.NO_REGISTERS) {
+
+                CommandCard card = currentPlayer.getProgramField(step).getCard();
+
                     //checks if card is something
                     if (card != null) {
                         //gets the command
                         Command command = card.command;
+                //checks if card is something
+                if (!currentPlayer.reboot) {
+                    //gets the command
+                    Command command = card.command;
 
                         //if the command is Interactive then the phase must be changed
                         if (card.command.isInteractive()) {
@@ -265,6 +292,13 @@ public class GameController {
                             } else {
                                 //adds a step because we now have been through all the players
                                 step++;
+                        //setting the next player;
+                    }}
+                        if (board.getOrderNumber(currentPlayer)+1 < board.getPlayersNumber()) {
+                            board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
+                        } else {
+                            //adds a step because we now have been through all the players
+                            step++;
 
                                 //we run doaction on all fields because now all players have done the current register
                                 for (Player player : this.board.getPlayers()) {
@@ -275,6 +309,23 @@ public class GameController {
                                         action.doAction(this, player.getSpace());
                                     }
                                 }
+
+                            //checks if we have more steps than registers if thats the case we will start the programming phase
+                            if (step < Player.NO_REGISTERS) {
+                                makeProgramFieldsVisible(step);
+                                board.setStep(step);
+                                board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
+                            } else {
+
+                                startProgrammingPhase();
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
 
                                 //checks if we have more steps than registers if thats the case we will start the programming phase
                                 if (step < Player.NO_REGISTERS) {
@@ -343,10 +394,18 @@ public class GameController {
                 case AGAIN:
                     this.again(player, board.getStep());
                     break;
+                case SPAM:
+                    this.spam(player);
+                    break;
                 default:
                     // DO NOTHING (for now)
             }
         }
+    }
+
+    private void spam(Player player) {
+        player.getProgramField(board.getStep()).setCard(player.deck.drawCard());
+        executeCommand(player, player.getProgramField(board.getStep()).getCard().command);
     }
 
     private void again(Player player, int currentStep) {
@@ -365,7 +424,7 @@ public class GameController {
 
     private void Back(Player player) {
         uTurn(player);
-        moveForward(player);
+        player.moveForward();
         uTurn(player);
     }
 
@@ -376,88 +435,20 @@ public class GameController {
 
     private void Move3(Player player) {
         for (int i = 0 ; i<3;i++) {
-            moveForward(player);
+            if(player.reboot==false){
+                player.moveForward();}}}
+    private void Move2(Player player) {
+        for (int i = 0 ; i<2;i++) {
+            player.moveForward();
         }
-    }
-
-    /**
-     * @author Johan Søgaard Jørgensen(JJ)
-     * This is a method to move the player Forward
-     * It cheks if there is a wall in the heading direction
-     * It cheks if there is a person infront and calls the move pushPlayer to push the player infront
-     * It wait to move until the pushplayer method has returned if there is a wall infront of the players that the robot is going to push
-     * @param player is the current player that is going to move foward
-     */
-    // TODO: V2
-    public void moveForward(@NotNull Player player) {
-        Space space = player.getSpace();
-        if (player != null && player.board == board && space != null) {
-            Heading heading = player.getHeading();
-            Space target = board.getNeighbour(space, heading);
-            if (target != null ) {
-                boolean isWall =false;
-
-                // XXX note that this removes an other player from the space, when there
-                //     is another player on the target. Eventually, this needs to be
-                //     implemented in a way so that other players are pushed away!
-
-                //JJ added a loop that cheks if there is a wall infront of the robot in the traveling direction
-                if (space.getWalls().contains(heading))
-                {
-                    isWall=true;
-                }
-                if (target.getPlayer()!=null&& isWall!=true)
-                {
-                   isWall = pushPlayer(player,heading);
-                }
-                if (isWall!=true) {
-                    target.setPlayer(player);
-                }
-
-            }
-
-        }
-    }
-
-    /**
-     * pushPlayer pushes the player infront and pushes x numbers of player who is infront of him
-     * but always waits to see if the player infront has a wall that way we dont push and stand still if there is a wall infront of x robot
-     *
-     * @param player this is the player that is pushing
-     * @param heading this is the direction of the push
-     */
-    public boolean pushPlayer(@NotNull Player player,Heading heading)
-    {
-        Space space = player.getSpace();
-        Space target = board.getNeighbour(space, heading);
-        Player playerToPush = target.getPlayer();
-        Space nextTarget = board.getNeighbour(target,heading);
-        boolean isWall =false;
-
-        // XXX note that this removes an other player from the space, when there
-        //     is another player on the target. Eventually, this needs to be
-        //     implemented in a way so that other players are pushed away!
-
-        //added a rekursive loop that will always check the player infront before pushing
-        if (target.getWalls().contains(heading))
-        {
-            isWall=true;
-        }
-        if(nextTarget.getPlayer()!=null&&isWall !=true)
-        {
-           isWall= pushPlayer(playerToPush,heading);
-        }
-        if (isWall!=true) {
-            nextTarget.setPlayer(playerToPush);
-        }
-        return isWall;
     }
 
     // TODO: V2
     public void fastForward(@NotNull Player player) {
-        moveForward(player);
-        moveForward(player);
-    }
+        for (int i = 0 ; i<2;i++) {
+            if(player.reboot==false){
+                player.moveForward();}}}
+
 
     // TODO: V2
     public void turnRight(@NotNull Player player) {
@@ -514,12 +505,19 @@ public class GameController {
                     startProgrammingPhase();
                 }
 
-        }
-    }    public void initiateWin(Player player) {
-        Alert winMsg = new Alert(Alert.AlertType.INFORMATION, "Spiller \"" + player.getName() + "\" har vundet spillet.");
-        this.won = true;
-        winMsg.showAndWait();
-    }
+        }}
 
+
+
+
+       public void initiateWin(Player player) {
+        try{
+        Alert winMsg = new Alert(Alert.AlertType.INFORMATION, "Spiller \"" + player.getName() + "\" har vundet spillet.");
+            this.won = true;
+            winMsg.showAndWait();}
+        catch(ExceptionInInitializerError e){
+        this.won = true;}
+
+    }
 
 }

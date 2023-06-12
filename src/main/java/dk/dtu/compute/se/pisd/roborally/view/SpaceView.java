@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.beans.binding.DoubleExpression;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -30,7 +31,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
 
-import java.net.URISyntaxException;
+import java.io.File;
 
 /**
  * ...
@@ -83,83 +84,112 @@ public class SpaceView extends StackPane implements ViewObserver {
         if (player != null) {
             Polygon arrow = new Polygon(0.0, 0.0,
                     10.0, 20.0,
-                    20.0, 0.0 );
+                    20.0, 0.0);
             try {
                 arrow.setFill(Color.valueOf(player.getColor()));
             } catch (Exception e) {
                 arrow.setFill(Color.MEDIUMPURPLE);
             }
 
-            arrow.setRotate((90*player.getHeading().ordinal())%360);
+            arrow.setRotate((90 * player.getHeading().ordinal()) % 360);
             this.getChildren().add(arrow);
         }
 
 
-
     }
-    private void updateBelt(){
-        ConveyorBelt belt = space.getConveyorBelt();
+
+    private void updateBeltImage(ConveyorBelt belt, String imagePath) {
         if (belt != null) {
             switch (belt.getHeading()) {
                 case EAST:
-                    addImage("images/greencon.png").setRotate(90);
-
+                    addImage(imagePath).setRotate(90);
                     break;
-
                 case SOUTH:
-                    addImage("images/greencon.png").setRotate(180);
+                    addImage(imagePath).setRotate(180);
                     break;
+                case WEST:
+                    addImage(imagePath).setRotate(-90);
+                    break;
+                case NORTH:
+                    addImage(imagePath);
+            }
+        }
+    }
+
+    void updateBelt(Space space) {
+        updateBeltImage(space.getAction(Belt.class), "images/greencon.png");
+        updateBeltImage(space.getAction(BeltDouble.class), "images/bluecon.png");
+
+        BeltRotating beltRotating = space.getAction(BeltRotating.class);
+        BeltDoubleRotating beltDoubleRotating = space.getAction(BeltDoubleRotating.class);
+
+        if (beltRotating != null) {
+            String imagePath = "images/SDCB" + space.checkNeighborBelt(beltRotating) + ".png";
+            updateBeltImage(beltRotating, imagePath);
+        }
+
+        if (beltDoubleRotating != null) {
+            String imagePath = "images/DDCB" + space.checkNeighborBelt(beltDoubleRotating) + ".png";
+            updateBeltImage(beltDoubleRotating, imagePath);
+        }
+    }
+
+
+
+    private void updatePushPanel() {
+        PushPanel pushpanel = space.getAction(PushPanel.class);
+
+        if (pushpanel != null) {
+            switch (pushpanel.getHeading()) {
 
                 case WEST:
-                    addImage("images/greencon.png").setRotate(-90);
+                    addImage("images/pushpanel.png").setRotate(90);
                     break;
 
                 case NORTH:
-                    addImage("images/greencon.png");
+                    addImage("images/pushpanel.png").setRotate(180);
+                    break;
+
+                case EAST:
+                    addImage("images/pushpanel.png").setRotate(-90);
+                    break;
+
+                case SOUTH:
+                    addImage("images/pushpanel.png");
+
             }
-            /*
-            Polygon fig = new Polygon(0.0, 0.0,
-                    60.0, 0.0,
-                    30.0, 60.0);
-
-            fig.setFill(Color.LIGHTGRAY);
-
-            fig.setRotate((90*belt.getHeading().ordinal())%360);
-            this.getChildren().add(fig);
-
-             */
         }
-
     }
-    private void updateWalls(){
+
+    private void updateWalls() {
 
 
         Space space = this.space;
         if (space != null && !space.getWalls().isEmpty()) {
             for (Heading wall : space.getWalls()) {
 
-                Polygon fig = new Polygon(0.0,0.0,
-                        60.0,0.0,
-                        60.0,10.0,
-                        0.0,10.0);
+                Polygon fig = new Polygon(0.0, 0.0,
+                        60.0, 0.0,
+                        60.0, 10.0,
+                        0.0, 10.0);
 
                 switch (wall) {
                     case EAST:
-                        fig.setTranslateX((this.SPACE_HEIGHT/2)-1);
-                        fig.setRotate((90*wall.ordinal()) % 360);
+                        fig.setTranslateX((this.SPACE_HEIGHT / 2) - 1);
+                        fig.setRotate((90 * wall.ordinal()) % 360);
                         break;
 
                     case SOUTH:
-                        fig.setTranslateY((this.SPACE_HEIGHT/2)-1);
+                        fig.setTranslateY((this.SPACE_HEIGHT / 2) - 1);
                         break;
 
                     case WEST:
-                        fig.setTranslateX(-(this.SPACE_HEIGHT/2)+1);
-                        fig.setRotate((90*wall.ordinal()) % 360);
+                        fig.setTranslateX(-(this.SPACE_HEIGHT / 2) + 1);
+                        fig.setRotate((90 * wall.ordinal()) % 360);
                         break;
 
                     case NORTH:
-                        fig.setTranslateY(-(this.SPACE_HEIGHT/2)-1);
+                        fig.setTranslateY(-(this.SPACE_HEIGHT / 2) - 1);
                         break;
                 }
 
@@ -171,30 +201,91 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         }
     }
-    private void updateActions()
-    {
+
+    private void updateActions() {
         for (FieldAction action : space.actions) {
             if (action instanceof Checkpoint) {
                 addImage("images/checkpoint" + ((Checkpoint) action).no + ".png", -90);
             }
 
             if (action instanceof Pit) {
-                addImage("images/pit.png");
+                if(Pit.Void){
+                    addImage("images/void.png");}
+
+                else{
+                addImage("images/pit.png");}
             }
 
             if (action instanceof Gear) {
                 addImage("images/gear" + (((Gear) action).direction) + ".png");
             }
+            ImageView laserImageView = null;
+            if (action instanceof Laser) {
+                Laser laser = (Laser) action;
+                switch (laser.power) {
+                    case 1:
+                        laserImageView = addImage("images/SingleLasersON.png");
+                        break;
 
+                    case 2:
+                        laserImageView = addImage("images/DoubleLasersON.png");
+                        break;
+
+                    case 3:
+                        laserImageView = addImage("images/TripleLasersON.png");
+                        break;
+                }
+                rotateImage(laserImageView, laser.getHeading());
+            }
+            if (action instanceof LaserBeam) {
+                LaserBeam laserbeam= (LaserBeam) action;
+                switch (laserbeam.power) {
+                    case 1:
+                        laserImageView = addImage("images/Laserbeam1.png");
+                        break;
+
+                    case 2:
+                        laserImageView = addImage("images/Laserbeam2.png");
+                        break;
+
+                    case 3:
+                        laserImageView = addImage("images/Laserbeam3.png");
+                        break;
+                }
+                rotateImage(laserImageView, laserbeam.getHeading());
+            }
         }
     }
+
+
+
+    private void rotateImage(ImageView imageView, Heading heading) {
+        double rotationAngle = 0;
+        switch (heading) {
+            case NORTH:
+                rotationAngle = 0;
+                break;
+            case EAST:
+                rotationAngle = 90;
+                break;
+            case SOUTH:
+                rotationAngle = 180;
+                break;
+            case WEST:
+                rotationAngle = 270;
+                break;
+        }
+        imageView.setRotate(rotationAngle);
+    }
+
+
     private ImageView addImage(String name) {
         Image img = null;
         try {
-            img = new Image(SpaceView.class.getClassLoader().getResource(name).toURI().toString());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+            File file = new File("./src/main/resources/" + name);
+            img = new Image(file.toURI().toString());
+        } catch (Exception e) {
+            e.printStackTrace();}
         ImageView imgView = new ImageView(img);
         imgView.setImage(img);
         imgView.setFitHeight(SPACE_HEIGHT);
@@ -225,11 +316,26 @@ public class SpaceView extends StackPane implements ViewObserver {
         {
            addImage("images/antenna.png");
         }
+            if (space.board.getRebootToken() !=null && (space.board.getRebootToken().x == space.x&&space.board.getRebootToken().y == space.y))
+            {
+                addImage("images/RebootToken.png");
+            }
         if(space.getStartPlayerNo() !=0)
         {
             addImage("images/startpoint.png");
         }
-            updateBelt();
+            if (space.getAction(ConveyorBelt.class) != null) {
+                updateBelt(space);
+
+                    Space neighbor = space.board.getNeighbour(space, space.getAction(ConveyorBelt.class).getHeading());
+                    // If the neighbor exists and has a ConveyorBelt, update it.
+                    if (neighbor != null && neighbor.getAction(ConveyorBelt.class) != null) {
+                        updateBelt(neighbor);
+                    }
+
+            }
+
+            updatePushPanel();
             updateActions();
             updatePlayer();
             updateWalls();

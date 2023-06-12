@@ -23,10 +23,9 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.BoardDesignController;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-
+import javafx.scene.control.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * ...
  *
@@ -34,6 +33,10 @@ import javafx.scene.control.MenuItem;
  *
  */
 public class RoboRallyMenuBar extends MenuBar {
+    private static final Logger logger = LoggerFactory.getLogger(RoboRallyMenuBar.class);
+
+    private MenuItem saveGameToServer;
+    private MenuItem loadGameFromServer;
 
     private AppController appController;
 
@@ -43,8 +46,6 @@ public class RoboRallyMenuBar extends MenuBar {
     private MenuItem saveGame;
 
     private MenuItem newGame;
-
-    private MenuItem playOnline;
 
     private MenuItem loadGame;
 
@@ -57,30 +58,36 @@ public class RoboRallyMenuBar extends MenuBar {
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;
 
-        controlMenu = new Menu("File");
+        controlMenu = new Menu("Menu");
         this.getMenus().add(controlMenu);
 
-        newGame = new MenuItem("New Game");
+        newGame = new MenuItem("New game");
         newGame.setOnAction( e -> this.appController.newGame());
         controlMenu.getItems().add(newGame);
-
-        playOnline = new MenuItem("Play Online");
-        playOnline.setOnAction(e-> this.appController.playOnline());
-        controlMenu.getItems().add(playOnline);
 
         stopGame = new MenuItem("Stop Game");
         stopGame.setOnAction( e -> this.appController.stopGame());
         controlMenu.getItems().add(stopGame);
 
-        saveGame = new MenuItem("Save Game");
+        saveGame = new MenuItem("Save game");
         saveGame.setOnAction( e -> this.appController.saveGame());
         controlMenu.getItems().add(saveGame);
 
-        loadGame = new MenuItem("Load Game");
+        saveGameToServer = new MenuItem("Save game to server");
+        saveGameToServer.setOnAction(e -> this.appController.saveGameToServer());
+        controlMenu.getItems().add(saveGameToServer);
+
+        loadGameFromServer=new MenuItem("Load game from server");
+        loadGameFromServer.setOnAction(e -> this.appController.loadGameFromServer());
+        controlMenu.getItems().add(loadGameFromServer);
+
+
+
+        loadGame = new MenuItem("Load game");
         loadGame.setOnAction( e -> this.appController.loadGame());
         controlMenu.getItems().add(loadGame);
 
-        createABoard = new MenuItem("Create New Board");
+        createABoard = new MenuItem("Create board");
         createABoard.setOnAction(event -> this.appController.designBoard());
         controlMenu.getItems().add(createABoard);
 
@@ -99,11 +106,18 @@ public class RoboRallyMenuBar extends MenuBar {
             stopGame.setVisible(true);
             saveGame.setVisible(true);
             loadGame.setVisible(false);
+            saveGameToServer.setVisible(true);
+            loadGameFromServer.setVisible(false);
+
         } else {
             newGame.setVisible(true);
             stopGame.setVisible(false);
             saveGame.setVisible(false);
             loadGame.setVisible(true);
+            saveGameToServer.setVisible(false);
+            loadGameFromServer.setVisible(true);
+
+
         }
     }
 

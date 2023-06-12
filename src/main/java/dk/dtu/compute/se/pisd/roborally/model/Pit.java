@@ -1,38 +1,16 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
  *
  */
 public class Pit implements FieldAction {
-
-    @Override
-    public boolean doAction(GameController gameController, Space space) {
-
-        Board board = space.board;
-        Player player = space.getPlayer();
-        player.reboot();
-
-        if (player == null) {
-            return false;
-        }
-
-
-
-
-        for (int i = 0; i < board.width; i++) {
-           /* for (int j = 0; j < board.height; j++) {
-                Space newSpace = board.getSpace(i,j);
-                if (newSpace.getStartPlayerNo() == (player.getDbNo() + 1) && newSpace.getPlayer() == null) {
-                    player.setSpace(newSpace);
-                    return true;
-                }
-            }*/
-        }
-
-        return false;
-
+    public static boolean Void;
+    public Pit(Boolean Void) {
+        this.Void=Void;
     }
+    public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {return true;}
 }

@@ -23,14 +23,23 @@ package dk.dtu.compute.se.pisd.roborally.fileaccess;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates.BoardTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * ...
@@ -38,37 +47,40 @@ import java.io.*;
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class LoadSaveGame {
+    private static final Logger logger = LoggerFactory.getLogger(LoadSaveGame.class);
 
     private static final String BOARDSFOLDER = "boards";
     private static final String GAMESFOLDER = "savedGames";
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
+
+
     public static Board loadBoard(String path, String boardname) {
-      if (boardname == null) {
+        logger.info("Loading board: {}, from path: {}", boardname, path);
+
+        if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
         String filename;
-        if (path == "src/main/resources/boards")
+        if (path.equals("src/main/resources/boards"))
         {
-            filename = BOARDSFOLDER + "/" + boardname;
+            filename = path + "/" + boardname;
         }
         else
         {
             filename = GAMESFOLDER + "/" + boardname;
         }
-        ClassLoader classLoader = LoadSaveGame.class.getClassLoader();
+try {
+    InputStream inputStream = new FileInputStream(filename);
 
-        InputStream inputStream = classLoader.getResourceAsStream(filename);
-        if (inputStream == null) {
-            // TODO these constants should be defined somewhere
-            return new Board(8,8);
-        }
 
 		// In simple cases, we can create a Gson object with new Gson():
-        GsonBuilder simpleBuilder = new GsonBuilder().
-                registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
-        Gson gson = simpleBuilder.create();
+    GsonBuilder simpleBuilder = new GsonBuilder()
+            .registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>())
+            .registerTypeAdapter(ConveyorBelt.class, new Adapter<ConveyorBelt>());
+
+    Gson gson = simpleBuilder.create();
 
 		Board result;
 		// FileReader fileReader = null;
@@ -82,8 +94,10 @@ public class LoadSaveGame {
 
 
 			reader.close();
-			return result;
+            logger.info("Successfully loaded the board: {}", boardname);
+            return result;
 		} catch (IOException e1) {
+            logger.error("Error loading board: {}, from path: {}", boardname, path, e1);
             if (reader != null) {
                 try {
                     reader.close();
@@ -99,9 +113,14 @@ public class LoadSaveGame {
 
         return null;
     }
+     catch (FileNotFoundException e){
+
+
+        return new Board(8,8);
+    }}
 
     public static void saveBoard(Board board,String path, String name) {
-
+        logger.info("Saving board: {}, to path: {}", name, path);
         BoardTemplate template = new BoardTemplate().fromBoard(board);
 
         //String filename = "src/main/resources/boards" + "/" + name + "." + JSON_EXT;
@@ -118,7 +137,11 @@ public class LoadSaveGame {
             writer = gson.newJsonWriter(fileWriter);
             gson.toJson(template, template.getClass(), writer);
             writer.close();
+            logger.info("Successfully saved the board: {}", name);
+
         } catch (IOException e1) {
+            logger.error("Error saving board: {}, to path: {}", name, path, e1);
+
             if (writer != null) {
                 try {
                     writer.close();
@@ -132,5 +155,7 @@ public class LoadSaveGame {
             }
         }
     }
+
+
 
 }

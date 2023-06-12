@@ -21,6 +21,8 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
@@ -29,7 +31,12 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.apiAccess.Repository;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadSaveGame;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.*;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates.BoardTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import javafx.application.Platform;
@@ -41,13 +48,33 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.RestTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Optional;
+import javafx.scene.control.TextInputDialog;
 /**
  * ...
  *
@@ -55,6 +82,10 @@ import java.util.Optional;
  *
  */
 public class AppController implements Observer {
+    private static final Logger logger = LoggerFactory.getLogger(AppController.class);
+    private static final String GAMES_FOLDER = "/Users/andersjefsen/Desktop/testingRoboRally/SAVED GAMES";
+
+    private static final String BASE_URL = "http://10.209.246.248:8086/api/game";
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
@@ -67,6 +98,9 @@ public class AppController implements Observer {
     final private String jsonFile = ".jsoon";
     private GameController gameController;
     private Repository repository = null;
+
+    private static final String JSON_EXT = "json";
+    private final RestTemplate restTemplate = new RestTemplate();
 
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
@@ -106,6 +140,98 @@ public class AppController implements Observer {
         }
 
     }
+
+    /**
+
+     Saves the game locally and sends it to the server.
+
+     This method prompts the user to enter a name for the saved game,
+
+     converts the current game board to a template, and saves the template as a JSON file locally.
+
+     The saved game is then sent to the server using the sendToServer method.
+
+     If any error occurs during the saving or sending process, a RuntimeException is thrown.
+
+     @throws RuntimeException if there is an error saving the game locally or sending it to the server.
+     */
+    public void saveGameToServer() {
+        // Creating a dialog box for user input
+        TextInputDialog td = new TextInputDialog("NewGameSave");
+        td.setHeaderText("Enter a name for the saved game");
+        Optional<String> result = td.showAndWait();
+
+        // If user has entered a name
+        if (result.isPresent()) {
+            // Get the entered name
+            String gameId = result.get();
+
+            // Convert the current game board to a template
+            BoardTemplate template = new BoardTemplate().fromBoard(gameController.board);
+
+            // Set up Gson with custom adapter and pretty printing
+            GsonBuilder gsonBuilder = new GsonBuilder()
+                    .registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>())
+                    .setPrettyPrinting();
+            Gson gson = gsonBuilder.create();
+
+            // Convert the board template to a JSON string
+            String jsonData = gson.toJson(template, template.getClass());
+
+            //Sends the game to the server
+            sendToServer(gameId, jsonData);
+        }
+    }
+
+
+    private void sendToServer(String gameId, String jsonData) {
+        // Create the URL to POST to
+        String apiUrl = BASE_URL + "/" + gameId;
+
+        // Set up HTTP headers to indicate we're sending JSON data
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Set up an HTTP request entity with our game data and headers
+        HttpEntity<String> requestEntity = new HttpEntity<>(jsonData, headers);
+
+        // Send the request to the server
+        ResponseEntity<Void> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, Void.class);
+
+        // If the server responded with HTTP 200 OK, it was successful
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            logger.info("Game data sent successfully to the server for gameId: {}", gameId);
+        } else {
+            logger.error("Error occurred while sending game data to the server for gameId: {}", gameId);
+            throw new RuntimeException("Could not send game data to the server");
+        }
+    }
+
+    public void loadGameFromServer() {
+        try {
+            System.out.println("Showing files to choose from...");
+            showFilesToChoseFrom(GAMES_FOLDER);
+
+            System.out.println("Loading board...");
+            Board loadedBoard = LoadSaveGame.loadBoard(GAMES_FOLDER, fileToOpen);
+
+            System.out.println("Creating GameController...");
+            gameController = new GameController(loadedBoard);
+
+            System.out.println("Creating BoardView...");
+            roboRally.createBoardView(gameController);
+
+            System.out.println("Game loaded successfully from server");
+        } catch (Exception e) {
+            System.out.println("An error occurred:");
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
 
     public void newGame() {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
@@ -149,7 +275,6 @@ public class AppController implements Observer {
             // XXX: V2
             // board.setCurrentPlayer(board.getPlayer(0));
             board.setCurrentPlayer(board.getPlayer(0));
-
             gameController.startProgrammingPhase();
 
             roboRally.createBoardView(gameController);
@@ -162,22 +287,45 @@ public class AppController implements Observer {
 
     public void designBoard(
     ){
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setContentText("Vælg bredden af spillepladen");
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("Edit/Create", "Edit", "Create");
+        dialog.setContentText("Would you like to create a new board or edit a already existing one");
+        dialog.setHeaderText(null);
+        dialog.setTitle("Edit/Create");
         dialog.showAndWait();
 
-        int width = Integer.parseInt(dialog.getResult());
+        String selectedDirection = dialog.getSelectedItem();
+        if (selectedDirection != null) {
+            Heading direction;
 
-        dialog.setContentText("Vælg højden af spillepladen");
-        dialog.showAndWait();
+            switch (selectedDirection) {
+                case "Edit":
 
-        int height = Integer.parseInt(dialog.getResult());
+                    roboRally.createDesignView(new BoardDesignController(loadBoard()));
+                    break;
+                case "Create":
+                    TextInputDialog dialog1 = new TextInputDialog();
+                    dialog1.setContentText("Vælg bredden af spillepladen");
+                    dialog1.showAndWait();
 
-        BoardDesignController controller = new BoardDesignController(width, height);
 
-        roboRally.createDesignView(controller);
+                    int width = Integer.parseInt(dialog1.getResult());
 
-    }
+                    dialog1.setContentText("Vælg højden af spillepladen");
+                    dialog1.showAndWait();
+
+                    int height = Integer.parseInt(dialog1.getResult());
+
+                    BoardDesignController controller = new BoardDesignController(width, height);
+
+                    roboRally.createDesignView(controller);
+
+                    break;
+                default:
+                    // Invalid direction selected
+                    return;
+            }
+        }}
     public void saveGame() {
         TextInputDialog td = new TextInputDialog("NewGameSave");
         td.setHeaderText("Enter a name for the saved game");
@@ -190,6 +338,11 @@ public class AppController implements Observer {
         }
 
     }
+
+
+
+
+
 
     public void showFilesToChoseFrom(String pathName)
     {
@@ -244,6 +397,8 @@ public class AppController implements Observer {
 
 
     }
+
+
     public Board loadBoard()
     {
 
@@ -252,7 +407,7 @@ public class AppController implements Observer {
     }
     public void loadGame() {
 
-            showFilesToChoseFrom(gamesPath);
+                showFilesToChoseFrom(gamesPath);
                 Board loadedBoard = LoadSaveGame.loadBoard(gamesPath,fileToOpen);
 
                 gameController = new GameController(loadedBoard);

@@ -55,7 +55,7 @@ public class BoardTemplate {
     public ArrayList<String> playerOrder = new ArrayList<>();
     private PlayerTemplate current;
     private AntennaTemplate antenna;
-
+    private RebootTokenTemplate rebootToken;
 
     public BoardTemplate fromBoard(Board board) {
         this.width = board.width;
@@ -76,6 +76,9 @@ public class BoardTemplate {
         if (board.getAntenna()!=null)
         {
             this.antenna = new AntennaTemplate().fromAntenna(board.getAntenna());
+        }
+        if (board.getRebootToken() != null) {
+            this.rebootToken = new RebootTokenTemplate().fromRebootToken(board.getRebootToken());
         }
 
 
@@ -148,6 +151,9 @@ public class BoardTemplate {
         }
         if (this.antenna != null) {
             board.setAntenna(this.antenna.toAntenna(board));
+        }
+        if (this.rebootToken != null) {
+            board.setRebootToken(this.rebootToken.toRebootToken(board));
         }
 
 

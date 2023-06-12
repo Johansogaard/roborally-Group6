@@ -38,6 +38,14 @@ import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
  *
  */
 public class Board extends Subject {
+    public RebootToken getRebootToken() {
+        return rebootToken;
+    }
+
+    public void setRebootToken(RebootToken rebootToken) {
+        this.rebootToken = rebootToken;
+    }
+
     public Antenna getAntenna() {
         return antenna;
     }
@@ -46,8 +54,17 @@ public class Board extends Subject {
         this.antenna = antenna;
 
     }
+    /*public Lasers getLasers(Lasers lasers) {
+        return lasers;
+    }
+    public void setLasers(Lasers lasers) {
+        this.lasers = lasers;
+        notifyChange();
+    }
+    private Lasers lasers;*/
 
     private Antenna antenna;
+    private RebootToken rebootToken;
 
     public final int width;
 
@@ -126,6 +143,7 @@ public class Board extends Subject {
 
 
     public Space getSpace(int x, int y) {
+
         if (x >= 0 && x < width &&
                 y >= 0 && y < height) {
             return spaces[x][y];
@@ -267,16 +285,16 @@ public class Board extends Subject {
         int y = space.y;
         switch (heading) {
             case SOUTH:
-                y = (y + 1) % height;
+                y++;
                 break;
             case WEST:
-                x = (x + width - 1) % width;
+                x--;
                 break;
             case NORTH:
-                y = (y + height - 1) % height;
+                y--;
                 break;
             case EAST:
-                x = (x + 1) % width;
+                x++;
                 break;
         }
 

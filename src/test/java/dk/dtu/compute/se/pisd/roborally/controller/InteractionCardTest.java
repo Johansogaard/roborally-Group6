@@ -1,4 +1,5 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
@@ -41,6 +42,8 @@ public class InteractionCardTest {
         assertEquals(card, player.getProgramField(0).getCard());
     }
 
+
+    @BeforeEach
     public void setUp() throws NoSuchMethodException {
         board = new Board(10, 10, "testboard");
         player = new Player(board, "Blue", "John");
@@ -49,10 +52,6 @@ public class InteractionCardTest {
         player.setHeading(SOUTH); // Assume player will move downwards on the board
         executeCommand = GameController.class.getDeclaredMethod("executeCommand", Player.class, Command.class);
         executeCommand.setAccessible(true);
-    }
-
-    public void setUpAgain() throws NoSuchMethodException {
-        setUp();
 
         executeNextStep = GameController.class.getDeclaredMethod("executeNextStep");
         executeNextStep.setAccessible(true);
@@ -60,59 +59,54 @@ public class InteractionCardTest {
         board.testSetCurrentPlayer(player);
         board.setPhase(Phase.ACTIVATION);
         board.addPlayer(player);
+
+        Antenna antenna = new Antenna(board,0,9);
+        board.setAntenna(antenna);
     }
 
     @Test
     public void testMoveForward() throws Exception {
-        setUp();
         executeCommand.invoke(controller, player, Command.FORWARD);
         assertEquals(board.getSpace(4, 5), player.getSpace());
     }
 
     @Test
     public void testMove3Tiles() throws Exception {
-        setUp();
         executeCommand.invoke(controller, player, Command.Move_3);
         assertEquals(board.getSpace(4, 7), player.getSpace());
     }
 
     @Test
     public void testFastForward() throws Exception {
-        setUp();
         executeCommand.invoke(controller, player, Command.FASTFORWARD);
         assertEquals(board.getSpace(4, 6), player.getSpace());
     }
 
     @Test
     public void testMoveBackward() throws Exception {
-        setUp();
         executeCommand.invoke(controller, player, Command.BACK);
         assertEquals(board.getSpace(4, 3), player.getSpace());
     }
 
     @Test
     public void testTurnLeft() throws Exception {
-        setUp();
         executeCommand.invoke(controller, player, Command.LEFT);
         assertEquals(EAST, player.getHeading());
     }
 
     @Test
     public void testTurnRight() throws Exception {
-        setUp();
         executeCommand.invoke(controller, player, Command.RIGHT);
         assertEquals(WEST, player.getHeading());
     }
 
     @Test
     public void testUTurn() throws Exception {
-        setUp();
         executeCommand.invoke(controller, player, Command.uTurn);
         assertEquals(NORTH, player.getHeading());
     }
     @Test
     public void testAgain() throws Exception {
-        setUpAgain();
 
         // Add two AGAIN cards to the player's program
         player.getProgramField(0).setCard(new CommandCard(Command.FORWARD));
@@ -128,7 +122,6 @@ public class InteractionCardTest {
     }
     @Test
     public void testAgainRepeat() throws Exception {
-        setUpAgain();
 
         // Add two AGAIN cards to the player's program
         player.getProgramField(0).setCard(new CommandCard(Command.FORWARD));
@@ -149,7 +142,6 @@ public class InteractionCardTest {
     }
     @Test
     public void testAgainalternate() throws Exception {
-        setUpAgain();
 
         // Add two AGAIN cards to the player's program
         player.getProgramField(0).setCard(new CommandCard(Command.FORWARD));

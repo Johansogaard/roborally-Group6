@@ -41,4 +41,5 @@ public enum Heading {
     public Heading opposite() {
         return values()[(this.ordinal() + 2) % values().length];
     }
+
 }
