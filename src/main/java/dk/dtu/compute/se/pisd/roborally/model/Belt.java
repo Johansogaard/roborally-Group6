@@ -22,7 +22,7 @@ public class Belt implements ConveyorBelt {
         Player currentPlayer = space.getPlayer();
         Space neighbourSpace = space.board.getNeighbour(space,heading);
 
-        if (neighbourSpace.getPlayer() != null) {
+        if (neighbourSpace.getPlayer() != null || neighbourSpace.getWalls().contains(this.heading.opposite())) {
             return false;
         } else {
 

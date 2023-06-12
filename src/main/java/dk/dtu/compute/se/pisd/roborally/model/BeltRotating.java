@@ -27,7 +27,7 @@ public class BeltRotating implements ConveyorBelt {
         // Check if the player can move forward
         Space neighbourSpace = space.board.getNeighbour(space, heading);
 
-        if (neighbourSpace.getPlayer() != null) {
+        if (neighbourSpace.getPlayer() != null || neighbourSpace.getWalls().contains(this.heading.opposite())) {
             return false;
         } else {
 
