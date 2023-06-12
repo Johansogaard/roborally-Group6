@@ -63,14 +63,13 @@ class ConveyorbeltTest {
         BeltDouble conveyorBelt = new BeltDouble();
         BeltDoubleRotating converBelt2 = new BeltDoubleRotating();
 
-        conveyorBelt.setHeading(EAST);
-        converBelt2.setHeading(NORTH);
-        board.getSpace(4,5).addWall(NORTH);
-        board.getSpace(5,4).addAction(converBelt2);
-        board.getSpace(4,4).addAction(conveyorBelt);
-        conveyorBelt.doAction(controller, board.getSpace(4,4));
 
-        assertEquals(board.getSpace(5,4), player.getSpace());
+        converBelt2.setHeading(NORTH);
+        board.getSpace(4,4).addWall(NORTH);
+        board.getSpace(4,4).addAction(converBelt2);
+        converBelt2.doAction(controller, board.getSpace(4,4));
+
+        assertEquals(board.getSpace(4,4), player.getSpace());
     }
 
     @Test
