@@ -16,7 +16,7 @@ public class APIController {
     @PostMapping("/{gameId}")
     public ResponseEntity<Void> saveGame(@PathVariable String gameId, @RequestBody String gameData) {
         // Save the game data to the "savedGames" folder on the server
-        String folderPath = "/Users/andersjefsen/Desktop/testingRoboRally/SAVED GAMES/d"; // Specify the folder path where the game data should be stored
+        String folderPath = "/Users/andersjefsen/Desktop/testingRoboRally/SAVED GAMES"; // Specify the folder path where the game data should be stored
         String fileName = gameId + ".json"; // Construct the file name using the gameId
 
         try {

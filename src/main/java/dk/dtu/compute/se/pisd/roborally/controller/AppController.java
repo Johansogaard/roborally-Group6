@@ -80,9 +80,9 @@ import javafx.scene.control.TextInputDialog;
  */
 public class AppController implements Observer {
     private static final Logger logger = LoggerFactory.getLogger(AppController.class);
-    private static final String GAMES_FOLDER = "/Users/victor/Desktop/testingRoboRally/SAVED GAMES";
+    private static final String GAMES_FOLDER = "/Users/andersjefsen/Desktop/testingRoboRally/SAVED GAMES";
 
-    private static final String BASE_URL = "http://localhost:8085/api/game";
+    private static final String BASE_URL = "http://10.209.246.248:8086/api/game";
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
