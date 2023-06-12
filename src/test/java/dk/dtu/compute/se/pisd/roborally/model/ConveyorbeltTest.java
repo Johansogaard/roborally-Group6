@@ -59,6 +59,21 @@ class ConveyorbeltTest {
     }
 
     @Test
+    void doubleRotatingConveyerBeltTroughWall(){
+        BeltDouble conveyorBelt = new BeltDouble();
+        BeltDoubleRotating converBelt2 = new BeltDoubleRotating();
+
+        conveyorBelt.setHeading(EAST);
+        converBelt2.setHeading(NORTH);
+        board.getSpace(4,5).addWall(NORTH);
+        board.getSpace(5,4).addAction(converBelt2);
+        board.getSpace(4,4).addAction(conveyorBelt);
+        conveyorBelt.doAction(controller, board.getSpace(4,4));
+
+        assertEquals(board.getSpace(5,4), player.getSpace());
+    }
+
+    @Test
     void conveyerBeltKeepOrientation() {
         Belt conveyorBelt = new Belt();
         conveyorBelt.setHeading(SOUTH);
