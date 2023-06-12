@@ -69,9 +69,11 @@ class ConveyorbeltTest {
         board.getSpace(4,5).addAction(conveyorBelt);
         player.setHeading(WEST);
         conveyorBelt.doAction(controller, board.getSpace(4,4));
+
         assertEquals(player.getHeading(),WEST);
 
     }
+
 
     /*@Test
     void conveyerbeltIntersect(){

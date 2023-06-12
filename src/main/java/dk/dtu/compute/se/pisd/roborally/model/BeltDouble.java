@@ -24,7 +24,7 @@ public class BeltDouble implements ConveyorBelt {
         Player currentPlayer = space.getPlayer();
         Space neighbourSpace = space.board.getNeighbour(space,heading);
 
-        currentPlayer.setHeading(this.heading);
+        //currentPlayer.setHeading(this.heading);
         Space secondNeighbourSpace = space.board.getNeighbour(neighbourSpace, heading);
 
         if (neighbourSpace.getPlayer() != null || secondNeighbourSpace.getPlayer() != null || currentPlayer.getSpace().getWalls().contains(heading)
