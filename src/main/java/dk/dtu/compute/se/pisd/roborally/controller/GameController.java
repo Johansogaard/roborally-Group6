@@ -170,8 +170,7 @@ public class GameController {
 
     public void mergeCards()
     {
-       /* CommandCardField[] cards =board.getPlayers().get(repository.getPlayerNumb()-1).getCards();
-        CommandCardField[] program =board.getPlayers().get(repository.getPlayerNumb()-1).getCards();*/
+
          Board loadedBoard=repository.getGameInstance(null);
 
 
@@ -185,9 +184,7 @@ public class GameController {
                 }
             }
         }
-       /* board.setPlayerOrder();
-        makeProgramFieldsInvisible();
-        makeProgramFieldsVisible(0);*/
+
     }
 
     // XXX: V2

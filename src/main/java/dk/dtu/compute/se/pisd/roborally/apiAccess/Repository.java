@@ -171,7 +171,7 @@ public class Repository implements IRepository {
             break;
         }
         try {
-            TimeUnit.SECONDS.sleep(3);
+            TimeUnit.SECONDS.sleep(4);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
