@@ -1,5 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.api;
 
+import dk.dtu.compute.se.pisd.roborally.model.Board;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,6 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+
+import static dk.dtu.compute.se.pisd.roborally.fileaccess.LoadSaveGame.loadBoard;
 
 @RestController
 @RequestMapping("/api/game")
@@ -40,7 +45,33 @@ public class APIController {
     }
 
 
-    // Other methods for handling different HTTP requests related to game data
+    @GetMapping("/{gameId}")
+    public ResponseEntity<Board> loadGame(@PathVariable String gameId) {
+        String folderPath = "/Users/andersjefsen/Desktop/testingRoboRally/SAVED GAMES";
+        String fileName = gameId + ".json";
+
+        try {
+            File gameFile = new File(folderPath + "/" + fileName);
+
+            if (gameFile.exists()) {
+                // Read the game data from the file
+                String gameData = new String(Files.readAllBytes(gameFile.toPath()), StandardCharsets.UTF_8);
+
+                // Convert JSON to Board
+                Board board = loadBoard(folderPath, gameData);
+
+                // Return HTTP 200 OK and the game data
+                return ResponseEntity.ok(board);
+            } else {
+                // If the file does not exist, return HTTP 404 Not Found
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (IOException e) {
+            // Handle any error that occurs during file reading
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Return HTTP 500 Internal Server Error for error during read
+        }
     }
+
+}
 
 

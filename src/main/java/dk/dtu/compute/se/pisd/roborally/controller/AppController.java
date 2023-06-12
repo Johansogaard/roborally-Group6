@@ -60,6 +60,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -141,7 +142,17 @@ public class AppController implements Observer {
         }
     }
 
-
+    /**
+     * Sends a JSON formatted game data to the specified server using a POST request.
+     * The server URL is constructed using a base URL and the provided gameId.
+     * The server is expected to respond with a 200 HTTP status code to indicate success.
+     *
+     * @param gameId   The unique identifier of the game, used to construct the server URL.
+     * @param jsonData The game data, formatted as a JSON string, to be sent to the server.
+     *
+     * @throws RuntimeException If the server responds with a status code other than 200 (HTTP OK),
+     *                          an error message is logged and a RuntimeException is thrown.
+     */
     private void sendToServer(String gameId, String jsonData) {
         // Create the URL to POST to
         String apiUrl = BASE_URL + "/" + gameId;
@@ -342,6 +353,28 @@ public class AppController implements Observer {
 
     }
 
+    /*public void loadGameFromServer() {
+        //String gameId = showFilesToChoseFrom(gamesPath);
+        String gameUrl = BASE_URL + "/" + gameId; // Replace with the correct server and port
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        try {
+            ResponseEntity<Board> response = restTemplate.getForEntity(gameUrl, Board.class);
+
+            if (response.getStatusCode() == HttpStatus.OK) {
+                Board loadedBoard = response.getBody();
+                gameController = new GameController(loadedBoard);
+                roboRally.createBoardView(gameController);
+            } else {
+                // Handle non-200 status code
+            }
+        } catch (RestClientException e) {
+            // Handle errors during the REST call
+        }
+    }
+
+     */
 
     public Board loadBoard()
     {

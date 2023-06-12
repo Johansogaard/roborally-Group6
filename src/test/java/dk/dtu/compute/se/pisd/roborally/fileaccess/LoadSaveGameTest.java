@@ -11,13 +11,12 @@ import java.io.File;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LoadSaveGameTest {
-
     private final String testBoardsPath = "src/test/boards";
 
 
 
     @Test
-    void loadBoard_shouldLoadBoardFromFile() {
+    void loadBoard() {
         // Arrange
         Board expectedBoard = createTestBoard();
         String boardName = "test_board";
@@ -33,7 +32,7 @@ class LoadSaveGameTest {
     }
 
     @Test
-    void saveBoard_shouldSaveBoardToFile() {
+    void saveBoard() {
         // Arrange
         Board boardToSave = createTestBoard();
         String boardName = "test_board";
