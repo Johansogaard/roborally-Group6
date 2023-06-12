@@ -31,6 +31,6 @@ RoboRally is a digital implementation of the popular board game RoboRally. It br
 - [@Johansogaard](https://github.com/Johansogaard)
 - [@AnnesAggressive](https://github.com/AnnesAggressive)
 - [@vesthepro](https://github.com/vesthepro)
-- [@mikkelschwarz](https://github.com/VictorJustesen)
+- [@mikkel780](https://github.com/mikkel780)
 
 
