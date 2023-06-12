@@ -16,4 +16,6 @@ public interface FieldAction {
      */
     boolean doAction(GameController gameController, Space space);
 
+
+
 }

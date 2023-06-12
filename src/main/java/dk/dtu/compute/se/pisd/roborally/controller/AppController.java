@@ -28,6 +28,9 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+
+import dk.dtu.compute.se.pisd.roborally.apiAccess.Repository;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadSaveGame;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.*;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates.BoardTemplate;
@@ -80,8 +83,9 @@ import javafx.scene.control.TextInputDialog;
  */
 public class AppController implements Observer {
     private static final Logger logger = LoggerFactory.getLogger(AppController.class);
+    private static final String GAMES_FOLDER = "/Users/andersjefsen/Desktop/testingRoboRally/SAVED GAMES";
 
-    private static final String BASE_URL = "http://localhost:8084/api/game";
+    private static final String BASE_URL = "http://10.209.246.248:8086/api/game";
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
@@ -89,14 +93,52 @@ public class AppController implements Observer {
     final private RoboRally roboRally;
     final private String boardsPath = "src/main/resources/boards";
     final private String gamesPath = "src/main/resources/savedGames";
+    final private String currGamePath = "src/main/resources/currGameInstance";
+    final private String currGameFile = "currGame";
+    final private String jsonFile = ".jsoon";
     private GameController gameController;
+    private Repository repository = null;
 
-    private static final String GAMES_FOLDER = "/Users/victor/Desktop/testingRoboRally/SAVED GAMES";
     private static final String JSON_EXT = "json";
     private final RestTemplate restTemplate = new RestTemplate();
 
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
+    }
+    public void playOnline()
+    {
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("","Join Game","Create Game");
+        dialog.setTitle("Join or create game");
+        dialog.setHeaderText("Select a option");
+        Optional<String> result = dialog.showAndWait();
+        if (result.get().equals("Create Game"))
+        {
+        repository = Repository.getInstance();
+        newGame();
+        }
+        else if(result.get().equals("Join Game"))
+        {
+            repository = Repository.getInstance();
+            TextInputDialog inputDialog = new TextInputDialog();
+            inputDialog.setContentText("Write the id of the game you want to join");
+            inputDialog.showAndWait();
+
+
+
+
+            repository.joinGame(Integer.parseInt(inputDialog.getResult()));
+
+            Board loadedBoard = repository.getGameInstance(null);
+            gameController = new GameController(loadedBoard);
+            gameController.addRepository();
+            roboRally.createBoardView(gameController);
+
+        }
+        else
+        {
+
+        }
+
     }
 
     /**
@@ -121,9 +163,9 @@ public class AppController implements Observer {
 
         // If user has entered a name
         if (result.isPresent()) {
-            // Get the entered name and create a file path with it
-            String fileName = result.get();
-            String filePath = GAMES_FOLDER + "/" + fileName + "." + JSON_EXT;
+            // Get the entered name
+            String gameId = result.get();
+
             // Convert the current game board to a template
             BoardTemplate template = new BoardTemplate().fromBoard(gameController.board);
 
@@ -136,69 +178,35 @@ public class AppController implements Observer {
             // Convert the board template to a JSON string
             String jsonData = gson.toJson(template, template.getClass());
 
-            // Try to write the JSON data to a local file
-            try (FileWriter fileWriter = new FileWriter(filePath)) {
-                fileWriter.write(jsonData);
-                logger.info("Successfully saved the board locally: {}", fileName);
-            } catch (IOException e) {
-                logger.error("Error saving board locally: {}", fileName, e);
-                throw new RuntimeException("Could not save game locally", e);
-            }
             //Sends the game to the server
-            sendToServer(fileName);
+            sendToServer(gameId, jsonData);
         }
     }
 
-    /**
 
-     Sends the game data to the server.
-     This method reads the local game file identified by the given fileName,
-     prepares the game data for sending, and performs an HTTP POST request to the server.
-     The game data is sent as a JSON payload in the request body.
-     @param fileName the name of the game file to send to the server.
-     markdown
-     Copy code
-     The file should be located in the designated game folder.
-     @throws RuntimeException if there is an error reading the game data locally,
-     vbnet
-     Copy code
-     sending it to the server, or if the server responds with an error.
-     */
-    private void sendToServer(String fileName) {
-        // Remove the extension from the filename to get the game ID
-        String gameId = fileName.substring(0, fileName.lastIndexOf('.'));
-
+    private void sendToServer(String gameId, String jsonData) {
         // Create the URL to POST to
-        String apiUrl = BASE_URL + gameId;
+        String apiUrl = BASE_URL + "/" + gameId;
 
-        // Attempt to read the local game file and send it to the server
-        try {
-            // Read the entire file into a byte array
-            byte[] gameData = Files.readAllBytes(Paths.get(GAMES_FOLDER, fileName));
+        // Set up HTTP headers to indicate we're sending JSON data
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-            // Set up HTTP headers to indicate we're sending JSON data
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
+        // Set up an HTTP request entity with our game data and headers
+        HttpEntity<String> requestEntity = new HttpEntity<>(jsonData, headers);
 
-            // Set up an HTTP request entity with our game data and headers
-            HttpEntity<byte[]> requestEntity = new HttpEntity<>(gameData, headers);
+        // Send the request to the server
+        ResponseEntity<Void> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, Void.class);
 
-            // Send the request to the server
-            ResponseEntity<Void> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, Void.class);
-
-            // If the server responded with HTTP 200 OK, it was successful
-
-            if (responseEntity.getStatusCode() == HttpStatus.OK) {
-                logger.info("Game data sent successfully to the server for gameId: {}", gameId);
-            } else {
-                logger.error("Error occurred while sending game data to the server for gameId: {}", gameId);
-                throw new RuntimeException("Could not send game data to the server");
-            }
-        } catch (IOException e) {
-            logger.error("Error occurred while reading game data locally: {}", fileName, e);
-            throw new RuntimeException("Could not read game data locally", e);
+        // If the server responded with HTTP 200 OK, it was successful
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            logger.info("Game data sent successfully to the server for gameId: {}", gameId);
+        } else {
+            logger.error("Error occurred while sending game data to the server for gameId: {}", gameId);
+            throw new RuntimeException("Could not send game data to the server");
         }
     }
+
     public void loadGameFromServer() {
         try {
             System.out.println("Showing files to choose from...");
@@ -244,8 +252,6 @@ public class AppController implements Observer {
             //     here we just create an empty board with the required number of players.
             Board board = loadBoard();
 
-            gameController = new GameController(board);
-
             int no = result.get();
             for (int i = 0; i < no; i++) {
                 Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
@@ -254,6 +260,17 @@ public class AppController implements Observer {
                 player.setSpawn();
             }
 
+            gameController = new GameController(board);
+            if (repository != null) {
+                gameController.addRepository();
+                repository.createGame(gameController.board.getPlayers().size());
+
+            }
+
+
+
+
+
 
             // XXX: V2
             // board.setCurrentPlayer(board.getPlayer(0));
@@ -261,6 +278,10 @@ public class AppController implements Observer {
             gameController.startProgrammingPhase();
 
             roboRally.createBoardView(gameController);
+            if (repository != null)
+            {
+               repository.postGameInstance(board);
+            }
         }
     }
 
@@ -313,6 +334,7 @@ public class AppController implements Observer {
         if (result.isPresent()) {
             String fileName = result.get();
             LoadSaveGame.saveBoard(gameController.board,gamesPath ,fileName);
+
         }
 
     }

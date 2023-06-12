@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import javafx.scene.control.TabPane;
 
@@ -35,21 +36,33 @@ import javafx.scene.control.TabPane;
  */
 public class PlayersView extends TabPane implements ViewObserver {
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
     private Board board;
 
     private PlayerView[] playerViews;
 
     public PlayersView(GameController gameController) {
         board = gameController.board;
-
+//not sure this works
         this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
-        playerViews = new PlayerView[board.getPlayersNumber()];
-        for (int i = 0; i < board.getPlayersNumber();  i++) {
-            playerViews[i] = new PlayerView(gameController, board.getPlayers().get(i));
-            this.getTabs().add(playerViews[i]);
-        }
+            playerViews = new PlayerView[board.getPlayersNumber()];
+            for (int i = 0; i < board.getPlayersNumber(); i++) {
+                playerViews[i] = new PlayerView(gameController, board.getPlayers().get(i));
+                this.getTabs().add(playerViews[i]);
+                if (gameController.repository !=null && board.getPlayers().get(i).no != gameController.repository.getPlayerNumb()-1)
+                {
+                 playerViews[i].setDisable(true);
+                }
+
+            }
+
+
         board.attach(this);
+
         update(board);
     }
 

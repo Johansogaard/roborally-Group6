@@ -23,11 +23,11 @@ package dk.dtu.compute.se.pisd.roborally.fileaccess.model.templates;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -42,13 +42,14 @@ public class BoardTemplate {
     public int height;
     public int step;
     public Phase phase;
+    public boolean stepMode;
 
     //public int antennaX, antennaY;
 
     public List<PlayerTemplate> getPlayers() {
         return players;
     }
-
+    private Set<Observer> observers = Collections.newSetFromMap(new WeakHashMap<>());
     public List<PlayerTemplate> players = new ArrayList<>();
     public List<SpaceTemplate> spaces = new ArrayList<>();
     public ArrayList<String> playerOrder = new ArrayList<>();
@@ -60,6 +61,7 @@ public class BoardTemplate {
         this.width = board.width;
         this.height = board.height;
         this.step = board.getStep();
+        this.stepMode = board.isStepMode();
         this.phase = board.getPhase();
         if (board.getPlayers().size()>0) {
             for (Player player : board.getPlayerOrder()) {
@@ -96,6 +98,7 @@ public class BoardTemplate {
             }
         }
 
+
         return this;
     }
 
@@ -104,6 +107,7 @@ public class BoardTemplate {
         Board board = new Board(this.width, this.height);
         board.setStep(this.step);
         board.setPhase(this.phase);
+        board.setStepMode(this.stepMode);
 
         //first adding the players but where they are missing space because they are not istantiated yet
         if (players.size()>0) {

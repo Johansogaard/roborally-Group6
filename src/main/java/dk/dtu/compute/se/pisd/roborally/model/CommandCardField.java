@@ -46,7 +46,10 @@ public class CommandCardField extends Subject {
     public CommandCard getCard() {
         return card;
     }
-
+    public void notifyCommandCardField()
+    {
+        notifyChange();
+    }
     public void setCard(CommandCard card) {
         if (card != this.card) {
             this.card = card;

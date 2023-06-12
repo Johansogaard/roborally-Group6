@@ -162,6 +162,21 @@ public class Board extends Subject {
             notifyChange();
         }
     }
+   public void notifyBoardChange()
+    {
+        notifyChange();
+       for (int i =0;i<width;i++)
+        {
+            for (int f=0;f<height;f++)
+            {
+                spaces[i][f].notifySpace();
+            }
+        }
+        for (Player player: players)
+        {
+            player.notifyPlayer();
+        }
+    }
 
 
 
@@ -177,6 +192,11 @@ public class Board extends Subject {
 
     }
     public Player getCurrentPlayer() {
+        if (current == null)
+        {
+            setPlayerOrder();
+
+        }
         return current;
     }
 
