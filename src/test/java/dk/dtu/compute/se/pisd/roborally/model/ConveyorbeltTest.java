@@ -135,7 +135,7 @@ class ConveyorbeltTest {
         Belt conveyorBelt = new Belt();
         conveyorBelt.setHeading(SOUTH);
         board.getSpace(4,4).addAction(conveyorBelt);
-        board.getSpace(4,5).addAction(conveyorBelt);
+
         conveyorBelt.doAction(controller, board.getSpace(4,4));
 
         assertEquals(board.getSpace(4,5), player.getSpace());
@@ -148,10 +148,23 @@ class ConveyorbeltTest {
         conveyorBelt.setHeading(SOUTH);
         board.getSpace(4,4).addAction(conveyorBelt);
         board.getSpace(4,5).addAction(conveyorBelt);
+        conveyorBelt.doAction(controller, board.getSpace(4,5));
+        conveyorBelt.doAction(controller, board.getSpace(4,4));
+        assertEquals(board.getSpace(4,5), player.getSpace());
+        assertEquals(board.getSpace(4,6), player2.getSpace());
+    }
+
+    @Test
+    void PlayerPushedOffDoubleBelt() {
+
+        BeltDouble conveyorBelt = new BeltDouble();
+        conveyorBelt.setHeading(SOUTH);
+        board.getSpace(4,4).addAction(conveyorBelt);
+
         conveyorBelt.doAction(controller, board.getSpace(4,4));
 
-        assertEquals(board.getSpace(4,4), player.getSpace());
-        assertEquals(board.getSpace(4,5), player2.getSpace());
+        assertEquals(board.getSpace(4,5), player.getSpace());
+
     }
 
 
