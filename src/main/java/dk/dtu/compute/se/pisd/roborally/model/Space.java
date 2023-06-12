@@ -138,9 +138,18 @@ public class Space extends Subject {
     public int checkNeighborBelt(ConveyorBelt belt) {
 
 
-        ConveyorBelt rightBelt = board.getNeighbour(this, belt.getHeading().prev()).getAction(ConveyorBelt.class);
-        ConveyorBelt leftBelt = board.getNeighbour(this, belt.getHeading().next()).getAction(ConveyorBelt.class);
-        ConveyorBelt behindbelt =board.getNeighbour(this, belt.getHeading().opposite()).getAction(ConveyorBelt.class);
+        Space rightNeighbor = board.getNeighbour(this, belt.getHeading().prev());
+        ConveyorBelt rightBelt = null;
+        if (rightNeighbor != null) {rightBelt = rightNeighbor.getAction(ConveyorBelt.class);}
+
+        Space leftNeighbor = board.getNeighbour(this, belt.getHeading().next());
+        ConveyorBelt leftBelt = null;
+        if (leftNeighbor != null) {leftBelt = leftNeighbor.getAction(ConveyorBelt.class);}
+
+        Space behindNeighbor = board.getNeighbour(this, belt.getHeading().opposite());
+        ConveyorBelt behindBelt = null;
+        if (behindNeighbor != null) {behindBelt = behindNeighbor.getAction(ConveyorBelt.class);}
+
 
         boolean leftBeltTrue=false;
         boolean rightBeltTrue=false;
@@ -150,13 +159,9 @@ public class Space extends Subject {
             leftBeltTrue = leftBelt.getHeading()==belt.getHeading().prev();
 }
 
-        if(rightBelt!=null){
-            rightBeltTrue = rightBelt.getHeading()==belt.getHeading().next();
-        }
+        if(rightBelt!=null){rightBeltTrue = rightBelt.getHeading()==belt.getHeading().next();}
 
-        if(behindbelt!=null){
-            behindBeltTrue = leftBelt.getHeading()==belt.getHeading();
-        }
+        if(behindBelt!=null){behindBeltTrue = behindBelt.getHeading()==belt.getHeading();}
 
         if (leftBeltTrue && rightBeltTrue && behindBeltTrue) {
             return 7; // All neighbors have conveyor belts

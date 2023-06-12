@@ -22,12 +22,16 @@ class CheckpointTest {
         controller = new GameController(board);
         player.setSpace(board.getSpace(4, 4)); // Set the player at the center of the board
         player.setHeading(SOUTH);
+        Antenna antenna = new Antenna(board,0,9);
+        board.setAntenna(antenna);
     }
 
 
     @Test
-    void ComeOnManThisToEasy(){
-
+    void ComeOnManThisToEasy() {
+        board = new Board(10, 10, "testboard");
+        player = new Player(board, "Blue", "John");
+        player.setSpace(board.getSpace(4, 4));
         Checkpoint checkpoint = new Checkpoint(1);
         board.setCheckpoint(checkpoint);
         // Perform the action being tested
@@ -35,9 +39,7 @@ class CheckpointTest {
 
         assertEquals(1, player.getLastCheckpoint()); // Assuming this.no = 0
         assertTrue(controller.won);
-
     }
-
     @Test
     void NotWinning(){
 
@@ -89,4 +91,7 @@ class CheckpointTest {
         assertFalse(controller.won);
 
     }
-}
+
+
+
+    }

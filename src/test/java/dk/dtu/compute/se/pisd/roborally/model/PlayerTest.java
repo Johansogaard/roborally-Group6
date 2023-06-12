@@ -35,6 +35,9 @@ class PlayerTest {
         board.testSetCurrentPlayer(player);
         board.setPhase(Phase.ACTIVATION);
         board.addPlayer(player);
+
+        Antenna antenna = new Antenna(board,0,9);
+        board.setAntenna(antenna);
     }
 
     @Test

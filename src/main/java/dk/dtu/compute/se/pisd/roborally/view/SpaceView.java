@@ -112,7 +112,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
-    private void updateBelt(Space space) {
+    void updateBelt(Space space) {
         updateBeltImage(space.getAction(Belt.class), "images/greencon.png");
         updateBeltImage(space.getAction(BeltDouble.class), "images/bluecon.png");
 

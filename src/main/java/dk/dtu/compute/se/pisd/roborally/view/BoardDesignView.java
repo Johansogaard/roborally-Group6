@@ -179,16 +179,25 @@ public class BoardDesignView extends VBox {
 
         private void deleteField(Space space) {
             //you need to delete antenna twice
-            space.actions=new ArrayList<>();
+            space.actions = new ArrayList<>();
             space.setStartPlayerNo(0);
-            if (board.getAntenna() != null && board.getSpace(board.getAntenna().x,board.getAntenna().y)==space) {
+            if (board.getAntenna() != null && board.getSpace(board.getAntenna().x,board.getAntenna().y) == space) {
                 board.setAntenna(null);
-
             }
-            if (board.getRebootToken() != null && board.getSpace(board.getRebootToken().x, board.getRebootToken().y)==space) {
+            if (board.getRebootToken() != null && board.getSpace(board.getRebootToken().x, board.getRebootToken().y) == space) {
                 board.setRebootToken(null);
             }
 
+            // If you delete a belt, also update the belt you are pointing at
+            ConveyorBelt belt = space.getAction(ConveyorBelt.class);
+            if (belt != null) {
+                Space neighbor = space.board.getNeighbour(space, belt.getHeading());
+
+                if (neighbor != null && neighbor.getAction(ConveyorBelt.class) != null) {
+
+                    spaces[neighbor.x][neighbor.y].updateBelt(neighbor);
+                }
+            }
         }
         private void addAntenna(Space space)
         {
