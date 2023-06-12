@@ -22,12 +22,16 @@ public class Belt implements ConveyorBelt {
         Player currentPlayer = space.getPlayer();
         Space neighbourSpace = space.board.getNeighbour(space,heading);
 
-        if (neighbourSpace.getPlayer() != null) {
+        if (neighbourSpace.getPlayer() != null || neighbourSpace.getWalls().contains(this.heading.opposite())
+        || currentPlayer.getSpace().getWalls().contains(this.heading)) {
             return false;
         } else {
 
            for (FieldAction action : neighbourSpace.actions) {
                 if (action instanceof Belt || action instanceof BeltRotating) {
+                    currentPlayer.setSpace(neighbourSpace);
+                }
+                else{
                     currentPlayer.setSpace(neighbourSpace);
                 }
             }
