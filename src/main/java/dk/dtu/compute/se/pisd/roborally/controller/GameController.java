@@ -130,7 +130,7 @@ public class GameController {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
-    }*/
+    }
     // XXX: V2
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
@@ -204,14 +204,6 @@ public class GameController {
         }
     }
 
-            if (register >= 0 && register < Player.NO_REGISTERS) {
-                for (int i = 0; i < board.getPlayersNumber(); i++) {
-                    Player player = board.getPlayer(i);
-                    CommandCardField field = player.getProgramField(register);
-                    field.setVisible(true);
-                }
-            }
-        }
 
 
 
@@ -259,21 +251,9 @@ public class GameController {
                     //gets the curr card
                     CommandCard card = currentPlayer.getProgramField(step).getCard();
 
-        //cheks if the phase is activation and the curr player is not null
-        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
-            //the curr register
-            int step = board.getStep();
-            //checks if the step in correct and not a unusable value
-            if (step >= 0 && step < Player.NO_REGISTERS) {
-
-                CommandCard card = currentPlayer.getProgramField(step).getCard();
-
                     //checks if card is something
-                    if (card != null) {
-                        //gets the command
-                        Command command = card.command;
                 //checks if card is something
-                if (!currentPlayer.reboot) {
+                if (!currentPlayer.reboot &&card != null) {
                     //gets the command
                     Command command = card.command;
 
@@ -287,13 +267,7 @@ public class GameController {
                             //setting the next player;
                             //sout i used for debugging remove later
                             System.out.println(board.getOrderNumber(currentPlayer) + " " + board.getPlayersNumber());
-                            if (board.getOrderNumber(currentPlayer) + 1 < board.getPlayersNumber()) {
-                                board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer) + 1) % (board.getPlayers().size())));
-                            } else {
-                                //adds a step because we now have been through all the players
-                                step++;
                         //setting the next player;
-                    }}
                         if (board.getOrderNumber(currentPlayer)+1 < board.getPlayersNumber()) {
                             board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
                         } else {
@@ -327,19 +301,8 @@ public class GameController {
 
 
 
-                                //checks if we have more steps than registers if thats the case we will start the programming phase
-                                if (step < Player.NO_REGISTERS) {
-                                    makeProgramFieldsVisible(step);
-                                    board.setStep(step);
-                                    board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer) + 1) % (board.getPlayers().size())));
-                                } else {
-                                    board.setCurrentPlayer(null);
-                                    startProgrammingPhase();
-                                }
-                            }
-                        }
-                    }
-                } else {
+
+    else {
                     // this should not happen
                     assert false;
                 }
@@ -371,7 +334,7 @@ public class GameController {
 
             switch (command) {
                 case FORWARD:
-                    this.moveForward(player);
+                    player.moveForward();
                     break;
                 case RIGHT:
                     this.turnRight(player);
