@@ -48,7 +48,7 @@ public class RoboRallyMenuBar extends MenuBar {
     private MenuItem newGame;
 
     private MenuItem loadGame;
-
+    private MenuItem playOnline;
     private MenuItem stopGame;
     //JJ made my own menu item
     private MenuItem createABoard;
@@ -68,6 +68,9 @@ public class RoboRallyMenuBar extends MenuBar {
         stopGame = new MenuItem("Stop Game");
         stopGame.setOnAction( e -> this.appController.stopGame());
         controlMenu.getItems().add(stopGame);
+        playOnline = new MenuItem("Play Online");
+        playOnline.setOnAction(e-> this.appController.playOnline());
+        controlMenu.getItems().add(playOnline);
 
         saveGame = new MenuItem("Save game");
         saveGame.setOnAction( e -> this.appController.saveGame());
