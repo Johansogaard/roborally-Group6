@@ -188,6 +188,7 @@ public class BoardDesignView extends VBox {
             // Delete the current field
             space.actions = new ArrayList<>();
             space.setStartPlayerNo(0);
+            space.setWalls(new ArrayList<>());
             if (board.getAntenna() != null && board.getSpace(board.getAntenna().x,board.getAntenna().y) == space) {
                 board.setAntenna(null);
             }

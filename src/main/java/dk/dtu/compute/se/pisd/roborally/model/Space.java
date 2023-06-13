@@ -57,6 +57,11 @@ public class Space extends Subject {
         return walls;
     }
     private Antenna antenna;
+
+    public void setWalls(List<Heading> walls) {
+        this.walls = walls;
+    }
+
     private List<Heading> walls = new ArrayList<>();
 
     public Space(Board board, int x, int y) {
