@@ -83,6 +83,7 @@ public class BoardDesignView extends VBox {
         this.fieldOptions.add("Gear");
         this.fieldOptions.add("Empty field");
         this.fieldOptions.add("Laser beam");
+        this.fieldOptions.add("Push panel");
     }
 
     private class SpaceEventHandler implements EventHandler<MouseEvent> {
