@@ -329,8 +329,8 @@ public class SpaceView extends StackPane implements ViewObserver {
 
                     Space neighbor = space.board.getNeighbour(space, space.getAction(ConveyorBelt.class).getHeading());
 
-                    if (neighbor != null && neighbor.getAction(ConveyorBelt.class) != null && !neighbor.v) {
-                        neighbor.v=true;
+                    if (neighbor != null && neighbor.getAction(ConveyorBelt.class) != null && neighbor.v!=5) {
+                        neighbor.v++;
                         neighbor.notifySpace();
                     }
 

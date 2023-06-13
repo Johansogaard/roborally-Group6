@@ -44,7 +44,7 @@ public class Space extends Subject {
     public List<FieldAction> actions = new ArrayList<>();
     public final int x;
     public final int y;
-    public boolean v = false;
+    public int v = 0;
     private Player player;
     /*private Laser laser;
 

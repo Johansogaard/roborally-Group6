@@ -1,0 +1,33 @@
+{
+  "width": 30,
+  "height": 13,
+  "step": 0,
+  "phase": "INITIALISATION",
+  "stepMode": false,
+  "observers": [],
+  "players": [],
+  "spaces": [
+    {
+      "startPlayerNo": 0,
+      "x": 0,
+      "y": 12,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Pit",
+          "INSTANCE": {}
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 3,
+      "y": 10,
+      "walls": [
+        "NORTH"
+      ],
+      "actions": []
+    }
+  ],
+  "playerOrder": []
+}
