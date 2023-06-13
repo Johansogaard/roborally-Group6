@@ -89,10 +89,7 @@ public class RoboRally extends Application {
             // create and add view for new board
             BoardView boardView = new BoardView(gameController);
             boardRoot.setCenter(boardView);
-            if (gameController.repository!=null)
-            {
-                APIView apiView = new APIView(gameController);;
-            }
+
         }
 
         stage.sizeToScene();

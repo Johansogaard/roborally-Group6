@@ -435,9 +435,12 @@ public class AppController implements Observer {
         }
         else if (result.get().equals("Play online"))
         {
+            repository = Repository.getInstance();
             gameController.addRepository();
-            roboRally.createBoardView(gameController);
             repository.createGame(gameController.board.getPlayers().size());
+            roboRally.createBoardView(gameController);
+            repository.postGameInstance(gameController.board);
+            repository.waitingToStart();
         }
 
 
