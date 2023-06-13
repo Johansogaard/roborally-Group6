@@ -24,7 +24,6 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.apiAccess.Repository;
 import dk.dtu.compute.se.pisd.roborally.model.*;
-import dk.dtu.compute.se.pisd.roborally.view.APIView;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
@@ -41,11 +40,11 @@ import java.util.*;
 public class GameController {
 
     public Board board;
-    public APIObserver apiObserver =null;
+
 
     public void addRepository() {
         this.repository = Repository.getInstance();
-        this.apiObserver = new APIObserver();
+
     }
 
     public Repository repository = null;
