@@ -39,38 +39,22 @@ import java.util.List;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class PlayerView extends Tab implements ViewObserver {
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
     private Player player;
-
     private VBox top;
-
     private Label programLabel;
     private GridPane programPane;
     private Label cardsLabel;
     private GridPane cardsPane;
-
     private CardFieldView[] programCardViews;
     private CardFieldView[] cardViews;
-
     private VBox buttonPanel;
-
     private Button finishButton;
     private Button executeButton;
     private Button stepButton;
-
     private VBox playerInteractionPanel;
-
     private GameController gameController;
 
     public PlayerView(@NotNull GameController gameController, @NotNull Player player) {
@@ -82,11 +66,9 @@ public class PlayerView extends Tab implements ViewObserver {
 
         this.gameController = gameController;
         this.player = player;
-        if (gameController.repository !=null)
-        {
-            programLabel = new Label("Program"+"\t\tGamID = "+gameController.repository.getId());
-        }
-        else {
+        if (gameController.repository != null) {
+            programLabel = new Label("Program" + "\t\tGamID = " + gameController.repository.getId());
+        } else {
             programLabel = new Label("Program");
         }
 
@@ -114,7 +96,7 @@ public class PlayerView extends Tab implements ViewObserver {
         executeButton.setOnAction(e -> gameController.executePrograms());
 
         stepButton = new Button("Execute Current Register");
-        if (gameController.repository!=null) {
+        if (gameController.repository != null) {
 
             stepButton.setOnAction(e -> {
                 Thread thread = new Thread(() -> {
@@ -129,8 +111,7 @@ public class PlayerView extends Tab implements ViewObserver {
                 });
                 thread.start();
             });
-        }
-        else {
+        } else {
 
             stepButton.setOnAction(e -> gameController.executeStep());
         }
@@ -165,6 +146,14 @@ public class PlayerView extends Tab implements ViewObserver {
             player.board.attach(this);
             update(player.board);
         }
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     @Override
@@ -212,23 +201,18 @@ public class PlayerView extends Tab implements ViewObserver {
                         executeButton.setDisable(true);
                         stepButton.setDisable(true);
                         break;
-                    //adding so only the player in online mode who turn it is is allowed to see the button
+                    //adding so only the player in online mode who turn it  is allowed to see the button
                     case ACTIVATION:
                         if (gameController.repository == null) {
                             finishButton.setDisable(true);
                             executeButton.setDisable(false);
                             stepButton.setDisable(false);
-                        }
-                        else
-                        {
-                            if ((gameController.repository.getPlayerNumb()-1)==gameController.board.getCurrentPlayer().no)
-                            {
+                        } else {
+                            if ((gameController.repository.getPlayerNumb() - 1) == gameController.board.getCurrentPlayer().no) {
                                 finishButton.setDisable(true);
                                 executeButton.setDisable(true);
                                 stepButton.setDisable(false);
-                            }
-                            else
-                            {
+                            } else {
                                 finishButton.setDisable(true);
                                 executeButton.setDisable(true);
                                 stepButton.setDisable(true);

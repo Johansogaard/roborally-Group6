@@ -41,13 +41,12 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class CardFieldView extends GridPane implements ViewObserver {
 
     // This data format helps avoiding transfers of e.g. Strings from other
     // programs which can copy/paste Strings.
-    final public static  DataFormat ROBO_RALLY_CARD = new DataFormat("games/roborally/cards");
+    final public static DataFormat ROBO_RALLY_CARD = new DataFormat("games/roborally/cards");
 
     final public static int CARDFIELD_WIDTH = 65;
     final public static int CARDFIELD_HEIGHT = 100;
@@ -59,16 +58,9 @@ public class CardFieldView extends GridPane implements ViewObserver {
     final public static Background BG_DROP = new Background(new BackgroundFill(Color.LIGHTGRAY, null, null));
 
     final public static Background BG_ACTIVE = new Background(new BackgroundFill(Color.YELLOW, null, null));
-    final public static Background BG_DONE = new Background(new BackgroundFill(Color.GREENYELLOW,  null, null));
-
-    public void setField(CommandCardField field) {
-        this.field = field;
-    }
-
+    final public static Background BG_DONE = new Background(new BackgroundFill(Color.GREENYELLOW, null, null));
     private CommandCardField field;
-
     private Label label;
-
     private GameController gameController;
 
     public CardFieldView(@NotNull GameController gameController, @NotNull CommandCardField field) {
@@ -102,6 +94,10 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
         field.attach(this);
         update(field);
+    }
+
+    public void setField(CommandCardField field) {
+        this.field = field;
     }
 
     private String cardFieldRepresentation(CommandCardField cardField) {
@@ -277,7 +273,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
                                     source.getCard().getName().equals("Again") && CardFieldView.this.field == CardFieldView.this.field.player.getProgramField(0)) {
                                 // Do not perform move if 'Again' card is being placed in first register
                                 // The card will remain in the original field
-                            } else if(gameController.moveCards(source, CardFieldView.this.field)) {
+                            } else if (gameController.moveCards(source, CardFieldView.this.field)) {
                                 success = true;
                             }
 

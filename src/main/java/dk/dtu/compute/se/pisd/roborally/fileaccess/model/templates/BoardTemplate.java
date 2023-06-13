@@ -34,7 +34,6 @@ import java.util.*;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class BoardTemplate {
 
@@ -45,17 +44,17 @@ public class BoardTemplate {
     public boolean stepMode;
 
     //public int antennaX, antennaY;
+    public List<PlayerTemplate> players = new ArrayList<>();
+    public List<SpaceTemplate> spaces = new ArrayList<>();
+    public ArrayList<String> playerOrder = new ArrayList<>();
+    private Set<Observer> observers = Collections.newSetFromMap(new WeakHashMap<>());
+    private PlayerTemplate current;
+    private AntennaTemplate antenna;
+    private RebootTokenTemplate rebootToken;
 
     public List<PlayerTemplate> getPlayers() {
         return players;
     }
-    private Set<Observer> observers = Collections.newSetFromMap(new WeakHashMap<>());
-    public List<PlayerTemplate> players = new ArrayList<>();
-    public List<SpaceTemplate> spaces = new ArrayList<>();
-    public ArrayList<String> playerOrder = new ArrayList<>();
-    private PlayerTemplate current;
-    private AntennaTemplate antenna;
-    private RebootTokenTemplate rebootToken;
 
     public BoardTemplate fromBoard(Board board) {
         this.width = board.width;
@@ -63,7 +62,7 @@ public class BoardTemplate {
         this.step = board.getStep();
         this.stepMode = board.isStepMode();
         this.phase = board.getPhase();
-        if (board.getPlayers().size()>0) {
+        if (board.getPlayers().size() > 0) {
             for (Player player : board.getPlayerOrder()) {
                 this.playerOrder.add(player.getName());
             }
@@ -73,8 +72,7 @@ public class BoardTemplate {
                 this.players.add(new PlayerTemplate().fromPlayer(player));
             }
         }
-        if (board.getAntenna()!=null)
-        {
+        if (board.getAntenna() != null) {
             this.antenna = new AntennaTemplate().fromAntenna(board.getAntenna());
         }
         if (board.getRebootToken() != null) {
@@ -82,16 +80,14 @@ public class BoardTemplate {
         }
 
 
-
         for (int i = 0; i < board.width; i++) {
             for (int j = 0; j < board.height; j++) {
-              {
-                  // only convert the spaces that actually have some relevant data
-                  SpaceTemplate space = new SpaceTemplate().fromSpace(board.getSpace(i,j));
-                  if (space.actions.size()>0||space.walls.size()>0||space.player!=null|| space.startPlayerNo >0)
-                  {
-                     spaces.add(space);
-                  }
+                {
+                    // only convert the spaces that actually have some relevant data
+                    SpaceTemplate space = new SpaceTemplate().fromSpace(board.getSpace(i, j));
+                    if (space.actions.size() > 0 || space.walls.size() > 0 || space.player != null || space.startPlayerNo > 0) {
+                        spaces.add(space);
+                    }
 
 
                 }
@@ -110,14 +106,13 @@ public class BoardTemplate {
         board.setStepMode(this.stepMode);
 
         //first adding the players but where they are missing space because they are not istantiated yet
-        if (players.size()>0) {
+        if (players.size() > 0) {
             for (PlayerTemplate playerTemplate : players) {
                 board.addPlayer(playerTemplate.toPlayer(board));
             }
             ArrayList<Player> plOrder = new ArrayList<>();
-            for (String playerName : playerOrder)
-            {
-               plOrder.add(getPlayerFromName(board.getPlayers(),playerName));
+            for (String playerName : playerOrder) {
+                plOrder.add(getPlayerFromName(board.getPlayers(), playerName));
 
             }
             board.setPlayerOrder(plOrder);
@@ -129,7 +124,7 @@ public class BoardTemplate {
 
             SpaceTemplate sp = spaces.get(i);
             if (sp.player != null) {
-                board.getSpace(sp.x, sp.y).setPlayer(getPlayerFromName(board.getPlayers(),sp.player));
+                board.getSpace(sp.x, sp.y).setPlayer(getPlayerFromName(board.getPlayers(), sp.player));
             }
             if (sp.walls.size() > 0) {
                 for (int f = 0; f < sp.walls.size(); f++) {
@@ -142,9 +137,8 @@ public class BoardTemplate {
 
                 }
             }
-            if (sp.startPlayerNo>0)
-            {
-                board.getSpace(sp.x,sp.y).setStartPlayerNo(sp.startPlayerNo);
+            if (sp.startPlayerNo > 0) {
+                board.getSpace(sp.x, sp.y).setStartPlayerNo(sp.startPlayerNo);
             }
 
 
@@ -157,11 +151,10 @@ public class BoardTemplate {
         }
 
 
-
-
         return board;
 
     }
+
     //Returns the player that has the name of the input from the given list
     public Player getPlayerFromName(List<Player> players, String name) {
         for (Player player : players) {

@@ -9,13 +9,17 @@ import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 import dk.dtu.compute.se.pisd.roborally.view.PlayersView;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author Johan s224324
+ * This repository combine methods from client to do a speciffic job. All methods has somthing to do with the api
+ * Remember the server needs to be running for this class aswell as the client to work
+ */
 public class Repository implements IRepository {
     private static Repository single_instance = null;
     Client client = new Client();
@@ -52,26 +56,25 @@ public class Repository implements IRepository {
     }
 
 
-
     @Override
     public void createGame(int maxNumbOfPlayers) {
-        this.maxPlayerNumb =maxNumbOfPlayers;
+        this.maxPlayerNumb = maxNumbOfPlayers;
         id = client.CreateGameInstance(maxNumbOfPlayers);
         playerNumb = 1;
 
 
     }
+
     @Override
-    public ArrayList<String> getFiles()
-    {
+    public ArrayList<String> getFiles() {
         ArrayList<String> f = new ArrayList<>();
         String[] files = client.getFilesString();
-        for (String file : files)
-        {
-         f.add(file);
+        for (String file : files) {
+            f.add(file);
         }
         return f;
     }
+
     @Override
     public void postGameInstanceActivationPhase(Board board) {
         String jsonData = client.getGameInstanceAsString(board);
@@ -102,20 +105,20 @@ public class Repository implements IRepository {
         this.id = id;
         playerNumb = client.joinGame(id);
     }
+
     @Override
-    public Board getGameFromServer(String fileName)
-    {
+    public Board getGameFromServer(String fileName) {
         String gameInstance = client.getFileFromName(fileName);
         Board board = client.loadGameInstanceFromString(gameInstance);
         return board;
     }
+
     @Override
     public Board getGameInstance(Board oldBoard) {
         String gameString = client.getGameInstance(id);
         Board newBoard = client.loadGameInstanceFromString(gameString);
-        if (maxPlayerNumb ==0)
-        {
-            maxPlayerNumb=newBoard.getPlayersNumber();
+        if (maxPlayerNumb == 0) {
+            maxPlayerNumb = newBoard.getPlayersNumber();
         }
         //this will add the observers to the new board if there is any
         if (oldBoard != null) {
@@ -202,6 +205,7 @@ public class Repository implements IRepository {
         }
     }
 
+    @Override
     public void waitingToStart() {
         if (!startGame) {
             if (playerNumb == 1) {
@@ -212,14 +216,12 @@ public class Repository implements IRepository {
         }
     }
 
-    private void updateStartButtonText(int playerCount, Button startButton) {
-        startButton.setText("Start Game (" + playerCount + " players joined)");
-    }
 
+    @Override
     public void makeWaitButton() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Game Lobby");
-        alert.setHeaderText("Waiting for players  GameId="+id+"\nPlayer 1 will start the game when lobby is full");
+        alert.setHeaderText("Waiting for players  GameId=" + id + "\nPlayer 1 will start the game when lobby is full");
         alert.setContentText("Players joined: 1/" + maxPlayerNumb);
 
         ButtonType yesButton = new ButtonType("");
@@ -255,9 +257,9 @@ public class Repository implements IRepository {
         result.ifPresent(buttonType -> {
             if (buttonType == yesButton) {
                 // User clicked Start Game
-                    if (!startGame) {
-                        makeWaitButton();
-                    }
+                if (!startGame) {
+                    makeWaitButton();
+                }
             } else {
                 // User clicked Cancel or closed the dialog
                 makeWaitButton();
@@ -265,16 +267,18 @@ public class Repository implements IRepository {
             }
         });
 
-}
-    public void setStartTrue()
-    {
+    }
+
+    @Override
+    public void setStartTrue() {
         client.setStart(id);
     }
-    public void makeStartButton()
-    {
+
+    @Override
+    public void makeStartButton() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Game Lobby");
-        alert.setHeaderText("Waiting for players  GameId="+id+"\nPress start button when players has joined your game");
+        alert.setHeaderText("Waiting for players  GameId=" + id + "\nPress start button when players has joined your game");
         alert.setContentText("Players joined: 1/" + maxPlayerNumb);
 
         // Add custom button for game start
@@ -314,13 +318,11 @@ public class Repository implements IRepository {
         result.ifPresent(buttonType -> {
             if (buttonType == yesButton) {
                 // User clicked Start Game
-                if(Integer.parseInt(getStartData())== maxPlayerNumb) {
+                if (Integer.parseInt(getStartData()) == maxPlayerNumb) {
                     setStartTrue();
                     startGame = true;
                     System.out.println("User clicked Start Game");
-                }
-                else
-                {
+                } else {
                     makeStartButton();
                 }
             } else {
@@ -333,16 +335,17 @@ public class Repository implements IRepository {
 
 
     }
-public String getStartData()
-{
-   String[] data= client.getStart(id);
-   if (data.length ==2) {
-       if (data[1].equals("true")) {
-           startGame = true;
-       }
-       return data[0];
-   }
-   return null;
-}
+
+    @Override
+    public String getStartData() {
+        String[] data = client.getStart(id);
+        if (data.length == 2) {
+            if (data[1].equals("true")) {
+                startGame = true;
+            }
+            return data[0];
+        }
+        return null;
+    }
 
 }

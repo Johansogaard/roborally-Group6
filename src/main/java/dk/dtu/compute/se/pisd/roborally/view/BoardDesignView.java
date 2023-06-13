@@ -1,7 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 
-
 import com.sun.javafx.scene.traversal.Direction;
 import dk.dtu.compute.se.pisd.roborally.controller.SaveBoardDesignController;
 import dk.dtu.compute.se.pisd.roborally.model.*;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * made like BoardView just with a few changes
  */
 public class BoardDesignView extends VBox {
@@ -133,7 +131,7 @@ public class BoardDesignView extends VBox {
                         break;
 
                     case "Antenna":
-                       addAntenna(space);
+                        addAntenna(space);
                         break;
 
                     case "Push panel":
@@ -154,7 +152,7 @@ public class BoardDesignView extends VBox {
                     case "Gear":
                         addGear(space);
                         break;
-                     case "Reboot token":
+                    case "Reboot token":
                         addRebootToken(space);
                         break;
                     case "Pit":
@@ -190,7 +188,7 @@ public class BoardDesignView extends VBox {
             space.actions = new ArrayList<>();
             space.setStartPlayerNo(0);
             space.setWalls(new ArrayList<>());
-            if (board.getAntenna() != null && board.getSpace(board.getAntenna().x,board.getAntenna().y) == space) {
+            if (board.getAntenna() != null && board.getSpace(board.getAntenna().x, board.getAntenna().y) == space) {
                 board.setAntenna(null);
             }
             if (board.getRebootToken() != null && board.getSpace(board.getRebootToken().x, board.getRebootToken().y) == space) {
@@ -203,22 +201,23 @@ public class BoardDesignView extends VBox {
                 neighbor.notifySpace();
             }
         }
-        private void addAntenna(Space space)
-        {
+
+        private void addAntenna(Space space) {
 
             if (this.board.getAntenna() == null) {
                 space.addAntenna();
             }
 
         }
-        private void addRebootToken(Space space)
-        {
+
+        private void addRebootToken(Space space) {
 
             if (this.board.getRebootToken() == null) {
                 space.addRebootToken();
             }
 
         }
+
         private void addConveyorBelt(Space space, String beltType) {
             FieldAction actionInstance = null;
 
@@ -312,12 +311,12 @@ public class BoardDesignView extends VBox {
             headings.add(Heading.WEST);
 
             for (Heading heading : headings) {
-                if ( ! currentWalls.contains(heading)) {
+                if (!currentWalls.contains(heading)) {
                     availableWalls.add(heading);
                 }
             }
 
-            if ( ! availableWalls.isEmpty()) {
+            if (!availableWalls.isEmpty()) {
                 ChoiceDialog dialog = new ChoiceDialog();
                 dialog.setContentText("Chose the direction of the wall");
                 dialog.getItems().addAll(availableWalls);
@@ -328,6 +327,7 @@ public class BoardDesignView extends VBox {
                 }
             }
         }
+
         private void addLaser(Space space) {
             ChoiceDialog<String> dialog = new ChoiceDialog<>("NORTH", "NORTH", "EAST", "SOUTH", "WEST");
             dialog.setContentText("Select the laser direction:");
@@ -357,7 +357,7 @@ public class BoardDesignView extends VBox {
                         return;
                 }
 
-                ChoiceDialog<String> dialog2 = new ChoiceDialog<>("1","1", "2", "3");
+                ChoiceDialog<String> dialog2 = new ChoiceDialog<>("1", "1", "2", "3");
                 dialog2.setContentText("Select the laser direction:");
                 dialog2.setHeaderText(null);
                 dialog2.setTitle("Add Lasers");
@@ -382,11 +382,12 @@ public class BoardDesignView extends VBox {
                             return;
                     }
 
-                Laser laser = new Laser(direction, type);
-                space.addAction(laser);
-                space.addWall(direction.opposite());
+                    Laser laser = new Laser(direction, type);
+                    space.addAction(laser);
+                    space.addWall(direction.opposite());
+                }
             }
-        }}
+        }
 
         private void addLaserBeam(Space space) {
             ChoiceDialog<String> dialog = new ChoiceDialog<>("NORTH", "NORTH", "EAST", "SOUTH", "WEST");
@@ -417,7 +418,7 @@ public class BoardDesignView extends VBox {
                         return;
                 }
 
-                ChoiceDialog<String> dialog2 = new ChoiceDialog<>("1","1", "2", "3");
+                ChoiceDialog<String> dialog2 = new ChoiceDialog<>("1", "1", "2", "3");
                 dialog2.setContentText("Select the laser direction:");
                 dialog2.setHeaderText(null);
                 dialog2.setTitle("Add Lasers");
@@ -445,7 +446,8 @@ public class BoardDesignView extends VBox {
                     LaserBeam laserbeam = new LaserBeam(direction, type);
                     space.addAction(laserbeam);
                 }
-            }}
+            }
+        }
 
 
         private void addCheckpoint(Space space) {

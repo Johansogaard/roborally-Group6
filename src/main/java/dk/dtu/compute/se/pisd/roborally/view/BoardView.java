@@ -35,35 +35,20 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class BoardView extends VBox implements ViewObserver {
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
     private Board board;
-
     private GridPane mainBoardPane;
-
-    public SpaceView[][] getSpaces() {
-        return spaces;
-    }
-
     private SpaceView[][] spaces;
-
     private PlayersView playersView;
-
     private Label statusLabel;
-
     private SpaceEventHandler spaceEventHandler;
 
     public BoardView(@NotNull GameController gameController) {
         board = gameController.board;
-        if (gameController.repository!=null)
-        {
-            board.setCurrentPlayer(board.getPlayers().get(gameController.repository.getPlayerNumb()-1));
+        if (gameController.repository != null) {
+            board.setCurrentPlayer(board.getPlayers().get(gameController.repository.getPlayerNumb() - 1));
         }
         mainBoardPane = new GridPane();
         playersView = new PlayersView(gameController);
@@ -91,6 +76,13 @@ public class BoardView extends VBox implements ViewObserver {
         update(board);
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public SpaceView[][] getSpaces() {
+        return spaces;
+    }
 
     @Override
     public void updateView(Subject subject) {

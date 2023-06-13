@@ -33,13 +33,12 @@ import java.util.logging.Logger;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class RoboRallyMenuBar extends MenuBar {
-  //  private static final Logger logger = LoggerFactory.getLogger(RoboRallyMenuBar.class);
+
 
     private MenuItem saveGameToServer;
-    private MenuItem loadGameFromServer;
+
 
     private AppController appController;
 
@@ -53,7 +52,7 @@ public class RoboRallyMenuBar extends MenuBar {
     private MenuItem loadGame;
     private MenuItem playOnline;
     private MenuItem stopGame;
-    //JJ made my own menu item
+
     private MenuItem createABoard;
 
     private MenuItem exitApp;
@@ -65,32 +64,27 @@ public class RoboRallyMenuBar extends MenuBar {
         this.getMenus().add(controlMenu);
 
         newGame = new MenuItem("New game");
-        newGame.setOnAction( e -> this.appController.newGame());
+        newGame.setOnAction(e -> this.appController.newGame());
         controlMenu.getItems().add(newGame);
 
         stopGame = new MenuItem("Stop Game");
-        stopGame.setOnAction( e -> this.appController.stopGame());
+        stopGame.setOnAction(e -> this.appController.stopGame());
         controlMenu.getItems().add(stopGame);
         playOnline = new MenuItem("Play Online");
-        playOnline.setOnAction(e-> this.appController.playOnline());
+        playOnline.setOnAction(e -> this.appController.playOnline());
         controlMenu.getItems().add(playOnline);
 
         saveGame = new MenuItem("Save game");
-        saveGame.setOnAction( e -> this.appController.saveGame());
+        saveGame.setOnAction(e -> this.appController.saveGame());
         controlMenu.getItems().add(saveGame);
 
         saveGameToServer = new MenuItem("Save game to server");
         saveGameToServer.setOnAction(e -> this.appController.saveGameOnServer());
         controlMenu.getItems().add(saveGameToServer);
 
-       /* loadGameFromServer=new MenuItem("Load game from server");
-        loadGameFromServer.setOnAction(e -> this.appController.loadGameFromServer());
-        controlMenu.getItems().add(loadGameFromServer);*/
-
-
 
         loadGame = new MenuItem("Load game");
-        loadGame.setOnAction( e -> this.appController.loadGame());
+        loadGame.setOnAction(e -> this.appController.loadGame());
         controlMenu.getItems().add(loadGame);
 
         createABoard = new MenuItem("Create board");
@@ -98,7 +92,7 @@ public class RoboRallyMenuBar extends MenuBar {
         controlMenu.getItems().add(createABoard);
 
         exitApp = new MenuItem("Exit");
-        exitApp.setOnAction( e -> this.appController.exit());
+        exitApp.setOnAction(e -> this.appController.exit());
         controlMenu.getItems().add(exitApp);
 
         controlMenu.setOnShowing(e -> update());
@@ -124,7 +118,6 @@ public class RoboRallyMenuBar extends MenuBar {
             loadGame.setVisible(true);
             saveGameToServer.setVisible(false);
             createABoard.setVisible(true);
-
 
 
         }

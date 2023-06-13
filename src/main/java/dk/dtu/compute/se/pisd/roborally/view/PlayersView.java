@@ -32,16 +32,10 @@ import javafx.scene.control.TabPane;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class PlayersView extends TabPane implements ViewObserver {
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
     private Board board;
-
     private PlayerView[] playerViews;
 
     public PlayersView(GameController gameController) {
@@ -49,21 +43,24 @@ public class PlayersView extends TabPane implements ViewObserver {
 //not sure this works
         this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
-            playerViews = new PlayerView[board.getPlayersNumber()];
-            for (int i = 0; i < board.getPlayersNumber(); i++) {
-                playerViews[i] = new PlayerView(gameController, board.getPlayers().get(i));
-                this.getTabs().add(playerViews[i]);
-                if (gameController.repository !=null && board.getPlayers().get(i).no != gameController.repository.getPlayerNumb()-1)
-                {
-                 playerViews[i].setDisable(true);
-                }
-
+        playerViews = new PlayerView[board.getPlayersNumber()];
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            playerViews[i] = new PlayerView(gameController, board.getPlayers().get(i));
+            this.getTabs().add(playerViews[i]);
+            if (gameController.repository != null && board.getPlayers().get(i).no != gameController.repository.getPlayerNumb() - 1) {
+                playerViews[i].setDisable(true);
             }
+
+        }
 
 
         board.attach(this);
 
         update(board);
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     @Override

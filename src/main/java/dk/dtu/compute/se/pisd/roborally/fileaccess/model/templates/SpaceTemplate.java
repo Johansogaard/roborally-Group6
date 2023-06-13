@@ -30,7 +30,6 @@ import java.util.List;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class SpaceTemplate {
 
@@ -45,13 +44,12 @@ public class SpaceTemplate {
     public SpaceTemplate fromSpace(Space space) {
         this.x = space.x;
         this.y = space.y;
-        if(space.getPlayer() != null) {
+        if (space.getPlayer() != null) {
             this.player = space.getPlayer().getName();
         }
         this.startPlayerNo = space.getStartPlayerNo();
         this.walls = space.getWalls();
         this.actions = space.getActions();
-
 
 
         return this;
@@ -60,7 +58,7 @@ public class SpaceTemplate {
     public Space toSpace(Board board) {
 
         Space space = new Space(board, this.x, this.y);
-      //  space.setPlayer(player.toPlayer(board));
+        //  space.setPlayer(player.toPlayer(board));
 
         for (FieldAction action : actions) {
             space.addAction(action);

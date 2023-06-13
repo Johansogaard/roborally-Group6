@@ -35,27 +35,25 @@ import java.util.*;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class GameController {
 
     public Board board;
-
-
-    public void addRepository() {
-        this.repository = Repository.getInstance();
-
-    }
-
     public Repository repository = null;
     public boolean won = false;
     /**
      * GameController is a controller for
+     *
      * @param board is the gameboard in use
      */
     public GameController(@NotNull Board board) {
         this.board = board;
 
+
+    }
+
+    public void addRepository() {
+        this.repository = Repository.getInstance();
 
     }
 
@@ -65,7 +63,7 @@ public class GameController {
      *
      * @param space the space to which the current player should move
      */
-    public void moveCurrentPlayerToSpace(@NotNull Space space)  {
+    public void moveCurrentPlayerToSpace(@NotNull Space space) {
         // TODO Assignment V1: method should be implemented by the students:
         //   - the current player should be moved to the given space
         //     (if it is free()
@@ -96,7 +94,7 @@ public class GameController {
             Player player = board.getPlayer(i);
 
             if (player != null) {
-                player.reboot=false;
+                player.reboot = false;
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
                     CommandCardField field = player.getProgramField(j);
                     field.setCard(null);
@@ -112,17 +110,17 @@ public class GameController {
             }
         }
     }
+
     public void fillEmptyRegister() {
-        List<Player> players=board.getPlayers();
+        List<Player> players = board.getPlayers();
         for (int i = 0; i < players.size(); i++) {
-                for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                    if (board.getPlayers().get(i).getProgramField(j).getCard() == null) {
-                        board.getPlayers().get(i).getProgramField(j).setCard(board.getPlayers().get(i).deck.drawCard());
-                    }
+            for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                if (board.getPlayers().get(i).getProgramField(j).getCard() == null) {
+                    board.getPlayers().get(i).getProgramField(j).setCard(board.getPlayers().get(i).deck.drawCard());
                 }
             }
         }
-
+    }
 
 
     // XXX: V2
@@ -131,6 +129,7 @@ public class GameController {
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
     }
+
     // XXX: V2
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
@@ -139,10 +138,10 @@ public class GameController {
         board.setPlayerOrder();
         board.setStep(0);
         fillEmptyRegister();
-        if (repository !=null) {
+        if (repository != null) {
             mergeCards();
             repository.postGameInstanceProgrammingPhase(board);
-            board =repository.getGameInstance(board);
+            board = repository.getGameInstance(board);
 
             board.notifyBoardChange();
             waitForAction();
@@ -150,21 +149,16 @@ public class GameController {
 
     }
 
-    public void waitForAction()
-    {
-        if (repository.getPlayerNumb()-1 ==board.getCurrentPlayer().no)
-        {
+    public void waitForAction() {
+        if (repository.getPlayerNumb() - 1 == board.getCurrentPlayer().no) {
 
-        }
-        else
-        {
+        } else {
             Thread thread = new Thread(() -> {
                 // Lengthy operation
                 this.repository.waitForPlayersAct();
-                this.board =this.repository.getGameInstance(this.board);
-                if (board.getPhase()==Phase.PROGRAMMING)
-                {
-                    board.setCurrentPlayer(board.getPlayers().get(repository.getPlayerNumb()-1));
+                this.board = this.repository.getGameInstance(this.board);
+                if (board.getPhase() == Phase.PROGRAMMING) {
+                    board.setCurrentPlayer(board.getPlayers().get(repository.getPlayerNumb() - 1));
                 }
                 this.board.notifyBoardChange();
                 if (this.board.getPhase() != Phase.PROGRAMMING) {
@@ -183,14 +177,13 @@ public class GameController {
 
     }
 
-    public void mergeCards()
-    {
+    public void mergeCards() {
 
-         Board loadedBoard=repository.getGameInstance(null);
+        Board loadedBoard = repository.getGameInstance(null);
 
 
         for (Player player : loadedBoard.getPlayers()) {
-            if (player.no!=repository.getPlayerNumb()-1) {
+            if (player.no != repository.getPlayerNumb() - 1) {
                 for (int f = 0; f < board.getPlayers().get(player.no).getCards().length; f++) {
                     board.getPlayers().get(player.no).getCards()[f].setCard(player.getCards()[f].getCard());
                 }
@@ -208,14 +201,14 @@ public class GameController {
             for (int i = 0; i < board.getPlayersNumber(); i++) {
                 Player player = board.getPlayer(i);
                 CommandCardField field = player.getProgramField(register);
-                field.setVisible(true);if(player.getProgramField(register).getCard()==null){
-                    player.getProgramField(register).setCard(player.deck.drawCard());;
+                field.setVisible(true);
+                if (player.getProgramField(register).getCard() == null) {
+                    player.getProgramField(register).setCard(player.deck.drawCard());
+                    ;
                 }
             }
         }
     }
-
-
 
 
     // XXX: V2
@@ -253,56 +246,56 @@ public class GameController {
         //gets the curr player
 
         Player currentPlayer = board.getCurrentPlayer();
-            //cheks if the phase is activation and the curr player is not null
-            if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
-                //the curr register
-                int step = board.getStep();
-                //checks if the step in correct and not a unusable value
-                if (step >= 0 && step < Player.NO_REGISTERS) {
-                    //gets the curr card
-                    CommandCard card = currentPlayer.getProgramField(step).getCard();
+        //cheks if the phase is activation and the curr player is not null
+        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
+            //the curr register
+            int step = board.getStep();
+            //checks if the step in correct and not a unusable value
+            if (step >= 0 && step < Player.NO_REGISTERS) {
+                //gets the curr card
+                CommandCard card = currentPlayer.getProgramField(step).getCard();
 
-                    //checks if card is something
+                //checks if card is something
                 //checks if card is something
                 if (card != null) {
                     //gets the command
                     Command command = card.command;
 
-                        //if the command is Interactive then the phase must be changed
-                        if (card.command.isInteractive() && !currentPlayer.reboot) {
-                            board.setPhase(Phase.PLAYER_INTERACTION);
-                        } else {
-                            //else it will executecommand
-                            if(!currentPlayer.reboot) {
-                                executeCommand(currentPlayer, command);
-                            }
+                    //if the command is Interactive then the phase must be changed
+                    if (card.command.isInteractive() && !currentPlayer.reboot) {
+                        board.setPhase(Phase.PLAYER_INTERACTION);
+                    } else {
+                        //else it will executecommand
+                        if (!currentPlayer.reboot) {
+                            executeCommand(currentPlayer, command);
+                        }
 
-                            //setting the next player;
-                            //sout i used for debugging remove later
-                            System.out.println(board.getOrderNumber(currentPlayer) + " " + board.getPlayersNumber());
                         //setting the next player;
-                        if (board.getOrderNumber(currentPlayer)+1 < board.getPlayersNumber()) {
-                            board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
+                        //sout i used for debugging remove later
+                        System.out.println(board.getOrderNumber(currentPlayer) + " " + board.getPlayersNumber());
+                        //setting the next player;
+                        if (board.getOrderNumber(currentPlayer) + 1 < board.getPlayersNumber()) {
+                            board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer) + 1) % (board.getPlayers().size())));
                         } else {
                             //adds a step because we now have been through all the players
                             step++;
 
-                                //we run doaction on all fields because now all players have done the current register
-                                for (Player player : this.board.getPlayers()) {
-                                    player.shootLaser(player.getSpace(), this);
-                                    for (FieldAction action : player.getSpace().getActions()) {
-                                        if (won) {
-                                            break;
-                                        }
-                                        action.doAction(this, player.getSpace());
+                            //we run doaction on all fields because now all players have done the current register
+                            for (Player player : this.board.getPlayers()) {
+                                player.shootLaser(player.getSpace(), this);
+                                for (FieldAction action : player.getSpace().getActions()) {
+                                    if (won) {
+                                        break;
                                     }
+                                    action.doAction(this, player.getSpace());
                                 }
+                            }
 
                             //checks if we have more steps than registers if thats the case we will start the programming phase
                             if (step < Player.NO_REGISTERS) {
                                 makeProgramFieldsVisible(step);
                                 board.setStep(step);
-                                board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
+                                board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer) + 1) % (board.getPlayers().size())));
                             } else {
 
                                 startProgrammingPhase();
@@ -311,25 +304,21 @@ public class GameController {
                     }
                 }
 
-            }
-    else {
-                    // this should not happen
-                    assert false;
-                }
             } else {
                 // this should not happen
                 assert false;
             }
-            if (repository!=null && board.getPhase()!= Phase.PLAYER_INTERACTION)
-            {
-               repository.postGameInstanceActivationPhase(board);
-                if (board.getPhase() != Phase.PROGRAMMING) {
-                    waitForAction();
-                }
-
+        } else {
+            // this should not happen
+            assert false;
+        }
+        if (repository != null && board.getPhase() != Phase.PLAYER_INTERACTION) {
+            repository.postGameInstanceActivationPhase(board);
+            if (board.getPhase() != Phase.PROGRAMMING) {
+                waitForAction();
             }
 
-
+        }
 
 
     }
@@ -389,7 +378,7 @@ public class GameController {
         CommandCard previousCard = player.getProgramField(previousStep).getCard();
 
         if (previousCard != null && previousCard.command == Command.AGAIN) {
-            again(player, currentStep-1);
+            again(player, currentStep - 1);
 
         } else if (previousCard != null) {
             Command previousCommand = previousCard.command;
@@ -409,15 +398,21 @@ public class GameController {
     }
 
     private void Move3(Player player) {
-        for (int i = 0 ; i<3;i++) {
-            if(player.reboot==false){
-                player.moveForward();}}}
+        for (int i = 0; i < 3; i++) {
+            if (player.reboot == false) {
+                player.moveForward();
+            }
+        }
+    }
 
     // TODO: V2
     public void fastForward(@NotNull Player player) {
-        for (int i = 0 ; i<2;i++) {
-            if(player.reboot==false){
-                player.moveForward();}}}
+        for (int i = 0; i < 2; i++) {
+            if (player.reboot == false) {
+                player.moveForward();
+            }
+        }
+    }
 
 
     // TODO: V2
@@ -434,7 +429,7 @@ public class GameController {
         }
     }
 
-    public void leftOrRight(@NotNull Player player){
+    public void leftOrRight(@NotNull Player player) {
         ChoiceDialog<String> dialog = new ChoiceDialog<>("Left/Right", "Left", "Right");
         dialog.setContentText("What way do you want to turn");
 
@@ -451,7 +446,9 @@ public class GameController {
                 case "Right":
                     turnRight(player);
                     break;
-    }}}
+            }
+        }
+    }
 
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
         CommandCard sourceCard = source.getCard();
@@ -469,30 +466,29 @@ public class GameController {
      * A method called when no corresponding controller operation is implemented yet. This
      * should eventually be removed.
      */
-    public void executeCommandOptionAndContinue(Command command,Player player){
-        int step =board.getStep();
+    public void executeCommandOptionAndContinue(Command command, Player player) {
+        int step = board.getStep();
         Player currentPlayer = board.getCurrentPlayer();
         board.setPhase(Phase.ACTIVATION);
-        executeCommand(player,command);
-        if (board.getOrderNumber(currentPlayer)+1 < board.getPlayersNumber()) {
-            board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
+        executeCommand(player, command);
+        if (board.getOrderNumber(currentPlayer) + 1 < board.getPlayersNumber()) {
+            board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer) + 1) % (board.getPlayers().size())));
 
-        if (board.isStepMode() == false) {
+            if (board.isStepMode() == false) {
                 executePrograms();
             }
         } else {
-               step++;
-                if (step < Player.NO_REGISTERS) {
-                    makeProgramFieldsVisible(step);
-                    board.setStep(step);
-                    board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
-                } else {
-                    startProgrammingPhase();
-                }
+            step++;
+            if (step < Player.NO_REGISTERS) {
+                makeProgramFieldsVisible(step);
+                board.setStep(step);
+                board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer) + 1) % (board.getPlayers().size())));
+            } else {
+                startProgrammingPhase();
+            }
 
         }
-        if (repository!=null && board.getPhase()!= Phase.PLAYER_INTERACTION)
-        {
+        if (repository != null && board.getPhase() != Phase.PLAYER_INTERACTION) {
 
             repository.postGameInstanceActivationPhase(board);
             if (board.getPhase() != Phase.PROGRAMMING) {
@@ -502,13 +498,14 @@ public class GameController {
         }
     }
 
-       public void initiateWin(Player player) {
-        try{
-        Alert winMsg = new Alert(Alert.AlertType.INFORMATION, "Spiller \"" + player.getName() + "\" har vundet spillet.");
+    public void initiateWin(Player player) {
+        try {
+            Alert winMsg = new Alert(Alert.AlertType.INFORMATION, "Spiller \"" + player.getName() + "\" har vundet spillet.");
             this.won = true;
-            winMsg.showAndWait();}
-        catch(ExceptionInInitializerError e){
-        this.won = true;}
+            winMsg.showAndWait();
+        } catch (ExceptionInInitializerError e) {
+            this.won = true;
+        }
 
     }
 

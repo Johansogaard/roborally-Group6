@@ -6,7 +6,10 @@ import java.util.ArrayList;
 
 public interface IRepository {
 
-
+    /**
+     * @author Johan s224324
+     * This is a interface that shows the requeried methods for the repository of methods used to call methods from client
+     */
 
     void saveGameToServer(Board board, String saveName);
 
@@ -31,10 +34,17 @@ public interface IRepository {
     public Board getGameInstance(Board oldBoard);
 
 
-
-
-
     void waitForPlayersProg();
 
     void waitForPlayersAct();
+
+    void waitingToStart();
+
+    void makeWaitButton();
+
+    void setStartTrue();
+
+    void makeStartButton();
+
+    String getStartData();
 }

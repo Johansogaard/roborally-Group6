@@ -69,61 +69,56 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
+
 import javafx.scene.control.TextInputDialog;
+
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class AppController implements Observer {
     private static final Logger logger = LoggerFactory.getLogger(AppController.class);
     private static final String GAMES_FOLDER = "/Users/andersjefsen/Desktop/testingRoboRally/SAVED GAMES";
 
     private static final String BASE_URL = "http://10.209.246.248:8086/api/game";
-
+    private static final String JSON_EXT = "json";
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-    private String fileToOpen;
     final private RoboRally roboRally;
     final private String boardsPath = "src/main/resources/boards";
     final private String gamesPath = "src/main/resources/savedGames";
     final private String currGamePath = "src/main/resources/currGameInstance";
     final private String currGameFile = "currGame";
     final private String jsonFile = ".jsoon";
-    private GameController gameController;
-    public Repository repository = null;
-
-    private static final String JSON_EXT = "json";
     private final RestTemplate restTemplate = new RestTemplate();
+    public Repository repository = null;
+    private String fileToOpen;
+    private GameController gameController;
 
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
     }
-    public void playOnline()
-    {
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("","Join Game","Create Game");
+
+    public void playOnline() {
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("", "Join Game", "Create Game");
         dialog.setTitle("Join or create game");
         dialog.setHeaderText("Select a option");
         Optional<String> result = dialog.showAndWait();
-        if (result.get().equals("Create Game"))
-        {
+        if (result.get().equals("Create Game")) {
             repository = Repository.getInstance();
-        newGame();
-        }
-        else if(result.get().equals("Join Game"))
-        {
+            newGame();
+        } else if (result.get().equals("Join Game")) {
             repository = Repository.getInstance();
             TextInputDialog inputDialog = new TextInputDialog();
             inputDialog.setContentText("Write the id of the game you want to join");
             inputDialog.showAndWait();
-
-
 
 
             repository.joinGame(Integer.parseInt(inputDialog.getResult()));
@@ -135,27 +130,24 @@ public class AppController implements Observer {
             repository.waitingToStart();
 
 
-        }
-        else
-        {
+        } else {
 
         }
 
     }
 
     /**
-
-     Saves the game locally and sends it to the server.
-
-     This method prompts the user to enter a name for the saved game,
-
-     converts the current game board to a template, and saves the template as a JSON file locally.
-
-     The saved game is then sent to the server using the sendToServer method.
-
-     If any error occurs during the saving or sending process, a RuntimeException is thrown.
-
-     @throws RuntimeException if there is an error saving the game locally or sending it to the server.
+     * Saves the game locally and sends it to the server.
+     * <p>
+     * This method prompts the user to enter a name for the saved game,
+     * <p>
+     * converts the current game board to a template, and saves the template as a JSON file locally.
+     * <p>
+     * The saved game is then sent to the server using the sendToServer method.
+     * <p>
+     * If any error occurs during the saving or sending process, a RuntimeException is thrown.
+     *
+     * @throws RuntimeException if there is an error saving the game locally or sending it to the server.
      */
     public void saveGameToServer() {
         // Creating a dialog box for user input
@@ -231,10 +223,6 @@ public class AppController implements Observer {
     }
 
 
-
-
-
-
     public void newGame() {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
@@ -257,7 +245,7 @@ public class AppController implements Observer {
             int no = result.get();
             for (int i = 0; i < no; i++) {
                 Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
-                player.no=i;
+                player.no = i;
                 board.addPlayer(player);
                 player.setSpawn();
             }
@@ -270,28 +258,23 @@ public class AppController implements Observer {
             }
 
 
-
-
-
-
             // XXX: V2
             // board.setCurrentPlayer(board.getPlayer(0));
 
-                board.setCurrentPlayer(board.getPlayer(0));
+            board.setCurrentPlayer(board.getPlayer(0));
 
             gameController.startProgrammingPhase();
 
             roboRally.createBoardView(gameController);
-            if (repository != null)
-            {
-               repository.postGameInstance(board);
-               repository.waitingToStart();
+            if (repository != null) {
+                repository.postGameInstance(board);
+                repository.waitingToStart();
             }
         }
     }
 
     public void designBoard(
-    ){
+    ) {
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("Edit/Create", "Edit", "Create");
         dialog.setContentText("Would you like to create a new board or edit a already existing one");
@@ -330,7 +313,9 @@ public class AppController implements Observer {
                     // Invalid direction selected
                     return;
             }
-        }}
+        }
+    }
+
     public void saveGame() {
         TextInputDialog td = new TextInputDialog("NewGameSave");
         td.setHeaderText("Enter a name for the saved game");
@@ -338,13 +323,14 @@ public class AppController implements Observer {
 
         if (result.isPresent()) {
             String fileName = result.get();
-            LoadSaveGame.saveBoard(gameController.board,gamesPath ,fileName);
+            LoadSaveGame.saveBoard(gameController.board, gamesPath, fileName);
 
         }
 
     }
-    public void saveGameOnServer(){
-        if (repository ==null) {
+
+    public void saveGameOnServer() {
+        if (repository == null) {
             repository = Repository.getInstance();
         }
         TextInputDialog td = new TextInputDialog("NewBoardSave");
@@ -353,17 +339,12 @@ public class AppController implements Observer {
 
         if (result.isPresent()) {
             String fileName = result.get();
-            repository.saveGameToServer(gameController.board,fileName);
+            repository.saveGameToServer(gameController.board, fileName);
         }
     }
 
 
-
-
-
-
-    public void showFilesToChoseFrom(String pathName)
-    {
+    public void showFilesToChoseFrom(String pathName) {
 
         File folder = new File(pathName);
         File[] listOfFiles = folder.listFiles();
@@ -377,8 +358,8 @@ public class AppController implements Observer {
 
 
     }
-    private void showFiles(ArrayList<String> lF)
-    {
+
+    private void showFiles(ArrayList<String> lF) {
         ComboBox<String> comboBox = new ComboBox<>();
         comboBox.getItems().addAll(lF);
         // Create a popup window
@@ -398,11 +379,9 @@ public class AppController implements Observer {
             popupWindow.close();
             String selectedFile = comboBox.getSelectionModel().getSelectedItem();
             // Do something with the selected file
-            if (selectedFile==null)
-            {
+            if (selectedFile == null) {
 
-            }
-            else {
+            } else {
                 fileToOpen = selectedFile;
             }
         });
@@ -417,26 +396,24 @@ public class AppController implements Observer {
         popupWindow.setScene(scene);
         popupWindow.showAndWait();
     }
-    public void showFilesToChoseFromServer()
-    {
-       ArrayList<String> lF =repository.getFiles();
-       if (lF.size()>0) {
-           showFiles(lF);
-       }
-       else
-       {
-           System.out.println("no files on server");
-       }
+
+    public void showFilesToChoseFromServer() {
+        ArrayList<String> lF = repository.getFiles();
+        if (lF.size() > 0) {
+            showFiles(lF);
+        } else {
+            System.out.println("no files on server");
+        }
     }
 
-    public Board loadBoard()
-    {
+    public Board loadBoard() {
 
         showFilesToChoseFrom(boardsPath);
-        return LoadSaveGame.loadBoard(boardsPath,fileToOpen);
+        return LoadSaveGame.loadBoard(boardsPath, fileToOpen);
     }
+
     public void loadGame() {
-        ChoiceDialog<String> dialogLoad = new ChoiceDialog<>("","load from local","load from server");
+        ChoiceDialog<String> dialogLoad = new ChoiceDialog<>("", "load from local", "load from server");
         dialogLoad.setTitle("Loadgame from local or from server");
         dialogLoad.setHeaderText("Select a option");
         Optional<String> resultLoad = dialogLoad.showAndWait();
@@ -445,24 +422,21 @@ public class AppController implements Observer {
             showFilesToChoseFrom(gamesPath);
             Board loadedBoard = LoadSaveGame.loadBoard(gamesPath, fileToOpen);
             gameController = new GameController(loadedBoard);
-        }
-        else if (resultLoad.equals("load from server"));
+        } else if (resultLoad.equals("load from server")) ;
         {
             repository = Repository.getInstance();
             showFilesToChoseFromServer();
             gameController = new GameController(repository.getGameFromServer(fileToOpen));
 
         }
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("","Play local","Play online");
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("", "Play local", "Play online");
         dialog.setTitle("Play local or online");
         dialog.setHeaderText("Select a option");
         Optional<String> result = dialog.showAndWait();
         if (result.get().equals("Play local")) {
 
             roboRally.createBoardView(gameController);
-        }
-        else if (result.get().equals("Play online"))
-        {
+        } else if (result.get().equals("Play online")) {
             repository = Repository.getInstance();
             gameController.addRepository();
             repository.createGame(gameController.board.getPlayers().size());
@@ -490,7 +464,7 @@ public class AppController implements Observer {
             //saveGame();
 
             gameController = null;
-            gameController.repository =null;
+            gameController.repository = null;
             repository = null;
             roboRally.createBoardView(null);
             return true;
