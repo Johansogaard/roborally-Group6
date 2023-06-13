@@ -109,7 +109,8 @@
       "x": 2,
       "y": 7,
       "walls": [
-        "EAST"
+        "EAST",
+        "NORTH"
       ],
       "actions": []
     },
@@ -185,6 +186,34 @@
     {
       "startPlayerNo": 0,
       "x": 4,
+      "y": 2,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 4,
+      "y": 4,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltRotating",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 4,
       "y": 5,
       "walls": [],
       "actions": [
@@ -192,6 +221,20 @@
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Belt",
           "INSTANCE": {
             "heading": "SOUTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 4,
+      "y": 6,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltRotating",
+          "INSTANCE": {
+            "heading": "EAST"
           }
         }
       ]
@@ -242,6 +285,20 @@
     {
       "startPlayerNo": 0,
       "x": 5,
+      "y": 4,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Belt",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 5,
       "y": 6,
       "walls": [],
       "actions": [
@@ -249,6 +306,20 @@
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Belt",
           "INSTANCE": {
             "heading": "EAST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 5,
+      "y": 8,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
+          "INSTANCE": {
+            "heading": "SOUTH"
           }
         }
       ]
@@ -271,6 +342,20 @@
     {
       "startPlayerNo": 0,
       "x": 6,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltRotating",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 6,
       "y": 2,
       "walls": [],
       "actions": [
@@ -278,6 +363,34 @@
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Belt",
           "INSTANCE": {
             "heading": "SOUTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 6,
+      "y": 3,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Belt",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 6,
+      "y": 4,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltRotating",
+          "INSTANCE": {
+            "heading": "WEST"
           }
         }
       ]
@@ -313,6 +426,20 @@
     {
       "startPlayerNo": 0,
       "x": 7,
+      "y": 6,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltRotating",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 7,
       "y": 7,
       "walls": [],
       "actions": [
@@ -326,14 +453,54 @@
     },
     {
       "startPlayerNo": 0,
+      "x": 7,
+      "y": 8,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltRotating",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 8,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltRotating",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
       "x": 8,
       "y": 2,
-      "walls": [
-        "NORTH"
-      ],
+      "walls": [],
       "actions": [
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Belt",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 8,
+      "y": 3,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltRotating",
           "INSTANCE": {
             "heading": "NORTH"
           }
@@ -371,11 +538,82 @@
     {
       "startPlayerNo": 0,
       "x": 9,
+      "y": 5,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltRotating",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 9,
+      "y": 6,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Belt",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 9,
       "y": 7,
       "walls": [],
       "actions": [
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Belt",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 9,
+      "y": 8,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltRotating",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 10,
+      "y": 0,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "NORTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 10,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
             "heading": "NORTH"
           }
@@ -398,6 +636,49 @@
     },
     {
       "startPlayerNo": 0,
+      "x": 10,
+      "y": 5,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Belt",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 11,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "WEST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 11,
+      "y": 3,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltRotating",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
       "x": 11,
       "y": 4,
       "walls": [],
@@ -406,6 +687,34 @@
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Belt",
           "INSTANCE": {
             "heading": "NORTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 11,
+      "y": 5,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltRotating",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 11,
+      "y": 7,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
+          "INSTANCE": {
+            "heading": "EAST"
           }
         }
       ]
@@ -435,6 +744,21 @@
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
           "INSTANCE": {
             "heading": "NORTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 12,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "WEST",
             "hasMovedOffConveyoerBelt": false
           }
         }
