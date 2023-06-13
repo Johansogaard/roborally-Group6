@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -266,6 +267,9 @@ public class GameController {
                 case SPAM:
                     this.spam(player);
                     break;
+                case leftOrRight:
+                    this.leftOrRight(player);
+                    break;
                 default:
                     // DO NOTHING (for now)
             }
@@ -306,11 +310,6 @@ public class GameController {
         for (int i = 0 ; i<3;i++) {
             if(player.reboot==false){
                 player.moveForward();}}}
-    private void Move2(Player player) {
-        for (int i = 0 ; i<2;i++) {
-            player.moveForward();
-        }
-    }
 
     // TODO: V2
     public void fastForward(@NotNull Player player) {
@@ -333,6 +332,25 @@ public class GameController {
         }
     }
 
+    public void leftOrRight(@NotNull Player player){
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("Left/Right", "Left", "Right");
+        dialog.setContentText("What way do you want to turn");
+
+        dialog.showAndWait();
+
+        String selectedDirection = dialog.getSelectedItem();
+        if (selectedDirection != null) {
+
+
+            switch (selectedDirection) {
+                case "Left":
+                    turnLeft(player);
+                    break;
+                case "Right":
+                    turnRight(player);
+                    break;
+    }}}
+
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
         CommandCard sourceCard = source.getCard();
         CommandCard targetCard = target.getCard();
@@ -349,10 +367,6 @@ public class GameController {
      * A method called when no corresponding controller operation is implemented yet. This
      * should eventually be removed.
      */
-    public void notImplemented() {
-        // XXX just for now to indicate that the actual method is not yet implemented
-        assert false;
-    }
     public void executeCommandOptionAndContinue(Command command,Player player){
         int step =board.getStep();
         Player currentPlayer = board.getCurrentPlayer();

@@ -119,12 +119,12 @@ public class SpaceView extends StackPane implements ViewObserver {
         BeltDoubleRotating beltDoubleRotating = space.getAction(BeltDoubleRotating.class);
 
         if (beltRotating != null) {
-            String imagePath = "images/RotatingConeyirBelt/S" + space.checkNeighborBelt(beltRotating) + ".png";
+            String imagePath = "images/RotatingConveyorBelt/S" + space.checkNeighborBelt(beltRotating) + ".png";
             updateBeltImage(beltRotating, imagePath);
         }
 
         if (beltDoubleRotating != null) {
-            String imagePath = "images/RotatingConeyirBelt/D" + space.checkNeighborBelt(beltDoubleRotating) + ".png";
+            String imagePath = "images/RotatingConveyorBelt/D" + space.checkNeighborBelt(beltDoubleRotating) + ".png";
             updateBeltImage(beltDoubleRotating, imagePath);
         }
     }

@@ -163,13 +163,12 @@ public class Space extends Subject {
 
         if(behindBelt!=null){behindBeltTrue = behindBelt.getHeading()==belt.getHeading();}
 
-        if (leftBeltTrue && rightBeltTrue && behindBeltTrue) {
-            return 6; // All neighbors have conveyor belts
-        } else if (leftBeltTrue && rightBeltTrue) {
+
+       if (leftBeltTrue && rightBeltTrue) {
             return 5; // Both left and right neighbors have conveyor belts
-        } else if (leftBeltTrue && behindBeltTrue) {
+        } else if ( rightBeltTrue&& behindBeltTrue) {
             return 4; // Both left and behind neighbors have conveyor belts
-        } else if (rightBeltTrue && behindBeltTrue) {
+        } else if (leftBeltTrue && behindBeltTrue) {
             return 3; // Both right and behind neighbors have conveyor belts
         } else if (leftBeltTrue) {
             return 2; // Only the left neighbor has a conveyor belt

@@ -46,6 +46,8 @@ public enum Command {
 
     AGAIN("Again"),
     uTurn("U-turn"),
+
+    leftOrRight("Left or right"),
     SPAM("Spam");
 
 

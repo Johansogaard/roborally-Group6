@@ -31,6 +31,11 @@ public class Deck {
                 cards.add(new CommandCard(Command.RIGHT));
             }
 
+
+            for (int i = 0; i < 3; i++) {
+                cards.add(new CommandCard(Command.leftOrRight));
+            }
+
             for (int i = 0; i < 1; i++) {
                 cards.add(new CommandCard(Command.uTurn));
             }
