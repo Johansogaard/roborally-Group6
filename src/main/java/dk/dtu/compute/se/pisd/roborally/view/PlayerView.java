@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,7 +33,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +42,14 @@ import java.util.List;
  *
  */
 public class PlayerView extends Tab implements ViewObserver {
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 
     private Player player;
 
@@ -74,8 +82,13 @@ public class PlayerView extends Tab implements ViewObserver {
 
         this.gameController = gameController;
         this.player = player;
-
-        programLabel = new Label("Program");
+        if (gameController.repository !=null)
+        {
+            programLabel = new Label("Program"+"\t\tGamID = "+gameController.repository.getId());
+        }
+        else {
+            programLabel = new Label("Program");
+        }
 
         programPane = new GridPane();
         programPane.setVgap(2.0);
@@ -96,12 +109,31 @@ public class PlayerView extends Tab implements ViewObserver {
         finishButton = new Button("Finish Programming");
         finishButton.setOnAction(e -> gameController.finishProgrammingPhase());
 
+
         executeButton = new Button("Execute Program");
         executeButton.setOnAction(e -> gameController.executePrograms());
 
         stepButton = new Button("Execute Current Register");
-        stepButton.setOnAction(e -> gameController.executeStep());
+        if (gameController.repository!=null) {
 
+            stepButton.setOnAction(e -> {
+                Thread thread = new Thread(() -> {
+                    // Lengthy operation
+                    gameController.executeStep();
+
+                    // Update the UI after completing the lengthy operation
+                    Platform.runLater(() -> {
+                        // Update UI components here
+
+                    });
+                });
+                thread.start();
+            });
+        }
+        else {
+
+            stepButton.setOnAction(e -> gameController.executeStep());
+        }
         buttonPanel = new VBox(finishButton, executeButton, stepButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
@@ -180,11 +212,28 @@ public class PlayerView extends Tab implements ViewObserver {
                         executeButton.setDisable(true);
                         stepButton.setDisable(true);
                         break;
-
+                    //adding so only the player in online mode who turn it is is allowed to see the button
                     case ACTIVATION:
-                        finishButton.setDisable(true);
-                        executeButton.setDisable(false);
-                        stepButton.setDisable(false);
+                        if (gameController.repository == null) {
+                            finishButton.setDisable(true);
+                            executeButton.setDisable(false);
+                            stepButton.setDisable(false);
+                        }
+                        else
+                        {
+                            if ((gameController.repository.getPlayerNumb()-1)==gameController.board.getCurrentPlayer().no)
+                            {
+                                finishButton.setDisable(true);
+                                executeButton.setDisable(true);
+                                stepButton.setDisable(false);
+                            }
+                            else
+                            {
+                                finishButton.setDisable(true);
+                                executeButton.setDisable(true);
+                                stepButton.setDisable(true);
+                            }
+                        }
                         break;
 
                     default:

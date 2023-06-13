@@ -31,6 +31,7 @@ import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.net.URISyntaxException;
 
 /**
  * ...
@@ -43,7 +44,11 @@ public class SpaceView extends StackPane implements ViewObserver {
     final public static int SPACE_HEIGHT = 60; // 75;
     final public static int SPACE_WIDTH = 60; // 75;
 
-    public final Space space;
+    public void setSpace(Space space) {
+        this.space = space;
+    }
+
+    public Space space;
 
 
     public SpaceView(@NotNull Space space) {

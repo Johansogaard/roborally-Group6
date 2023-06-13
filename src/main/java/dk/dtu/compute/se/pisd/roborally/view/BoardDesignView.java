@@ -380,6 +380,7 @@ public class BoardDesignView extends VBox {
 
                 Laser laser = new Laser(direction, type);
                 space.addAction(laser);
+                space.addWall(direction.opposite());
             }
         }}
 

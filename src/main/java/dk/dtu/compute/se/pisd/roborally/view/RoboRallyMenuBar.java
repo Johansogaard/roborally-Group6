@@ -23,9 +23,12 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.BoardDesignController;
-import javafx.scene.control.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+
+import java.util.logging.Logger;
+
 /**
  * ...
  *
@@ -33,7 +36,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class RoboRallyMenuBar extends MenuBar {
-    private static final Logger logger = LoggerFactory.getLogger(RoboRallyMenuBar.class);
+  //  private static final Logger logger = LoggerFactory.getLogger(RoboRallyMenuBar.class);
 
     private MenuItem saveGameToServer;
     private MenuItem loadGameFromServer;
@@ -48,7 +51,7 @@ public class RoboRallyMenuBar extends MenuBar {
     private MenuItem newGame;
 
     private MenuItem loadGame;
-
+    private MenuItem playOnline;
     private MenuItem stopGame;
     //JJ made my own menu item
     private MenuItem createABoard;
@@ -65,9 +68,12 @@ public class RoboRallyMenuBar extends MenuBar {
         newGame.setOnAction( e -> this.appController.newGame());
         controlMenu.getItems().add(newGame);
 
-        stopGame = new MenuItem("Stop game");
+        stopGame = new MenuItem("Stop Game");
         stopGame.setOnAction( e -> this.appController.stopGame());
         controlMenu.getItems().add(stopGame);
+        playOnline = new MenuItem("Play Online");
+        playOnline.setOnAction(e-> this.appController.playOnline());
+        controlMenu.getItems().add(playOnline);
 
         saveGame = new MenuItem("Save game");
         saveGame.setOnAction( e -> this.appController.saveGame());

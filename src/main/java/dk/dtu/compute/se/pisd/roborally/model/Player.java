@@ -98,6 +98,14 @@ public class Player extends Subject {
             }
         }
     }
+    public void notifyPlayer()
+    {
+        notifyChange();
+        for (CommandCardField commandCardField: program)
+        {
+            commandCardField.notifyCommandCardField();
+        }
+    }
 
     public String getColor() {
         return color;

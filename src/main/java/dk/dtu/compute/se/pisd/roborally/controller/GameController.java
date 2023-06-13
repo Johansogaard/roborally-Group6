@@ -21,7 +21,11 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+
+import dk.dtu.compute.se.pisd.roborally.apiAccess.Repository;
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import dk.dtu.compute.se.pisd.roborally.view.APIView;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +40,15 @@ import java.util.*;
  */
 public class GameController {
 
-    final public Board board;
+    public Board board;
+    public APIObserver apiObserver =null;
+
+    public void addRepository() {
+        this.repository = Repository.getInstance();
+        this.apiObserver = new APIObserver();
+    }
+
+    public Repository repository = null;
     public boolean won = false;
     /**
      * GameController is a controller for
@@ -44,6 +56,8 @@ public class GameController {
      */
     public GameController(@NotNull Board board) {
         this.board = board;
+
+
     }
 
     /**
@@ -75,6 +89,7 @@ public class GameController {
     // XXX: V2
     public void startProgrammingPhase() {
 
+
         board.setPhase(Phase.PROGRAMMING);
         board.setStep(0);
 
@@ -98,12 +113,12 @@ public class GameController {
             }
         }
     }
-    /*public void fillEmptyRegister() {
+    public void fillEmptyRegister() {
         List<Player> players=board.getPlayers();
         for (int i = 0; i < players.size(); i++) {
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                    if (players.get(i).getProgramField(j).getCard() == null) {
-                        players.get(i).getProgramField(j).setCard(generateRandomCommandCard());
+                    if (board.getPlayers().get(i).getProgramField(j).getCard() == null) {
+                        board.getPlayers().get(i).getProgramField(j).setCard(generateRandomCommandCard());
                     }
                 }
             }
@@ -116,7 +131,7 @@ public class GameController {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
-    }*/
+    }
     // XXX: V2
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
@@ -124,6 +139,64 @@ public class GameController {
         board.setPhase(Phase.ACTIVATION);
         board.setPlayerOrder();
         board.setStep(0);
+        fillEmptyRegister();
+        if (repository !=null) {
+            mergeCards();
+            repository.postGameInstanceProgrammingPhase(board);
+            board =repository.getGameInstance(board);
+
+            board.notifyBoardChange();
+            waitForAction();
+        }
+
+    }
+
+    public void waitForAction()
+    {
+        if (repository.getPlayerNumb()-1 ==board.getCurrentPlayer().no)
+        {
+
+        }
+        else
+        {
+            Thread thread = new Thread(() -> {
+                // Lengthy operation
+                this.repository.waitForPlayersAct();
+                this.board =this.repository.getGameInstance(this.board);
+                this.board.notifyBoardChange();
+                if (this.board.getPhase() != Phase.PROGRAMMING) {
+                    this.waitForAction();
+                }
+
+                // Update the UI after completing the lengthy operation
+                Platform.runLater(() -> {
+                    // Update UI components here
+
+                });
+            });
+            thread.start();
+        }
+
+
+    }
+
+    public void mergeCards()
+    {
+
+         Board loadedBoard=repository.getGameInstance(null);
+
+
+        for (Player player : loadedBoard.getPlayers()) {
+            if (player.no!=repository.getPlayerNumb()-1) {
+                for (int f = 0; f < board.getPlayers().get(player.no).getCards().length; f++) {
+                    board.getPlayers().get(player.no).getCards()[f].setCard(player.getCards()[f].getCard());
+                }
+                for (int f = 0; f < board.getPlayers().get(player.no).getProgram().length; f++) {
+                    board.getPlayers().get(player.no).getProgram()[f].setCard(player.getProgram()[f].getCard());
+                }
+            }
+        }
+
     }
 
     // XXX: V2
@@ -138,6 +211,9 @@ public class GameController {
             }
         }
     }
+
+
+
 
     // XXX: V2
     private void makeProgramFieldsInvisible() {
@@ -174,45 +250,47 @@ public class GameController {
         //gets the curr player
 
         Player currentPlayer = board.getCurrentPlayer();
+            //cheks if the phase is activation and the curr player is not null
+            if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
+                //the curr register
+                int step = board.getStep();
+                //checks if the step in correct and not a unusable value
+                if (step >= 0 && step < Player.NO_REGISTERS) {
+                    //gets the curr card
+                    CommandCard card = currentPlayer.getProgramField(step).getCard();
 
-        //cheks if the phase is activation and the curr player is not null
-        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
-            //the curr register
-            int step = board.getStep();
-            //checks if the step in correct and not a unusable value
-            if (step >= 0 && step < Player.NO_REGISTERS) {
-
-                CommandCard card = currentPlayer.getProgramField(step).getCard();
-
+                    //checks if card is something
                 //checks if card is something
-                if (!currentPlayer.reboot) {
+                if (!currentPlayer.reboot &&card != null) {
                     //gets the command
                     Command command = card.command;
 
-                    //if the command is Interactive then the phase must be changed
-                    if (card.command.isInteractive()) {
-                        board.setPhase(Phase.PLAYER_INTERACTION);
-                    } else {
-                        //else it will executecommand
-                        executeCommand(currentPlayer, command);
+                        //if the command is Interactive then the phase must be changed
+                        if (card.command.isInteractive()) {
+                            board.setPhase(Phase.PLAYER_INTERACTION);
+                        } else {
+                            //else it will executecommand
+                            executeCommand(currentPlayer, command);
 
+                            //setting the next player;
+                            //sout i used for debugging remove later
+                            System.out.println(board.getOrderNumber(currentPlayer) + " " + board.getPlayersNumber());
                         //setting the next player;
-                    }}
                         if (board.getOrderNumber(currentPlayer)+1 < board.getPlayersNumber()) {
                             board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer)+1)%(board.getPlayers().size())));
                         } else {
                             //adds a step because we now have been through all the players
                             step++;
 
-                            //we run doaction on all fields because now all players have done the current register
-                            for(Player player : this.board.getPlayers()){
-                                for (FieldAction action : player.getSpace().getActions()) {
-                                    if (won) {
-                                        break;
+                                //we run doaction on all fields because now all players have done the current register
+                                for (Player player : this.board.getPlayers()) {
+                                    for (FieldAction action : player.getSpace().getActions()) {
+                                        if (won) {
+                                            break;
+                                        }
+                                        action.doAction(this, player.getSpace());
                                     }
-                                    action.doAction(this, player.getSpace());
                                 }
-                            }
 
                             //checks if we have more steps than registers if thats the case we will start the programming phase
                             if (step < Player.NO_REGISTERS) {
@@ -231,6 +309,29 @@ public class GameController {
 
 
 
+
+    else {
+                    // this should not happen
+                    assert false;
+                }
+            } else {
+                // this should not happen
+                assert false;
+            }
+            if (repository!=null)
+            {
+
+               repository.postGameInstanceActivationPhase(board);
+                if (board.getPhase() != Phase.PROGRAMMING) {
+                    waitForAction();
+                }
+
+            }
+
+
+
+
+    }
 
     // XXX: V2
     public void executeCommand(@NotNull Player player, Command command) {
