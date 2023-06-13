@@ -137,6 +137,10 @@ public class Client {
     {
         postDataToApi(API_BASE_URL+"/"+id,jsonData);
     }
+    public void postGameSaveInstance(int id,String jsonData,String gameName)
+    {
+        postDataToApi(API_BASE_URL+"/"+id+"/savegame/"+gameName,jsonData);
+    }
     public int CreateGameInstance(int maxNumbOfPlayers)
     {
         return Integer.parseInt(getDataFromApi("GET",API_BASE_URL+"/id/"+maxNumbOfPlayers));
@@ -183,6 +187,7 @@ public class Client {
         }
         return null;
     }
+
     public static void saveStringAsJsonFile(String jsonString, String filePath) {
         try (FileWriter fileWriter = new FileWriter(filePath)) {
             fileWriter.write(jsonString);

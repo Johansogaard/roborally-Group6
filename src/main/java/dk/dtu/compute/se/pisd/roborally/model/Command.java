@@ -48,21 +48,17 @@ public enum Command {
     uTurn("U-turn"),
 
     leftOrRight("Left or right"),
+    OPTION_LEFT_RIGHT("Left OR Right",LEFT, RIGHT),
     SPAM("Spam");
 
 
-
-
     // XXX Assignment P3
-    //OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT);
+
 
     final public String displayName;
 
     // XXX Assignment P3
-    // Command(String displayName) {
-    //     this.displayName = displayName;
-    // }
-    //
+
     // replaced by the code below:
 
     final private List<Command> options;

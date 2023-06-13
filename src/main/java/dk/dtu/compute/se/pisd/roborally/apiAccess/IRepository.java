@@ -4,6 +4,10 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 
 public interface IRepository {
 
+
+
+    void saveGameToServer(Board board, String saveName);
+
     public int getId();
 
     int getPlayerNumb();

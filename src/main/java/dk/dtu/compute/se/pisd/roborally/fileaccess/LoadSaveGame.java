@@ -50,14 +50,13 @@ public class LoadSaveGame {
     private static final Logger logger = LoggerFactory.getLogger(LoadSaveGame.class);
 
     private static final String BOARDSFOLDER = "boards";
-    private static final String GAMESFOLDER = "savedGames";
+    private static final String GAMESFOLDER = "src/main/resources/savedGames";
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
 
 
     public static Board loadBoard(String path, String boardname) {
-        logger.info("Loading board: {}, from path: {}", boardname, path);
 
         if (boardname == null) {
             boardname = DEFAULTBOARD;
@@ -94,10 +93,9 @@ try {
 
 
 			reader.close();
-            logger.info("Successfully loaded the board: {}", boardname);
             return result;
 		} catch (IOException e1) {
-            logger.error("Error loading board: {}, from path: {}", boardname, path, e1);
+
             if (reader != null) {
                 try {
                     reader.close();
@@ -120,7 +118,6 @@ try {
     }}
 
     public static void saveBoard(Board board,String path, String name) {
-        logger.info("Saving board: {}, to path: {}", name, path);
         BoardTemplate template = new BoardTemplate().fromBoard(board);
 
         //String filename = "src/main/resources/boards" + "/" + name + "." + JSON_EXT;
@@ -137,10 +134,10 @@ try {
             writer = gson.newJsonWriter(fileWriter);
             gson.toJson(template, template.getClass(), writer);
             writer.close();
-            logger.info("Successfully saved the board: {}", name);
+
 
         } catch (IOException e1) {
-            logger.error("Error saving board: {}, to path: {}", name, path, e1);
+
 
             if (writer != null) {
                 try {

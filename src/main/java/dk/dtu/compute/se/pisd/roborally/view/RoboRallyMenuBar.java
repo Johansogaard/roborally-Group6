@@ -80,7 +80,7 @@ public class RoboRallyMenuBar extends MenuBar {
         controlMenu.getItems().add(saveGame);
 
         saveGameToServer = new MenuItem("Save game to server");
-        saveGameToServer.setOnAction(e -> this.appController.saveGameToServer());
+        saveGameToServer.setOnAction(e -> this.appController.saveGameOnServer());
         controlMenu.getItems().add(saveGameToServer);
 
         loadGameFromServer=new MenuItem("Load game from server");
@@ -112,12 +112,17 @@ public class RoboRallyMenuBar extends MenuBar {
             stopGame.setVisible(true);
             saveGame.setVisible(true);
             loadGame.setVisible(false);
-            saveGameToServer.setVisible(true);
+            playOnline.setVisible(false);
             loadGameFromServer.setVisible(false);
+            if (appController.repository != null)
+            {
+                saveGameToServer.setVisible(true);
 
+            }
         } else {
             newGame.setVisible(true);
             stopGame.setVisible(false);
+            playOnline.setVisible(true);
             saveGame.setVisible(false);
             loadGame.setVisible(true);
             saveGameToServer.setVisible(false);

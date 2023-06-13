@@ -33,7 +33,7 @@ public class Deck {
 
 
             for (int i = 0; i < 3; i++) {
-                cards.add(new CommandCard(Command.leftOrRight));
+                cards.add(new CommandCard(Command.OPTION_LEFT_RIGHT));
             }
 
             for (int i = 0; i < 1; i++) {

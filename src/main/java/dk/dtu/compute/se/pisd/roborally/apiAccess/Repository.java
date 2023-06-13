@@ -7,7 +7,9 @@ import dk.dtu.compute.se.pisd.roborally.view.BoardView;
 import dk.dtu.compute.se.pisd.roborally.view.CardFieldView;
 import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 import dk.dtu.compute.se.pisd.roborally.view.PlayersView;
+import javafx.scene.control.TextInputDialog;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public class Repository implements IRepository {
@@ -24,6 +26,14 @@ public class Repository implements IRepository {
             single_instance = new Repository();
 
         return single_instance;
+    }
+    @Override
+    public void saveGameToServer(Board board,String saveName)
+    {
+
+            String jsonData = client.getGameInstanceAsString(board);
+            client.postGameSaveInstance(id, jsonData, saveName);
+
     }
     @Override
     public int getId() {

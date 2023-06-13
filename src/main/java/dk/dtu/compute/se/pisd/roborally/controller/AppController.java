@@ -97,7 +97,7 @@ public class AppController implements Observer {
     final private String currGameFile = "currGame";
     final private String jsonFile = ".jsoon";
     private GameController gameController;
-    private Repository repository = null;
+    public Repository repository = null;
 
     private static final String JSON_EXT = "json";
     private final RestTemplate restTemplate = new RestTemplate();
@@ -274,7 +274,9 @@ public class AppController implements Observer {
 
             // XXX: V2
             // board.setCurrentPlayer(board.getPlayer(0));
-            board.setCurrentPlayer(board.getPlayer(0));
+
+                board.setCurrentPlayer(board.getPlayer(0));
+
             gameController.startProgrammingPhase();
 
             roboRally.createBoardView(gameController);
@@ -337,6 +339,16 @@ public class AppController implements Observer {
 
         }
 
+    }
+    public void saveGameOnServer(){
+        TextInputDialog td = new TextInputDialog("NewBoardSave");
+        td.setHeaderText("Enter a name for the saved board");
+        Optional<String> result = td.showAndWait();
+
+        if (result.isPresent()) {
+            String fileName = result.get();
+            repository.saveGameToServer(gameController.board,fileName);
+        }
     }
 
 
