@@ -65,11 +65,17 @@ class ConveyorbeltTest {
 
 
         converBelt2.setHeading(NORTH);
-        board.getSpace(4,4).addWall(NORTH);
-        board.getSpace(4,4).addAction(converBelt2);
-        converBelt2.doAction(controller, board.getSpace(4,4));
+        conveyorBelt.setHeading(EAST);
+        board.getSpace(5,4).addWall(NORTH);
+        board.getSpace(4,4).addAction(conveyorBelt);
+        board.getSpace(5,4).addAction(converBelt2);
 
-        assertEquals(board.getSpace(4,4), player.getSpace());
+
+        conveyorBelt.doAction(controller, board.getSpace(4,4));
+
+        assertEquals(player.getHeading(),NORTH);
+
+        assertEquals(board.getSpace(5,4), player.getSpace());
     }
 
     @Test
