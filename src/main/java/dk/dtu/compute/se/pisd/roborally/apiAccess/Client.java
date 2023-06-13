@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 /**
  * @author Johan s224324
@@ -121,6 +122,10 @@ public class Client {
             return getDataFromApi("GET", API_BASE_URL + "/" + id + "/statpost/"+playernumb);
 
     }
+    public String getFileFromName(String fileName)
+    {
+       return getDataFromApi("GET",API_BASE_URL+"/files/"+fileName);
+    }
     public String[] getStart(int id)
     {
         String data = getDataFromApi("GET", API_BASE_URL + "/" + id + "/players");
@@ -131,6 +136,12 @@ public class Client {
     {
         postDataToApi(API_BASE_URL+"/"+id+"/"+"start","true");
 
+    }
+    public String[] getFilesString()
+    {
+        String data =getDataFromApi("GET",API_BASE_URL+"/files");
+        String[] files = data.split(",");
+        return files;
     }
     public String getStatusAct(int id,int playernumb)
     {
@@ -148,9 +159,9 @@ public class Client {
     {
         postDataToApi(API_BASE_URL+"/"+id,jsonData);
     }
-    public void postGameSaveInstance(int id,String jsonData,String gameName)
+    public void postGameSaveInstance(String jsonData,String gameName)
     {
-        postDataToApi(API_BASE_URL+"/"+id+"/savegame/"+gameName,jsonData);
+        postDataToApi(API_BASE_URL+"/savegame/"+gameName,jsonData);
     }
     public int CreateGameInstance(int maxNumbOfPlayers)
     {

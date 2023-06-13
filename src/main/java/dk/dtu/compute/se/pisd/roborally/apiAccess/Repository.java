@@ -11,9 +11,8 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextInputDialog;
-import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -38,7 +37,7 @@ public class Repository implements IRepository {
     public void saveGameToServer(Board board, String saveName) {
 
         String jsonData = client.getGameInstanceAsString(board);
-        client.postGameSaveInstance(id, jsonData, saveName);
+        client.postGameSaveInstance(jsonData, saveName);
 
     }
 
@@ -62,7 +61,17 @@ public class Repository implements IRepository {
 
 
     }
-
+    @Override
+    public ArrayList<String> getFiles()
+    {
+        ArrayList<String> f = new ArrayList<>();
+        String[] files = client.getFilesString();
+        for (String file : files)
+        {
+         f.add(file);
+        }
+        return f;
+    }
     @Override
     public void postGameInstanceActivationPhase(Board board) {
         String jsonData = client.getGameInstanceAsString(board);
@@ -93,7 +102,13 @@ public class Repository implements IRepository {
         this.id = id;
         playerNumb = client.joinGame(id);
     }
-
+    @Override
+    public Board getGameFromServer(String fileName)
+    {
+        String gameInstance = client.getFileFromName(fileName);
+        Board board = client.loadGameInstanceFromString(gameInstance);
+        return board;
+    }
     @Override
     public Board getGameInstance(Board oldBoard) {
         String gameString = client.getGameInstance(id);

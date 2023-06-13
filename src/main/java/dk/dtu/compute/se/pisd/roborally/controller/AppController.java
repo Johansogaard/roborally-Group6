@@ -344,6 +344,9 @@ public class AppController implements Observer {
 
     }
     public void saveGameOnServer(){
+        if (repository ==null) {
+            repository = Repository.getInstance();
+        }
         TextInputDialog td = new TextInputDialog("NewBoardSave");
         td.setHeaderText("Enter a name for the saved board");
         Optional<String> result = td.showAndWait();
@@ -370,9 +373,14 @@ public class AppController implements Observer {
                 lF.add(file.getName());
             }
         }
+        showFiles(lF);
+
+
+    }
+    private void showFiles(ArrayList<String> lF)
+    {
         ComboBox<String> comboBox = new ComboBox<>();
         comboBox.getItems().addAll(lF);
-
         // Create a popup window
         Stage popupWindow = new Stage();
         popupWindow.initModality(Modality.APPLICATION_MODAL);
@@ -408,11 +416,18 @@ public class AppController implements Observer {
         // Set the scene and show the popup window
         popupWindow.setScene(scene);
         popupWindow.showAndWait();
-
-
-
     }
-
+    public void showFilesToChoseFromServer()
+    {
+       ArrayList<String> lF =repository.getFiles();
+       if (lF.size()>0) {
+           showFiles(lF);
+       }
+       else
+       {
+           System.out.println("no files on server");
+       }
+    }
 
     public Board loadBoard()
     {
@@ -421,10 +436,23 @@ public class AppController implements Observer {
         return LoadSaveGame.loadBoard(boardsPath,fileToOpen);
     }
     public void loadGame() {
+        ChoiceDialog<String> dialogLoad = new ChoiceDialog<>("","load from local","load from server");
+        dialogLoad.setTitle("Loadgame from local or from server");
+        dialogLoad.setHeaderText("Select a option");
+        Optional<String> resultLoad = dialogLoad.showAndWait();
+        if (resultLoad.get().equals("load from local")) {
 
-                showFilesToChoseFrom(gamesPath);
-                Board loadedBoard = LoadSaveGame.loadBoard(gamesPath,fileToOpen);
-                gameController = new GameController(loadedBoard);
+            showFilesToChoseFrom(gamesPath);
+            Board loadedBoard = LoadSaveGame.loadBoard(gamesPath, fileToOpen);
+            gameController = new GameController(loadedBoard);
+        }
+        else if (resultLoad.equals("load from server"));
+        {
+            repository = Repository.getInstance();
+            showFilesToChoseFromServer();
+            gameController = new GameController(repository.getGameFromServer(fileToOpen));
+
+        }
         ChoiceDialog<String> dialog = new ChoiceDialog<>("","Play local","Play online");
         dialog.setTitle("Play local or online");
         dialog.setHeaderText("Select a option");
@@ -462,6 +490,8 @@ public class AppController implements Observer {
             //saveGame();
 
             gameController = null;
+            gameController.repository =null;
+            repository = null;
             roboRally.createBoardView(null);
             return true;
         }

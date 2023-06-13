@@ -2,6 +2,8 @@ package dk.dtu.compute.se.pisd.roborally.apiAccess;
 
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 
+import java.util.ArrayList;
+
 public interface IRepository {
 
 
@@ -14,6 +16,8 @@ public interface IRepository {
 
     void createGame(int maxNumbOfPlayers);
 
+    ArrayList<String> getFiles();
+
     void postGameInstanceActivationPhase(Board board);
 
     void postGameInstanceProgrammingPhase(Board board);
@@ -21,6 +25,8 @@ public interface IRepository {
     void postGameInstance(Board board);
 
     void joinGame(int id);
+
+    Board getGameFromServer(String fileName);
 
     public Board getGameInstance(Board oldBoard);
 
