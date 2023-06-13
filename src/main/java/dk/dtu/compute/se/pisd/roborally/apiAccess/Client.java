@@ -121,6 +121,17 @@ public class Client {
             return getDataFromApi("GET", API_BASE_URL + "/" + id + "/statpost/"+playernumb);
 
     }
+    public String[] getStart(int id)
+    {
+        String data = getDataFromApi("GET", API_BASE_URL + "/" + id + "/players");
+        String[] datas = data.split(",");
+       return datas;
+    }
+    public void setStart(int id)
+    {
+        postDataToApi(API_BASE_URL+"/"+id+"/"+"start","true");
+
+    }
     public String getStatusAct(int id,int playernumb)
     {
         return getDataFromApi("GET", API_BASE_URL + "/" + id + "/statact/"+playernumb);

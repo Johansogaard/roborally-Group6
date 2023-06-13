@@ -132,6 +132,8 @@ public class AppController implements Observer {
             gameController = new GameController(loadedBoard);
             gameController.addRepository();
             roboRally.createBoardView(gameController);
+            repository.waitingToStart();
+
 
         }
         else
@@ -283,6 +285,7 @@ public class AppController implements Observer {
             if (repository != null)
             {
                repository.postGameInstance(board);
+               repository.waitingToStart();
             }
         }
     }
