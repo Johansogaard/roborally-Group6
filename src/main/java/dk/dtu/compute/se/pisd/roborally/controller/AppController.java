@@ -113,7 +113,7 @@ public class AppController implements Observer {
         Optional<String> result = dialog.showAndWait();
         if (result.get().equals("Create Game"))
         {
-        repository = Repository.getInstance();
+            repository = Repository.getInstance();
         newGame();
         }
         else if(result.get().equals("Join Game"))
@@ -421,11 +421,21 @@ public class AppController implements Observer {
 
                 showFilesToChoseFrom(gamesPath);
                 Board loadedBoard = LoadSaveGame.loadBoard(gamesPath,fileToOpen);
-
                 gameController = new GameController(loadedBoard);
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("","Play local","Play online");
+        dialog.setTitle("Play local or online");
+        dialog.setHeaderText("Select a option");
+        Optional<String> result = dialog.showAndWait();
+        if (result.get().equals("Play local")) {
 
-
-                roboRally.createBoardView(gameController);
+            roboRally.createBoardView(gameController);
+        }
+        else if (result.get().equals("Play online"))
+        {
+            gameController.addRepository();
+            roboRally.createBoardView(gameController);
+            repository.createGame(gameController.board.getPlayers().size());
+        }
 
 
     }

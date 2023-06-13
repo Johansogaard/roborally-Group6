@@ -19,7 +19,7 @@ import java.nio.file.Paths;
  *
  */
 public class Client {
-    private static final String API_BASE_URL = "http://localhost:8080/game"; // Replace with your API's base URL
+    private static final String API_BASE_URL = "http://localhost:8080/game"; // Replace with your API's base URL so the ip4 for your server http://[IP]:8080/game
     private static final String curr_Game_Path = "src/main/resources/currGameInstance/currGame.json";
     public String getGameInstance(String gameID)
     {
