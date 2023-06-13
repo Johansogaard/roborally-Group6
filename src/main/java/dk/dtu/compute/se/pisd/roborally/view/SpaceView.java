@@ -32,6 +32,7 @@ import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.net.URISyntaxException;
 
 /**
  * ...

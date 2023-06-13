@@ -23,9 +23,12 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.BoardDesignController;
-import javafx.scene.control.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+
+import java.util.logging.Logger;
+
 /**
  * ...
  *
@@ -33,7 +36,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class RoboRallyMenuBar extends MenuBar {
-    private static final Logger logger = LoggerFactory.getLogger(RoboRallyMenuBar.class);
+  //  private static final Logger logger = LoggerFactory.getLogger(RoboRallyMenuBar.class);
 
     private MenuItem saveGameToServer;
     private MenuItem loadGameFromServer;

@@ -143,11 +143,13 @@ public class GameController {
             mergeCards();
             repository.postGameInstanceProgrammingPhase(board);
             board =repository.getGameInstance(board);
+
             board.notifyBoardChange();
             waitForAction();
         }
 
     }
+
     public void waitForAction()
     {
         if (repository.getPlayerNumb()-1 ==board.getCurrentPlayer().no)
@@ -158,7 +160,12 @@ public class GameController {
         {
             Thread thread = new Thread(() -> {
                 // Lengthy operation
-                apiObserver.notifyAPI();
+                this.repository.waitForPlayersAct();
+                this.board =this.repository.getGameInstance(this.board);
+                this.board.notifyBoardChange();
+                if (this.board.getPhase() != Phase.PROGRAMMING) {
+                    this.waitForAction();
+                }
 
                 // Update the UI after completing the lengthy operation
                 Platform.runLater(() -> {

@@ -96,6 +96,7 @@ public class RoboRally extends Application {
         }
 
         stage.sizeToScene();
+
     }
     public void createDesignView(BoardDesignController boardDesignController) {
         // if present, remove old BoardView
