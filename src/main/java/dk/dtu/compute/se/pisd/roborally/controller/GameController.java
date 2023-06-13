@@ -163,6 +163,10 @@ public class GameController {
                 // Lengthy operation
                 this.repository.waitForPlayersAct();
                 this.board =this.repository.getGameInstance(this.board);
+                if (board.getPhase()==Phase.PROGRAMMING)
+                {
+                    board.setCurrentPlayer(board.getPlayers().get(repository.getPlayerNumb()-1));
+                }
                 this.board.notifyBoardChange();
                 if (this.board.getPhase() != Phase.PROGRAMMING) {
                     this.waitForAction();
@@ -261,16 +265,18 @@ public class GameController {
 
                     //checks if card is something
                 //checks if card is something
-                if (!currentPlayer.reboot &&card != null) {
+                if (card != null) {
                     //gets the command
                     Command command = card.command;
 
                         //if the command is Interactive then the phase must be changed
-                        if (card.command.isInteractive()) {
+                        if (card.command.isInteractive() && !currentPlayer.reboot) {
                             board.setPhase(Phase.PLAYER_INTERACTION);
                         } else {
                             //else it will executecommand
-                            executeCommand(currentPlayer, command);
+                            if(!currentPlayer.reboot) {
+                                executeCommand(currentPlayer, command);
+                            }
 
                             //setting the next player;
                             //sout i used for debugging remove later
@@ -318,7 +324,7 @@ public class GameController {
                 // this should not happen
                 assert false;
             }
-            if (repository!=null)
+            if (repository!=null && board.getPhase()!= Phase.PLAYER_INTERACTION)
             {
 
                repository.postGameInstanceActivationPhase(board);
@@ -368,9 +374,9 @@ public class GameController {
                 case SPAM:
                     this.spam(player);
                     break;
-                case leftOrRight:
+            /*    case leftOrRight:
                     this.leftOrRight(player);
-                    break;
+                    break;*/
                 default:
                     // DO NOTHING (for now)
             }
@@ -489,7 +495,17 @@ public class GameController {
                     startProgrammingPhase();
                 }
 
-        }}
+        }
+        if (repository!=null && board.getPhase()!= Phase.PLAYER_INTERACTION)
+        {
+
+            repository.postGameInstanceActivationPhase(board);
+            if (board.getPhase() != Phase.PROGRAMMING) {
+                waitForAction();
+            }
+
+        }
+    }
 
 
 
