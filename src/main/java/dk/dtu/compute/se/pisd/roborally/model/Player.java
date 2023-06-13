@@ -22,8 +22,10 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import org.jetbrains.annotations.NotNull;
 
+import static dk.dtu.compute.se.pisd.roborally.model.Command.SPAM;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 
 /**
@@ -119,6 +121,7 @@ public class Player extends Subject {
         }
     }
 
+
     public Space getSpace() {
         return space;
     }
@@ -207,6 +210,13 @@ public class Player extends Subject {
 
     }*/
 
+    public void shootLaser(Space space, GameController gameController){
+        while (space != null && space.getPlayer() == null && !space.getWalls().contains(heading)
+                && space!=gameController.board.getSpace(gameController.board.getAntenna().x,gameController.board.getAntenna().y)
+                && !gameController.board.getNeighbour(space,heading).getWalls().contains(heading.opposite())) {
+            space = gameController.board.getNeighbour(space, heading);}
+
+        if (space.getPlayer()!=null){space.getPlayer().deck.addCard(new CommandCard(SPAM));}}
     public void preboot() {
         // Reset the program cards to null
 

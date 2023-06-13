@@ -1,0 +1,1079 @@
+{
+  "width": 13,
+  "height": 10,
+  "step": 0,
+  "phase": "PROGRAMMING",
+  "stepMode": false,
+  "observers": [],
+  "players": [
+    {
+      "no": 0,
+      "name": "Player 1",
+      "color": "red",
+      "heading": "SOUTH",
+      "space": [
+        1,
+        1
+      ],
+      "program": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "cards": [
+        {
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "leftOrRight",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "LEFT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "Move_3",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "FASTFORWARD",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          },
+          "visible": true
+        }
+      ]
+    },
+    {
+      "no": 1,
+      "name": "Player 2",
+      "color": "green",
+      "heading": "SOUTH",
+      "space": [
+        0,
+        3
+      ],
+      "program": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "cards": [
+        {
+          "card": {
+            "command": "uTurn",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "LEFT",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "leftOrRight",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "leftOrRight",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "FASTFORWARD",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          },
+          "visible": true
+        },
+        {
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          },
+          "visible": true
+        }
+      ]
+    }
+  ],
+  "spaces": [
+    {
+      "player": "Player 2",
+      "startPlayerNo": 2,
+      "x": 0,
+      "y": 3,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 5,
+      "x": 0,
+      "y": 6,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "player": "Player 1",
+      "startPlayerNo": 1,
+      "x": 1,
+      "y": 1,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 1,
+      "y": 2,
+      "walls": [
+        "NORTH"
+      ],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 3,
+      "x": 1,
+      "y": 4,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 4,
+      "x": 1,
+      "y": 5,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 1,
+      "y": 7,
+      "walls": [
+        "SOUTH"
+      ],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 6,
+      "x": 1,
+      "y": 8,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 2,
+      "y": 0,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Belt",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 2,
+      "y": 4,
+      "walls": [
+        "EAST"
+      ],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 2,
+      "y": 5,
+      "walls": [
+        "EAST"
+      ],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 2,
+      "y": 9,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Belt",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 3,
+      "y": 7,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "EAST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 3,
+      "y": 8,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "EAST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 4,
+      "y": 0,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "SOUTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 4,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 4,
+      "y": 2,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "SOUTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 4,
+      "y": 3,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "SOUTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 4,
+      "y": 4,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "SOUTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 4,
+      "y": 5,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "SOUTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 4,
+      "y": 6,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "SOUTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 4,
+      "y": 7,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 4,
+      "y": 8,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 5,
+      "y": 0,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        },
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "SOUTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 5,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 5,
+      "y": 8,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "EAST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 6,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "WEST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 6,
+      "y": 3,
+      "walls": [
+        "NORTH"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.LaserBeam",
+          "INSTANCE": {
+            "heading": "NORTH",
+            "power": 1
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 6,
+      "y": 4,
+      "walls": [
+        "SOUTH"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Laser",
+          "INSTANCE": {
+            "heading": "NORTH",
+            "power": 1
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 6,
+      "y": 6,
+      "walls": [
+        "WEST"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.LaserBeam",
+          "INSTANCE": {
+            "heading": "WEST",
+            "power": 1
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 6,
+      "y": 8,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "EAST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 7,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "WEST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 7,
+      "y": 6,
+      "walls": [
+        "EAST"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.LaserBeam",
+          "INSTANCE": {
+            "heading": "WEST",
+            "power": 1
+          }
+        },
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Laser",
+          "INSTANCE": {
+            "heading": "WEST",
+            "power": 1
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 7,
+      "y": 8,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "EAST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 8,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "WEST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 8,
+      "y": 3,
+      "walls": [
+        "WEST"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Laser",
+          "INSTANCE": {
+            "heading": "EAST",
+            "power": 1
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 8,
+      "y": 8,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "EAST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 9,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "WEST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 9,
+      "y": 3,
+      "walls": [
+        "EAST"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.LaserBeam",
+          "INSTANCE": {
+            "heading": "EAST",
+            "power": 1
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 9,
+      "y": 5,
+      "walls": [
+        "NORTH"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Laser",
+          "INSTANCE": {
+            "heading": "SOUTH",
+            "power": 1
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 9,
+      "y": 6,
+      "walls": [
+        "SOUTH"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.LaserBeam",
+          "INSTANCE": {
+            "heading": "SOUTH",
+            "power": 1
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 9,
+      "y": 8,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "EAST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 10,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "WEST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 10,
+      "y": 8,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 10,
+      "y": 9,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "NORTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 11,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 11,
+      "y": 2,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 11,
+      "y": 3,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "NORTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 11,
+      "y": 4,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "NORTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 11,
+      "y": 5,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "NORTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 11,
+      "y": 6,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "NORTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 11,
+      "y": 7,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "NORTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 11,
+      "y": 8,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 11,
+      "y": 9,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "NORTH",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 12,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "WEST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 12,
+      "y": 2,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "WEST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 12,
+      "y": 3,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "INSTANCE": {
+            "no": 1
+          }
+        }
+      ]
+    }
+  ],
+  "playerOrder": [],
+  "current": {
+    "no": 0,
+    "name": "Player 1",
+    "color": "red",
+    "heading": "SOUTH",
+    "space": [
+      1,
+      1
+    ],
+    "program": [
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      },
+      {
+        "visible": true
+      }
+    ],
+    "cards": [
+      {
+        "card": {
+          "command": "FORWARD",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "leftOrRight",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "LEFT",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "AGAIN",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "Move_3",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "FASTFORWARD",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "FORWARD",
+          "observers": []
+        },
+        "visible": true
+      },
+      {
+        "card": {
+          "command": "RIGHT",
+          "observers": []
+        },
+        "visible": true
+      }
+    ]
+  },
+  "antenna": {
+    "x": 0,
+    "y": 4
+  },
+  "rebootToken": {
+    "x": 7,
+    "y": 3
+  }
+}

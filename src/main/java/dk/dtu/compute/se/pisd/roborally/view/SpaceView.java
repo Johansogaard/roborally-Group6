@@ -309,7 +309,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     @Override
     public void updateView(Subject subject) {
-        if (subject == this.space) {
+        if (subject == this.space)  {
             this.getChildren().clear();
             addImage("images/floor.png");
         if (space.board.getAntenna() !=null && (space.board.getAntenna().x == space.x&&space.board.getAntenna().y == space.y))
@@ -328,9 +328,10 @@ public class SpaceView extends StackPane implements ViewObserver {
                 updateBelt(space);
 
                     Space neighbor = space.board.getNeighbour(space, space.getAction(ConveyorBelt.class).getHeading());
-                    // If the neighbor exists and has a ConveyorBelt, update it.
-                    if (neighbor != null && neighbor.getAction(ConveyorBelt.class) != null) {
-                        updateBelt(neighbor);
+
+                    if (neighbor != null && neighbor.getAction(ConveyorBelt.class) != null && !neighbor.v) {
+                        neighbor.v=true;
+                        neighbor.notifySpace();
                     }
 
             }

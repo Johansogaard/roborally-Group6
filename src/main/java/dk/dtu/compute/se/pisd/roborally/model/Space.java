@@ -44,7 +44,7 @@ public class Space extends Subject {
     public List<FieldAction> actions = new ArrayList<>();
     public final int x;
     public final int y;
-
+    public boolean v = false;
     private Player player;
     /*private Laser laser;
 
@@ -99,7 +99,7 @@ public class Space extends Subject {
             notifyChange();
         }
     }
-    public void addPushPanel(Direction direction) {
+    /*public void addPushPanel(Direction direction) {
         boolean check = false;
 
         for (FieldAction action : actions) {
@@ -111,10 +111,10 @@ public class Space extends Subject {
 
 
         if (!check) {
-            this.actions.add(new Gear(direction));
+            this.actions.add(new PushPanel(direction));
             notifyChange();
         }
-    }
+    }*/
     public List<FieldAction> getActions() {
         return actions;
     }
@@ -138,7 +138,6 @@ public class Space extends Subject {
 
     public int checkNeighborBelt(ConveyorBelt belt) {
 
-
         Space rightNeighbor = board.getNeighbour(this, belt.getHeading().prev());
         ConveyorBelt rightBelt = null;
         if (rightNeighbor != null) {rightBelt = rightNeighbor.getAction(ConveyorBelt.class);}
@@ -150,7 +149,6 @@ public class Space extends Subject {
         Space behindNeighbor = board.getNeighbour(this, belt.getHeading().opposite());
         ConveyorBelt behindBelt = null;
         if (behindNeighbor != null) {behindBelt = behindNeighbor.getAction(ConveyorBelt.class);}
-
 
         boolean leftBeltTrue=false;
         boolean rightBeltTrue=false;

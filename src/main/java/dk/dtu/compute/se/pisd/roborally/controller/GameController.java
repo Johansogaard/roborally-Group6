@@ -284,6 +284,7 @@ public class GameController {
 
                                 //we run doaction on all fields because now all players have done the current register
                                 for (Player player : this.board.getPlayers()) {
+                                    player.shootLaser(player.getSpace(), this);
                                     for (FieldAction action : player.getSpace().getActions()) {
                                         if (won) {
                                             break;
@@ -306,10 +307,6 @@ public class GameController {
                 }
 
             }
-
-
-
-
     else {
                     // this should not happen
                     assert false;
@@ -320,7 +317,6 @@ public class GameController {
             }
             if (repository!=null)
             {
-
                repository.postGameInstanceActivationPhase(board);
                 if (board.getPhase() != Phase.PROGRAMMING) {
                     waitForAction();
@@ -490,9 +486,6 @@ public class GameController {
                 }
 
         }}
-
-
-
 
        public void initiateWin(Player player) {
         try{
