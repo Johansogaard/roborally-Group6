@@ -118,7 +118,7 @@ public class GameController {
         for (int i = 0; i < players.size(); i++) {
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
                     if (board.getPlayers().get(i).getProgramField(j).getCard() == null) {
-                        board.getPlayers().get(i).getProgramField(j).setCard(generateRandomCommandCard());
+                        board.getPlayers().get(i).getProgramField(j).setCard(board.getPlayers().get(i).deck.drawCard());
                     }
                 }
             }
