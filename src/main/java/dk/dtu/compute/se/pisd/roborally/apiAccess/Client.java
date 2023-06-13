@@ -17,56 +17,14 @@ import java.util.ArrayList;
 
 /**
  * @author Johan s224324
+ * This is the client that holds all the methods used to communicate with the server
  *
  */
 public class Client {
     private static final String API_BASE_URL = "http://localhost:8080/game"; // Replace with your API's base URL so the ip4 for your server http://[IP]:8080/game
-    private static final String curr_Game_Path = "src/main/resources/currGameInstance/currGame.json";
-    public String getGameInstance(String gameID)
-    {
-        return getDataFromApi("GET",API_BASE_URL+"/"+gameID);
-    }
-    public String postDataToApiFromFile(String API_BASE_URL,String filePath)
-    { try {
-        // Read the content of the JSON file
-        String jsonContent = readJsonFile(filePath);
 
-        // Send POST request to API with JSON content
-        URL url = new URL(API_BASE_URL);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setDoOutput(true);
 
-        // Write the JSON content to the request body
-        try (OutputStream outputStream = connection.getOutputStream();
-             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream))) {
-            writer.write(jsonContent);
-        }
 
-        // Get the response from the API
-        int responseCode = connection.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            // Process the response
-            StringBuilder response = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
-                }
-            }
-
-            return response.toString();
-        } else {
-            // Handle error response
-            System.out.println("Error response: " + responseCode);
-            return Integer.toString(responseCode);
-        }
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-        return null;
-    }
     public String postDataToApi(String API_BASE_URL,String jsonData)
     { try {
 
@@ -108,15 +66,7 @@ public class Client {
     }
 
 
-    private String readJsonFile(String filePath) {
-        try {
-            byte[] jsonData = Files.readAllBytes(Paths.get(filePath));
-            return new String(jsonData);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
     public String getStatusProg(int id,int playernumb)
     {
             return getDataFromApi("GET", API_BASE_URL + "/" + id + "/statpost/"+playernumb);
@@ -210,14 +160,7 @@ public class Client {
         return null;
     }
 
-    public static void saveStringAsJsonFile(String jsonString, String filePath) {
-        try (FileWriter fileWriter = new FileWriter(filePath)) {
-            fileWriter.write(jsonString);
-            System.out.println("JSON file saved successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
     public static Board loadGameInstanceFromString(String jsonString)
     {
         GsonBuilder gsonBuilder = new GsonBuilder()
