@@ -11,7 +11,7 @@ public class BeltDoubleRotating implements ConveyorBelt {
 
         private Heading heading = Heading.EAST;
 
-        private boolean hasMovedOffConveyoerBelt = false;
+
 
         public Heading getHeading() { return heading; }
 
@@ -42,7 +42,7 @@ public class BeltDoubleRotating implements ConveyorBelt {
                     return true;
                 }
                 else if(action instanceof BeltDoubleRotating){
-                    hasMovedOffConveyoerBelt = true;
+
                     currentPlayer.setSpace(neighbourSpace);
                     currentPlayer.setHeading(((BeltDoubleRotating) action).getHeading());
 
@@ -70,15 +70,8 @@ public class BeltDoubleRotating implements ConveyorBelt {
                     // If the square has no conveyor belt, then the player just moves one
                     currentPlayer.setSpace(neighbourSpace);
                 }
-                //if the conveyorbelt finishes and has no conveyorbelt actions neighbouring the player
-                if(!hasMovedOffConveyoerBelt){
-                    currentPlayer.setSpace(neighbourSpace);
 
-                }
-                else{
-                    currentPlayer.setSpace(secondNeighbourSpace);
 
-                }
             }
 
             return true;
