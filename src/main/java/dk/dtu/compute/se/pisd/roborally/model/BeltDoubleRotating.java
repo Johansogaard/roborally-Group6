@@ -70,6 +70,7 @@ public class BeltDoubleRotating implements ConveyorBelt {
                     // If the square has no conveyor belt, then the player just moves one
                     currentPlayer.setSpace(neighbourSpace);
                 }
+                //if the conveyorbelt finishes and has no conveyorbelt actions neighbouring the player
                 if(!hasMovedOffConveyoerBelt){
                     currentPlayer.setSpace(neighbourSpace);
 
