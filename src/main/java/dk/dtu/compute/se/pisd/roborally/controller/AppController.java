@@ -311,7 +311,6 @@ public class AppController implements Observer {
                     break;
                 default:
                     // Invalid direction selected
-                    return;
             }
         }
     }

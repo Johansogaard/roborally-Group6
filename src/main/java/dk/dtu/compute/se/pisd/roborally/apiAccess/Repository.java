@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -40,7 +41,7 @@ public class Repository implements IRepository {
     @Override
     public void saveGameToServer(Board board, String saveName) {
 
-        String jsonData = client.getGameInstanceAsString(board);
+        String jsonData = Client.getGameInstanceAsString(board);
         client.postGameSaveInstance(jsonData, saveName);
 
     }
@@ -69,15 +70,13 @@ public class Repository implements IRepository {
     public ArrayList<String> getFiles() {
         ArrayList<String> f = new ArrayList<>();
         String[] files = client.getFilesString();
-        for (String file : files) {
-            f.add(file);
-        }
+        Collections.addAll(f, files);
         return f;
     }
 
     @Override
     public void postGameInstanceActivationPhase(Board board) {
-        String jsonData = client.getGameInstanceAsString(board);
+        String jsonData = Client.getGameInstanceAsString(board);
         client.postGameInstanceActivationPhase(id, playerNumb, jsonData);
         try {
             TimeUnit.SECONDS.sleep(3);
@@ -89,14 +88,14 @@ public class Repository implements IRepository {
 
     @Override
     public void postGameInstanceProgrammingPhase(Board board) {
-        String jsonData = client.getGameInstanceAsString(board);
+        String jsonData = Client.getGameInstanceAsString(board);
         client.postGameInstanceProgrammingPhase(id, jsonData, playerNumb);
         waitForPlayersProg();
     }
 
     @Override
     public void postGameInstance(Board board) {
-        String jsonData = client.getGameInstanceAsString(board);
+        String jsonData = Client.getGameInstanceAsString(board);
         client.postGameInstance(id, jsonData);
     }
 
@@ -109,14 +108,14 @@ public class Repository implements IRepository {
     @Override
     public Board getGameFromServer(String fileName) {
         String gameInstance = client.getFileFromName(fileName);
-        Board board = client.loadGameInstanceFromString(gameInstance);
+        Board board = Client.loadGameInstanceFromString(gameInstance);
         return board;
     }
 
     @Override
     public Board getGameInstance(Board oldBoard) {
         String gameString = client.getGameInstance(id);
-        Board newBoard = client.loadGameInstanceFromString(gameString);
+        Board newBoard = Client.loadGameInstanceFromString(gameString);
         if (maxPlayerNumb == 0) {
             maxPlayerNumb = newBoard.getPlayersNumber();
         }
@@ -263,7 +262,7 @@ public class Repository implements IRepository {
             } else {
                 // User clicked Cancel or closed the dialog
                 makeWaitButton();
-                System.out.println("");
+                System.out.println();
             }
         });
 

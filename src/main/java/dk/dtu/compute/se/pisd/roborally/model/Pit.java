@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class Pit implements FieldAction {
     public static boolean Void;
     public Pit(Boolean Void) {
-        this.Void=Void;
+        Pit.Void =Void;
     }
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {return true;}
 }

@@ -14,19 +14,18 @@ public class Deck {
         }
 
         private void makeDeck() {
-            ;
             while(discardPile.size()>0){cards.add(discardPile.remove(0));}
-            //  Add FORWARD cards
+
             for (int i = 0; i < 5; i++) {
                 cards.add(new CommandCard(Command.FORWARD));
             }
 
-            //  Add LEFT cards
+
             for (int i = 0; i < 3; i++) {
                 cards.add(new CommandCard(Command.LEFT));
             }
 
-            //  Add RIGHT cards
+
             for (int i = 0; i < 3; i++) {
                 cards.add(new CommandCard(Command.RIGHT));
             }

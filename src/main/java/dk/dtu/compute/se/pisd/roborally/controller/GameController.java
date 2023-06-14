@@ -204,7 +204,6 @@ public class GameController {
                 field.setVisible(true);
                 if (player.getProgramField(register).getCard() == null) {
                     player.getProgramField(register).setCard(player.deck.drawCard());
-                    ;
                 }
             }
         }
@@ -236,10 +235,8 @@ public class GameController {
 
     // XXX: V2
     private void continuePrograms() {
-        do {
-            executeNextStep();
-        } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
-    }
+        do {executeNextStep();
+        } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());}
 
     // XXX: V2
     private void executeNextStep() {
@@ -255,7 +252,6 @@ public class GameController {
                 //gets the curr card
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
 
-                //checks if card is something
                 //checks if card is something
                 if (card != null) {
                     //gets the command
@@ -358,9 +354,6 @@ public class GameController {
                 case SPAM:
                     this.spam(player);
                     break;
-            /*    case leftOrRight:
-                    this.leftOrRight(player);
-                    break;*/
                 default:
                     // DO NOTHING (for now)
             }
@@ -399,7 +392,7 @@ public class GameController {
 
     private void Move3(Player player) {
         for (int i = 0; i < 3; i++) {
-            if (player.reboot == false) {
+            if (!player.reboot) {
                 player.moveForward();
             }
         }
@@ -408,21 +401,21 @@ public class GameController {
     // TODO: V2
     public void fastForward(@NotNull Player player) {
         for (int i = 0; i < 2; i++) {
-            if (player.reboot == false) {
+            if (!player.reboot) {
                 player.moveForward();
             }
         }
     }
 
 
-    // TODO: V2
+
     public void turnRight(@NotNull Player player) {
         if (player != null && player.board == board) {
             player.setHeading(player.getHeading().next());
         }
     }
 
-    // TODO: V2
+
     public void turnLeft(@NotNull Player player) {
         if (player != null && player.board == board) {
             player.setHeading(player.getHeading().prev());
@@ -462,10 +455,7 @@ public class GameController {
         }
     }
 
-    /**
-     * A method called when no corresponding controller operation is implemented yet. This
-     * should eventually be removed.
-     */
+
     public void executeCommandOptionAndContinue(Command command, Player player) {
         int step = board.getStep();
         Player currentPlayer = board.getCurrentPlayer();
@@ -474,7 +464,7 @@ public class GameController {
         if (board.getOrderNumber(currentPlayer) + 1 < board.getPlayersNumber()) {
             board.setCurrentPlayer(board.getPlayerOrder().get((board.getOrderNumber(currentPlayer) + 1) % (board.getPlayers().size())));
 
-            if (board.isStepMode() == false) {
+            if (!board.isStepMode()) {
                 executePrograms();
             }
         } else {

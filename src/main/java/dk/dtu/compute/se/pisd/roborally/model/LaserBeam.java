@@ -7,8 +7,8 @@ import dk.dtu.compute.se.pisd.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
 
 public class LaserBeam implements FieldAction {
-    private Heading heading;
-    public int power; // The power of the laser
+    private final Heading heading;
+    public int power;
 
     public LaserBeam(Heading heading, int power) {
         this.heading = heading;

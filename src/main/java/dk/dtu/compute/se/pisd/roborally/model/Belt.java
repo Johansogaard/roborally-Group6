@@ -32,7 +32,7 @@ public class Belt implements ConveyorBelt {
                     currentPlayer.setSpace(neighbourSpace);
                 }
             }
-           //if the player moves off a conveyorbelt
+
            currentPlayer.setSpace(neighbourSpace);
 
             return true;

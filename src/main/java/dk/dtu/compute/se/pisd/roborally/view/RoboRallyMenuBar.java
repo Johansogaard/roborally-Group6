@@ -37,25 +37,25 @@ import java.util.logging.Logger;
 public class RoboRallyMenuBar extends MenuBar {
 
 
-    private MenuItem saveGameToServer;
+    private final MenuItem saveGameToServer;
 
 
-    private AppController appController;
+    private final AppController appController;
 
 
-    private Menu controlMenu;
+    private final Menu controlMenu;
 
-    private MenuItem saveGame;
+    private final MenuItem saveGame;
 
-    private MenuItem newGame;
+    private final MenuItem newGame;
 
-    private MenuItem loadGame;
-    private MenuItem playOnline;
-    private MenuItem stopGame;
+    private final MenuItem loadGame;
+    private final MenuItem playOnline;
+    private final MenuItem stopGame;
 
-    private MenuItem createABoard;
+    private final MenuItem createABoard;
 
-    private MenuItem exitApp;
+    private final MenuItem exitApp;
 
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;

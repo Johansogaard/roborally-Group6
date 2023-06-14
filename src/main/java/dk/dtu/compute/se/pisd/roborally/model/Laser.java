@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import static dk.dtu.compute.se.pisd.roborally.model.Command.SPAM;
 
 public class Laser implements FieldAction {
-    private Heading heading;
+    private final Heading heading;
     public int power; // The power of the laser
 
     public Laser(Heading heading, int power) {
@@ -29,7 +29,6 @@ public class Laser implements FieldAction {
             space = gameController.board.getNeighbour(space, heading);}
 
         if (space.getPlayer()!=null){for (int i = 0; i < power; i++) {
-            // Assuming you have a method to damage the player. Replace with your own logic.
             space.getPlayer().deck.addCard(new CommandCard(SPAM));}
         }
     }

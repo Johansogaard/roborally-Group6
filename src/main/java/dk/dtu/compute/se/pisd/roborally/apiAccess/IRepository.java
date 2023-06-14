@@ -13,7 +13,7 @@ public interface IRepository {
 
     void saveGameToServer(Board board, String saveName);
 
-    public int getId();
+    int getId();
 
     int getPlayerNumb();
 
@@ -31,7 +31,7 @@ public interface IRepository {
 
     Board getGameFromServer(String fileName);
 
-    public Board getGameInstance(Board oldBoard);
+    Board getGameInstance(Board oldBoard);
 
 
     void waitForPlayersProg();

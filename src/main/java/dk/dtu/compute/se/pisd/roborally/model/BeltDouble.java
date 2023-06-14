@@ -78,8 +78,7 @@ public class BeltDouble implements ConveyorBelt {
                     }
 
                 }
-                else if (action instanceof BeltDoubleRotating && ((BeltDoubleRotating) action).getHeading() != this.heading.opposite()) {
-                    BeltDoubleRotating conveyorBelt = (BeltDoubleRotating) action;
+                else if (action instanceof BeltDoubleRotating conveyorBelt && ((BeltDoubleRotating) action).getHeading() != this.heading.opposite()) {
                     currentPlayer.setHeading(conveyorBelt.getHeading());
                     if(neighbourSpace.getWalls().contains(conveyorBelt.getHeading()) || secondNeighbourSpace.getWalls().contains(conveyorBelt.getHeading().opposite())){
                         currentPlayer.setSpace(neighbourSpace);

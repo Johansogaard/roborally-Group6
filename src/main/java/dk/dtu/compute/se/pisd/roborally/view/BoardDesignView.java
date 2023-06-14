@@ -19,13 +19,13 @@ import java.util.List;
  */
 public class BoardDesignView extends VBox {
 
-    private Board board;
-    private GridPane mainBoardPane;
-    private SpaceView[][] spaces;
+    private final Board board;
+    private final GridPane mainBoardPane;
+    private final SpaceView[][] spaces;
 
     private Label statusLabel;
-    private SpaceEventHandler spaceEventHandler;
-    private List fieldOptions = new ArrayList<String>();
+    private final SpaceEventHandler spaceEventHandler;
+    private final List fieldOptions = new ArrayList<String>();
 
     public BoardDesignView(Board board) {
 
@@ -86,7 +86,7 @@ public class BoardDesignView extends VBox {
 
     private class SpaceEventHandler implements EventHandler<MouseEvent> {
 
-        private Board board;
+        private final Board board;
 
         public SpaceEventHandler(Board board) {
             this.board = board;
@@ -97,9 +97,8 @@ public class BoardDesignView extends VBox {
 
             Object source = event.getSource();
 
-            if (source instanceof SpaceView) {
+            if (source instanceof SpaceView spaceView) {
 
-                SpaceView spaceView = (SpaceView) source;
                 Space space = spaceView.space;
 
                 ChoiceDialog dialog = new ChoiceDialog();
@@ -177,14 +176,14 @@ public class BoardDesignView extends VBox {
         }
 
         private void deleteField(Space space) {
-            // Store the necessary information about the current field
+
             ConveyorBelt belt = space.getAction(ConveyorBelt.class);
             Space neighbor = null;
             if (belt != null) {
                 neighbor = space.board.getNeighbour(space, belt.getHeading());
             }
 
-            // Delete the current field
+
             space.actions = new ArrayList<>();
             space.setStartPlayerNo(0);
             space.setWalls(new ArrayList<>());
@@ -196,7 +195,7 @@ public class BoardDesignView extends VBox {
             }
             space.notifySpace();
 
-            // Now that the current field is deleted, update the neighbor
+
             if (neighbor != null && neighbor.getAction(ConveyorBelt.class) != null) {
                 neighbor.notifySpace();
             }

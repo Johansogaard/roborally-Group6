@@ -193,22 +193,6 @@ public class Player extends Subject {
         return lastCheckpoint;
     }
 
-    /*public void preboot(Player player) {
-        ChoiceDialog dialog = new ChoiceDialog();
-        dialog.setContentText("Which way should the player point");
-        dialog.getItems().add(Heading.NORTH);
-        dialog.getItems().add(Heading.EAST);
-        dialog.getItems().add(Heading.SOUTH);
-        dialog.getItems().add(Heading.WEST);
-
-        dialog.showAndWait();
-
-        if (dialog.getSelectedItem() != null) {
-            reboot( (Heading) dialog.getSelectedItem());
-
-        }
-
-    }*/
 
     public void shootLaser(Space space, GameController gameController){
         while (space != null && space.getPlayer() == null && !space.getWalls().contains(heading)
@@ -224,7 +208,7 @@ public class Player extends Subject {
         reboot=true;
         deck.addCard( new CommandCard(Command.SPAM));
 
-        setHeading(heading.WEST);
+        setHeading(Heading.WEST);
 
         if((tokenLokation.getPlayer()!=null)){
             tokenLokation.getPlayer().moveForward();}

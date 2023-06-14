@@ -90,15 +90,14 @@ class PlayerTest {
 
         // Create another player
         Player player2 = new Player(board, "Red", "Jane");
-        player2.setSpace(board.getSpace(4, 5)); // Set player2 in front of player
+        player2.setSpace(board.getSpace(4, 5));
 
 
         // Invoke pushPlayer on player
         player.moveForward();
 
-        assertEquals(board.getSpace(4, 6), player2.getSpace()); // Player should move forward
-        assertEquals(board.getSpace(4, 5), player.getSpace()); // Player2 should move to player's previous space
-
+        assertEquals(board.getSpace(4, 6), player2.getSpace());
+        assertEquals(board.getSpace(4, 5), player.getSpace());
     }
 
     @Test
@@ -108,14 +107,14 @@ class PlayerTest {
         // Create another player
         Player player2 = new Player(board, "Red", "Jane");
         Player player3 = new Player(board, "green", "zohan");
-        player2.setSpace(board.getSpace(4, 5)); // Set player2 in front of player
+        player2.setSpace(board.getSpace(4, 5));
         player3.setSpace(board.getSpace(4, 6));
 
         // Invoke pushPlayer on player
         player.moveForward();
         assertEquals(board.getSpace(4, 7), player3.getSpace());
-        assertEquals(board.getSpace(4, 6), player2.getSpace()); // Player should move forward
-        assertEquals(board.getSpace(4, 5), player.getSpace()); // Player2 should move to player's previous space
+        assertEquals(board.getSpace(4, 6), player2.getSpace());
+        assertEquals(board.getSpace(4, 5), player.getSpace());
 
     }
 
@@ -123,14 +122,13 @@ class PlayerTest {
     public void testPushPlayerWithWall() {
 
 
-        // Create another player
         Player player2 = new Player(board, "Red", "Jane");
-        player2.setSpace(board.getSpace(4, 5)); // Set player2 in front of player
+        player2.setSpace(board.getSpace(4, 5));
 
        player2.getSpace().addWall(Heading.SOUTH);
        player.moveForward();
 
-        // Since there is a wall, the player and player2 should stay in the same spaces
+
         assertEquals(board.getSpace(4, 4), player.getSpace());
         assertEquals(board.getSpace(4, 5), player2.getSpace());
 
@@ -159,7 +157,7 @@ class PlayerTest {
 
         assertEquals(player.getSpace(),board.getSpace(6,9));
 
-        assertTrue(player.deck.discardPile.get(0).command== SPAM);
+        assertSame(player.deck.discardPile.get(0).command, SPAM);
     }
 
     @Test

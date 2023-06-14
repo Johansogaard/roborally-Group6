@@ -47,7 +47,7 @@ public class BoardTemplate {
     public List<PlayerTemplate> players = new ArrayList<>();
     public List<SpaceTemplate> spaces = new ArrayList<>();
     public ArrayList<String> playerOrder = new ArrayList<>();
-    private Set<Observer> observers = Collections.newSetFromMap(new WeakHashMap<>());
+    private final Set<Observer> observers = Collections.newSetFromMap(new WeakHashMap<>());
     private PlayerTemplate current;
     private AntennaTemplate antenna;
     private RebootTokenTemplate rebootToken;

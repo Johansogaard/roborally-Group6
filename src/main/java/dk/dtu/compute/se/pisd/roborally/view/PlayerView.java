@@ -43,19 +43,19 @@ import java.util.List;
 public class PlayerView extends Tab implements ViewObserver {
 
     private Player player;
-    private VBox top;
-    private Label programLabel;
-    private GridPane programPane;
-    private Label cardsLabel;
-    private GridPane cardsPane;
-    private CardFieldView[] programCardViews;
-    private CardFieldView[] cardViews;
-    private VBox buttonPanel;
-    private Button finishButton;
-    private Button executeButton;
-    private Button stepButton;
-    private VBox playerInteractionPanel;
-    private GameController gameController;
+    private final VBox top;
+    private final Label programLabel;
+    private final GridPane programPane;
+    private final Label cardsLabel;
+    private final GridPane cardsPane;
+    private final CardFieldView[] programCardViews;
+    private final CardFieldView[] cardViews;
+    private final VBox buttonPanel;
+    private final Button finishButton;
+    private final Button executeButton;
+    private final Button stepButton;
+    private final VBox playerInteractionPanel;
+    private final GameController gameController;
 
     public PlayerView(@NotNull GameController gameController, @NotNull Player player) {
         super(player.getName());
@@ -84,9 +84,7 @@ public class PlayerView extends Tab implements ViewObserver {
             }
         }
 
-        // XXX  the following buttons should actually not be on the tabs of the individual
-        //      players, but on the PlayersView (view for all players). This should be
-        //      refactored.
+
 
         finishButton = new Button("Finish Programming");
         finishButton.setOnAction(e -> gameController.finishProgrammingPhase());

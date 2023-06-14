@@ -62,17 +62,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setPrefHeight(SPACE_HEIGHT);
         this.setMinHeight(SPACE_HEIGHT);
         this.setMaxHeight(SPACE_HEIGHT);
-/*
-        if ((space.x + space.y) % 2 == 0) {
-            this.setStyle("-fx-background-color: white;");
-        } else {
-            this.setStyle("-fx-background-color: black;");
-        }*/
 
-
-        // updatePlayer();
-
-        // This space view should listen to changes of the space
         space.attach(this);
         update(space);
     }
@@ -175,21 +165,21 @@ public class SpaceView extends StackPane implements ViewObserver {
 
                 switch (wall) {
                     case EAST:
-                        fig.setTranslateX((this.SPACE_HEIGHT / 2) - 1);
+                        fig.setTranslateX((SPACE_HEIGHT / 2) - 1);
                         fig.setRotate((90 * wall.ordinal()) % 360);
                         break;
 
                     case SOUTH:
-                        fig.setTranslateY((this.SPACE_HEIGHT / 2) - 1);
+                        fig.setTranslateY((SPACE_HEIGHT / 2) - 1);
                         break;
 
                     case WEST:
-                        fig.setTranslateX(-(this.SPACE_HEIGHT / 2) + 1);
+                        fig.setTranslateX(-(SPACE_HEIGHT / 2) + 1);
                         fig.setRotate((90 * wall.ordinal()) % 360);
                         break;
 
                     case NORTH:
-                        fig.setTranslateY(-(this.SPACE_HEIGHT / 2) - 1);
+                        fig.setTranslateY(-(SPACE_HEIGHT / 2) - 1);
                         break;
                 }
 
@@ -208,9 +198,8 @@ public class SpaceView extends StackPane implements ViewObserver {
                 addImage("images/checkpoint" + ((Checkpoint) action).no + ".png", -90);
             }
 
-            if (action instanceof Pit) {
-                Pit pit = (Pit) action;
-                if(pit.Void){
+            if (action instanceof Pit pit) {
+                if(Pit.Void){
                     addImage("images/void.png");}
 
                 else{
@@ -221,8 +210,7 @@ public class SpaceView extends StackPane implements ViewObserver {
                 addImage("images/gear" + (((Gear) action).direction) + ".png");
             }
             ImageView laserImageView = null;
-            if (action instanceof Laser) {
-                Laser laser = (Laser) action;
+            if (action instanceof Laser laser) {
                 switch (laser.power) {
                     case 1:
                         laserImageView = addImage("images/SingleLasersON.png");
@@ -238,8 +226,7 @@ public class SpaceView extends StackPane implements ViewObserver {
                 }
                 rotateImage(laserImageView, laser.getHeading());
             }
-            if (action instanceof LaserBeam) {
-                LaserBeam laserbeam= (LaserBeam) action;
+            if (action instanceof LaserBeam laserbeam) {
                 switch (laserbeam.power) {
                     case 1:
                         laserImageView = addImage("images/Laserbeam1.png");

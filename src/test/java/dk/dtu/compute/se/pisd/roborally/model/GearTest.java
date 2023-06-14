@@ -19,7 +19,7 @@ public class GearTest {
             board = new Board(10, 10, "testboard");
             player = new Player(board, "Blue", "John");
             controller = new GameController(board);
-            player.setSpace(board.getSpace(4, 4)); // Set the player at the center of the board
+            player.setSpace(board.getSpace(4, 4));
             player.setHeading(SOUTH);
         }
 

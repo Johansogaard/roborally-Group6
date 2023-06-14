@@ -90,6 +90,7 @@ public class Space extends Subject {
         for (FieldAction action : actions) {
             if (action instanceof Gear) {
                 check = true;
+                break;
             }
         }
 
@@ -111,6 +112,7 @@ public class Space extends Subject {
         for (FieldAction action : actions) {
             if (action instanceof Pit) {
                 check = true;
+                break;
             }
         }
         if (!check) {
@@ -183,7 +185,7 @@ public class Space extends Subject {
                 (player == null || board == player.board)) {
             this.player = player;
             if (oldPlayer != null) {
-                // this should actually not happen
+
                 oldPlayer.setSpace(null);
             }
             if (player != null) {

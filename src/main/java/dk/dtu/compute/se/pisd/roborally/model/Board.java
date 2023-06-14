@@ -77,7 +77,7 @@ public class Board extends Subject {
 
     private List<Player> playerOrder = new ArrayList<>();
 
-    private List<Checkpoint> checkpoints = new ArrayList<Checkpoint>();
+    private final List<Checkpoint> checkpoints = new ArrayList<Checkpoint>();
     private Player current;
 
     private Phase phase = INITIALISATION;

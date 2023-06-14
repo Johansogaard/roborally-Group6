@@ -59,8 +59,7 @@ public class BeltDoubleRotating implements ConveyorBelt {
                     }
                 }
 
-                else if (action instanceof BeltDouble) {
-                    BeltDouble conveyorBelt = (BeltDouble) action;
+                else if (action instanceof BeltDouble conveyorBelt) {
                     currentPlayer.setHeading(conveyorBelt.getHeading());
                     if (secondNeighbourSpace.getPlayer() != null) {
                         return false; // Player reached the final destination

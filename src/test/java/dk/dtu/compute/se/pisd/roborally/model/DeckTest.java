@@ -3,9 +3,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import org.junit.jupiter.api.Test;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Command.SPAM;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DeckTest {
 
@@ -49,7 +47,7 @@ public class DeckTest {
 
        shuffled.shuffle();
 
-        assertTrue(deck.cards!=shuffled.cards);
+        assertNotSame(deck.cards, shuffled.cards);
 
     }
 
@@ -66,7 +64,6 @@ public class DeckTest {
         // Attempt to draw a card from an empty deck
         deck.drawCard();
 
-        // Assert that the drawn card is null
         assertEquals(deck.cards.size(), 20);
     }
     @Test

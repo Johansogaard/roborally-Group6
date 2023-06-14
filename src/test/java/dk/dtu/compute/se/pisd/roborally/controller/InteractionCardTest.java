@@ -49,8 +49,8 @@ public class InteractionCardTest {
         board = new Board(10, 10, "testboard");
         player = new Player(board, "Blue", "John");
         controller = new GameController(board);
-        player.setSpace(board.getSpace(4, 4)); // Set the player at the center of the board
-        player.setHeading(SOUTH); // Assume player will move downwards on the board
+        player.setSpace(board.getSpace(4, 4));
+        player.setHeading(SOUTH);
         executeCommand = GameController.class.getDeclaredMethod("executeCommand", Player.class, Command.class);
         executeCommand.setAccessible(true);
 
@@ -109,42 +109,36 @@ public class InteractionCardTest {
     @Test
     public void testAgain() throws Exception {
 
-        // Add two AGAIN cards to the player's program
         player.getProgramField(0).setCard(new CommandCard(Command.FORWARD));
         player.getProgramField(1).setCard(new CommandCard(Command.AGAIN));
 
-        // Call executeCommand with the second AGAIN card
+
         executeNextStep.invoke(controller);
         executeNextStep.invoke(controller);
 
-        // The player should repeat the action of the previous card (FORWARD)
-        assertEquals(board.getSpace(4, 6), player.getSpace()); // Player should move forward to space (4, 6)
+
+        assertEquals(board.getSpace(4, 6), player.getSpace());
 
     }
     @Test
     public void testAgainRepeat() throws Exception {
 
-        // Add two AGAIN cards to the player's program
+
         player.getProgramField(0).setCard(new CommandCard(Command.FORWARD));
         for(int i=1; i<5;i++){player.getProgramField(i).setCard(new CommandCard(Command.AGAIN));}
 
 
-
-
-        // Call executeCommand with the second AGAIN card
         for(int i=0; i<5;i++){
             executeNextStep.invoke(controller);}
 
 
-
-        // The player should repeat the action of the previous card (FORWARD)
-        assertEquals(board.getSpace(4, 9), player.getSpace()); // Player should move forward to space (4, 6)
+        assertEquals(board.getSpace(4, 9), player.getSpace());
 
     }
     @Test
     public void testAgainalternate() throws Exception {
 
-        // Add two AGAIN cards to the player's program
+
         player.getProgramField(0).setCard(new CommandCard(Command.FORWARD));
         player.getProgramField(1).setCard(new CommandCard(Command.AGAIN));
         player.getProgramField(2).setCard(new CommandCard(Command.RIGHT));
@@ -153,15 +147,15 @@ public class InteractionCardTest {
 
 
 
-        // Call executeCommand with the second AGAIN card
+
         for(int i=0; i<4;i++){
             executeNextStep.invoke(controller);}
 
 
 
-        // The player should repeat the action of the previous card (FORWARD)
+
         assertEquals(board.getSpace(4, 6), player.getSpace());
-        assertEquals(NORTH, player.getHeading());// Player should move forward to space (4, 6)
+        assertEquals(NORTH, player.getHeading());
 
     }
 }

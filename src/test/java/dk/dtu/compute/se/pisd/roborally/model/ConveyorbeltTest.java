@@ -20,7 +20,7 @@ class ConveyorbeltTest {
             player = new Player(board, "Blue", "John");
             player2 = new Player(board, "Red", "Anders");
             controller = new GameController(board);
-            player.setSpace(board.getSpace(4, 4)); // Set the player at the center of the board
+            player.setSpace(board.getSpace(4, 4));
             player.setHeading(SOUTH);
             board.getSpace(6,9).addRebootToken();
 
