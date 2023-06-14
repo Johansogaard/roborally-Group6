@@ -20,7 +20,14 @@ public class Belt implements ConveyorBelt {
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
 
         Player currentPlayer = space.getPlayer();
-        Space neighbourSpace = space.board.getNeighbour(space,heading);
+        Space neighbourSpace = space.board.getNeighbour(space,this.heading);
+        Space rebootTokenLokation = gameController.board.getSpace((gameController.board.getRebootToken().x),(gameController.board.getRebootToken().y));
+
+        //if the player is on the edge of the map and on a conveyorbelt
+        if(neighbourSpace == null){
+            currentPlayer.setSpace(rebootTokenLokation);
+            return true;
+        }
 
         if (neighbourSpace.getPlayer() != null || neighbourSpace.getWalls().contains(this.heading.opposite())
         || currentPlayer.getSpace().getWalls().contains(this.heading)) {
