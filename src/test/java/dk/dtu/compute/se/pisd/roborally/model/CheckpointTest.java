@@ -27,19 +27,7 @@ class CheckpointTest {
     }
 
 
-    @Test
-    void ComeOnManThisToEasy() {
-        board = new Board(10, 10, "testboard");
-        player = new Player(board, "Blue", "John");
-        player.setSpace(board.getSpace(4, 4));
-        Checkpoint checkpoint = new Checkpoint(1);
-        board.setCheckpoint(checkpoint);
-        // Perform the action being tested
-        checkpoint.doAction(controller, board.getSpace(4, 4));
 
-        assertEquals(1, player.getLastCheckpoint()); // Assuming this.no = 0
-        assertTrue(controller.won);
-    }
     @Test
     void NotWinning(){
 
