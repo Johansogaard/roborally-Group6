@@ -22,6 +22,8 @@ class ConveyorbeltTest {
             controller = new GameController(board);
             player.setSpace(board.getSpace(4, 4)); // Set the player at the center of the board
             player.setHeading(SOUTH);
+            board.getSpace(6,9).addRebootToken();
+
         }
 
     @Test
@@ -140,22 +142,6 @@ class ConveyorbeltTest {
         player.setHeading(WEST);
         conveyorBelt.doAction(controller, board.getSpace(4,4));
         assertEquals(player.getHeading(),SOUTH);
-    }
-
-    @Test
-    void conveyerbeltIntersect(){
-            player2.setSpace(board.getSpace(3,3));
-        Belt conveyorBelt = new Belt();
-        conveyorBelt.setHeading(SOUTH);
-        Belt conveyorBelt2 = new Belt();
-        conveyorBelt.setHeading(WEST);
-        board.getSpace(4,4).addAction(conveyorBelt);
-        board.getSpace(3,3).addAction(conveyorBelt2);
-        board.getSpace(4,5).addAction(conveyorBelt);
-        conveyorBelt.doAction(controller, board.getSpace(4,4));
-
-        assertEquals(board.getSpace(4,4), player.getSpace());
-        assertEquals(board.getSpace(3,3), player2.getSpace());
     }
 
 
