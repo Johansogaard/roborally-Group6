@@ -31,10 +31,9 @@ public class Belt implements ConveyorBelt {
                 if (action instanceof Belt || action instanceof BeltRotating) {
                     currentPlayer.setSpace(neighbourSpace);
                 }
-                else{
-                    currentPlayer.setSpace(neighbourSpace);
-                }
             }
+           //if the player moves off a conveyorbelt
+           currentPlayer.setSpace(neighbourSpace);
 
             return true;
         }
