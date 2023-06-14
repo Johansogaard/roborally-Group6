@@ -17,29 +17,15 @@ public class BeltDouble implements ConveyorBelt {
 
     public void setHeading(Heading heading) { this.heading = heading;}
 
-
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
 
 
-
         Player currentPlayer = space.getPlayer();
-        Space neighbourSpace = space.board.getNeighbour(space,this.getHeading());
-        Space rebootTokenLokation = gameController.board.getSpace((gameController.board.getRebootToken().x),(gameController.board.getRebootToken().y));
-
-        // if the player is on the edge of the map and is on a conveyorbelt
-        if(neighbourSpace==null){
-            currentPlayer.setSpace(rebootTokenLokation);
-            return true;
-        }
-
+        Space neighbourSpace = space.board.getNeighbour(space,heading);
 
         //currentPlayer.setHeading(this.heading);
-
-        Space secondNeighbourSpace = space.board.getNeighbour(neighbourSpace, this.heading);
-
-        if(neighbourSpace != null && secondNeighbourSpace != null){
-
+        Space secondNeighbourSpace = space.board.getNeighbour(neighbourSpace, heading);
 
         if (neighbourSpace.getPlayer() != null || secondNeighbourSpace.getPlayer() != null || currentPlayer.getSpace().getWalls().contains(heading)
                 || neighbourSpace.getWalls().contains(this.heading.opposite())) {
@@ -110,10 +96,5 @@ public class BeltDouble implements ConveyorBelt {
         }
 
     }
-else{
 
-    currentPlayer.setSpace(rebootTokenLokation);
-            return true;
-        }
-    }
 }
