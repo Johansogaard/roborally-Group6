@@ -25,17 +25,58 @@ You can save and load games by following these steps:
 ```bash
 Saving games:
 1. Run StartRoboRally
+
 2. Click on menu and create a new game
+
 3. Click on the menu in the top left corner
+
 4. Click on save game and rename game
+
 
 Loading games:
 1. Run StartRoboRally
+
 2. Click on menu and click load game
-3. Click on the name of the game you have saved and load it.
+
+3. you now have the option between loading a game from the server or locally
+
+4. You can the again choose between playing the game online or locally
+
+
+
+```
+## Creating and editing custom game boards
+To personalize your game experience you can create or edit game boards:
+```bash
+1. Run RoboRally
+
+2. click on create Board under the dropdown menu
+
+3. Choose between editing and already existing board, or creating a new blank board
+
+4. You'll then need to input the Length and height of the map
+
+5. Now you'll be presented with a blank board, clicking on any of tiles will give you
+a dropdown meny where you can choose what board element to put there.
+When placing board elements you will usually also need to choose what direction that element need to be heading
+
+6. when you're done creating your board, you can click on the save board button at the bottom of the screen,
+you should then name the board so it's easier finding i later.
+
+Now when you start a new game the board you've just created should be one of the options to choose from.
 ```
 
+## Server play
+You can also play RoboRally online between multiple devices using our [Restful-API server](https://github.com/Johansogaard/restfull-service-Roborally)
+```bash
+1. Run the restful API server, seen above
 
+2. one player then creates a new online game
+
+3. The rest of the players click on the join option
+
+4. The players will then have to input the gameID (4 digit code) they will be given by the game creator
+```
 
 ### [Link to game rules](https://drive.google.com/file/d/16-TwOIYv0pkEkm7ajS1w0cRSxfQxYp7x/view?usp=sharing)
 
