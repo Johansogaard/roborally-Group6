@@ -96,6 +96,7 @@ public class BoardView extends VBox implements ViewObserver {
     //     behaviour of the game by being able to explicitly move the players on the board!
     private class SpaceEventHandler implements EventHandler<MouseEvent> {
 
+
         final public GameController gameController;
 
         public SpaceEventHandler(@NotNull GameController gameController) {
@@ -104,7 +105,7 @@ public class BoardView extends VBox implements ViewObserver {
 
         @Override
         public void handle(MouseEvent event) {
-            Object source = event.getSource();
+         /*   Object source = event.getSource();
             if (source instanceof SpaceView) {
                 SpaceView spaceView = (SpaceView) source;
                 Space space = spaceView.space;
@@ -114,7 +115,7 @@ public class BoardView extends VBox implements ViewObserver {
                     gameController.moveCurrentPlayerToSpace(space);
                     event.consume();
                 }
-            }
+            }*/
         }
 
     }

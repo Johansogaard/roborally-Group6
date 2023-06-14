@@ -46,11 +46,7 @@ public class Space extends Subject {
     public final int y;
     public int v = 0;
     private Player player;
-    /*private Laser laser;
 
-    public Laser getLasers() {
-        return laser;
-    }*/
 
 
     public List<Heading> getWalls() {
@@ -104,22 +100,7 @@ public class Space extends Subject {
             notifyChange();
         }
     }
-    /*public void addPushPanel(Direction direction) {
-        boolean check = false;
 
-        for (FieldAction action : actions) {
-            if (action instanceof Gear) {
-                check = true;
-            }
-        }
-
-
-
-        if (!check) {
-            this.actions.add(new PushPanel(direction));
-            notifyChange();
-        }
-    }*/
     public List<FieldAction> getActions() {
         return actions;
     }
