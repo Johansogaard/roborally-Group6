@@ -38,7 +38,12 @@ Loading games:
 
 2. Click on menu and click load game
 
-3. Click on the name of the game you have saved and load it.
+3. you now have the option between loading a game from the server or locally
+
+4. You can the again choose between playing the game online or locally
+
+
+
 ```
 ## Creating and editing custom game boards
 To personalize your game experience you can create or edit game boards:
