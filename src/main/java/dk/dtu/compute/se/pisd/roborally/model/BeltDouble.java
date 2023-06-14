@@ -34,14 +34,14 @@ public class BeltDouble implements ConveyorBelt {
             return true;
         }
 
-
-        //currentPlayer.setHeading(this.heading);
-
         Space secondNeighbourSpace = space.board.getNeighbour(neighbourSpace, heading);
 
+        //if the neighbor or second neighbour is not null, then the player is not at the edge of the map
         if(neighbourSpace != null && secondNeighbourSpace != null){
 
 
+        //if their is a player on the space in which the currentplayer will move to using the conveyor belt
+        //if their are walls blocking the way
         if (neighbourSpace.getPlayer() != null || secondNeighbourSpace.getPlayer() != null || currentPlayer.getSpace().getWalls().contains(heading)
                 || neighbourSpace.getWalls().contains(this.heading.opposite())) {
             return false;
@@ -56,7 +56,7 @@ public class BeltDouble implements ConveyorBelt {
                 }
 
                 else if (action instanceof BeltDouble && ((BeltDouble) action).getHeading() != this.heading.opposite()) {
-
+                    //flag for checking if the neighbouring og secondneghbouring space is not a double conveyorbelt
                     hasMovedOffConveyoerBelt = true;
 
 
