@@ -2434,6 +2434,20 @@
     {
       "startPlayerNo": 0,
       "x": 20,
+      "y": 12,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "INSTANCE": {
+            "no": 6
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 20,
       "y": 16,
       "walls": [],
       "actions": [
