@@ -4,7 +4,6 @@
   "step": 0,
   "phase": "INITIALISATION",
   "stepMode": false,
-  "observers": [],
   "players": [],
   "spaces": [
     {
@@ -156,7 +155,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "EAST"
+            "heading": "EAST",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -185,7 +185,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "NORTH"
+            "heading": "NORTH",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -199,7 +200,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "EAST"
+            "heading": "EAST",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -228,7 +230,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "NORTH"
+            "heading": "NORTH",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -308,7 +311,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "SOUTH"
+            "heading": "SOUTH",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -322,7 +326,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "SOUTH"
+            "heading": "SOUTH",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -336,7 +341,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "WEST"
+            "heading": "WEST",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -350,7 +356,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "SOUTH"
+            "heading": "SOUTH",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -385,7 +392,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "WEST"
+            "heading": "WEST",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -495,7 +503,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "EAST"
+            "heading": "EAST",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -524,7 +533,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "NORTH"
+            "heading": "NORTH",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -538,7 +548,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "EAST"
+            "heading": "EAST",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -573,7 +584,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "NORTH"
+            "heading": "NORTH",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -653,7 +665,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "SOUTH"
+            "heading": "SOUTH",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -682,7 +695,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "WEST"
+            "heading": "WEST",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -696,7 +710,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "SOUTH"
+            "heading": "SOUTH",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -725,7 +740,8 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDoubleRotating",
           "INSTANCE": {
-            "heading": "WEST"
+            "heading": "WEST",
+            "hasMovedOffConveyoerBelt": false
           }
         }
       ]
@@ -766,8 +782,9 @@
     }
   ],
   "playerOrder": [],
+  "observers": [],
   "rebootToken": {
-    "x": 0,
-    "y": 7
+    "x": 8,
+    "y": 6
   }
 }
