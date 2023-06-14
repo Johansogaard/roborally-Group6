@@ -238,7 +238,6 @@ public class BoardDesignView extends VBox {
 
             for (FieldAction action : space.getActions()) {
                 if (action.getClass() == actionInstance.getClass()) {
-                    // TODO: add some explanation to the user that there is already a belt at this space
                     return;
                 }
             }
@@ -453,7 +452,6 @@ public class BoardDesignView extends VBox {
         private void addCheckpoint(Space space) {
             for (FieldAction action : space.getActions()) {
                 if (action instanceof Checkpoint) {
-                    // TODO add some explanation to the user that there is already a checkpoint at this space
                     return;
                 }
             }

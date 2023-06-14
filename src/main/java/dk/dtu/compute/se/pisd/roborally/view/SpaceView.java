@@ -209,7 +209,8 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
 
             if (action instanceof Pit) {
-                if(Pit.Void){
+                Pit pit = (Pit) action;
+                if(pit.Void){
                     addImage("images/void.png");}
 
                 else{
