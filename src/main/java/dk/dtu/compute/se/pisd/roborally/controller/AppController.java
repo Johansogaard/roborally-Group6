@@ -422,7 +422,7 @@ public class AppController implements Observer {
             showFilesToChoseFrom(gamesPath);
             Board loadedBoard = LoadSaveGame.loadBoard(gamesPath, fileToOpen);
             gameController = new GameController(loadedBoard);
-        } else if (resultLoad.equals("load from server")) ;
+        } else if (resultLoad.equals("load from server"))
         {
             repository = Repository.getInstance();
             showFilesToChoseFromServer();
