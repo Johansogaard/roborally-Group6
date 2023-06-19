@@ -1,0 +1,176 @@
+{
+  "width": 8,
+  "height": 8,
+  "step": 0,
+  "phase": "INITIALISATION",
+  "stepMode": false,
+  "players": [],
+  "spaces": [
+    {
+      "startPlayerNo": 1,
+      "x": 2,
+      "y": 1,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 2,
+      "x": 2,
+      "y": 3,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 3,
+      "x": 2,
+      "y": 5,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 4,
+      "x": 2,
+      "y": 7,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 3,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Belt",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 3,
+      "y": 3,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Pit",
+          "INSTANCE": {}
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 3,
+      "y": 4,
+      "walls": [
+        "NORTH"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Laser",
+          "INSTANCE": {
+            "heading": "SOUTH",
+            "power": 1
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 3,
+      "y": 5,
+      "walls": [
+        "SOUTH"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.LaserBeam",
+          "INSTANCE": {
+            "heading": "NORTH",
+            "power": 1
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 3,
+      "y": 7,
+      "walls": [
+        "WEST"
+      ],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 4,
+      "y": 1,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltDouble",
+          "INSTANCE": {
+            "heading": "EAST",
+            "hasMovedOffConveyoerBelt": false
+          }
+        },
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.BeltRotating",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 5,
+      "x": 5,
+      "y": 3,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 6,
+      "x": 5,
+      "y": 5,
+      "walls": [],
+      "actions": []
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 6,
+      "y": 3,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Gear",
+          "INSTANCE": {
+            "direction": "LEFT"
+          }
+        }
+      ]
+    },
+    {
+      "startPlayerNo": 0,
+      "x": 6,
+      "y": 5,
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.PushPanel",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
+        }
+      ]
+    }
+  ],
+  "playerOrder": [],
+  "observers": [],
+  "antenna": {
+    "x": 0,
+    "y": 3
+  }
+}
